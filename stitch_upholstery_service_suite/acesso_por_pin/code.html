@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+
+<html class="light" lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>ED Limp - Acesso por PIN</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "outline": "#757684",
+                        "on-secondary-container": "#2e7100",
+                        "on-primary-fixed": "#000e5e",
+                        "on-primary-fixed-variant": "#2a3ba2",
+                        "secondary-container": "#92f859",
+                        "on-error": "#ffffff",
+                        "on-surface": "#1b1b22",
+                        "on-primary-container": "#aab4ff",
+                        "surface-container-lowest": "#ffffff",
+                        "primary-fixed": "#dee0ff",
+                        "on-tertiary-fixed-variant": "#004e59",
+                        "tertiary-fixed-dim": "#44d8f1",
+                        "on-secondary-fixed-variant": "#1f5100",
+                        "primary-fixed-dim": "#bbc3ff",
+                        "error": "#ba1a1a",
+                        "surface-container-highest": "#e3e1eb",
+                        "surface-container-high": "#e9e7f0",
+                        "surface-container-low": "#f5f2fc",
+                        "outline-variant": "#c6c5d5",
+                        "on-surface-variant": "#454653",
+                        "tertiary-fixed": "#a1efff",
+                        "on-secondary-fixed": "#082100",
+                        "on-tertiary-container": "#2dcae2",
+                        "on-background": "#1b1b22",
+                        "surface-tint": "#4454bb",
+                        "tertiary-container": "#00515c",
+                        "surface": "#fbf8ff",
+                        "on-tertiary": "#ffffff",
+                        "on-error-container": "#93000a",
+                        "background": "#fbf8ff",
+                        "error-container": "#ffdad6",
+                        "on-secondary": "#ffffff",
+                        "surface-container": "#efedf6",
+                        "secondary-fixed": "#95fb5c",
+                        "on-primary": "#ffffff",
+                        "inverse-on-surface": "#f2eff9",
+                        "surface-variant": "#e3e1eb",
+                        "primary": "#0f238e",
+                        "secondary": "#2b6c00",
+                        "on-tertiary-fixed": "#001f25",
+                        "inverse-primary": "#bbc3ff",
+                        "tertiary": "#003941",
+                        "primary-container": "#2d3ea5",
+                        "surface-dim": "#dbd9e2",
+                        "surface-bright": "#fbf8ff",
+                        "inverse-surface": "#303037",
+                        "secondary-fixed-dim": "#7ade42"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "1rem",
+                        "lg": "2rem",
+                        "xl": "3rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Manrope"],
+                        "body": ["Manrope"],
+                        "label": ["Plus Jakarta Sans"]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .pin-dot {
+            width: 12px;
+            height: 12px;
+            border-radius: 9999px;
+            transition: all 0.2s ease;
+        }
+        .keypad-button {
+            transition: transform 0.15s active:scale-95;
+        }
+    </style>
+</head>
+<body class="bg-background font-body text-on-background min-h-screen flex items-center justify-center p-6 relative overflow-hidden">
+<!-- Ambient Background Decorations -->
+<div class="absolute top-[-10%] right-[-10%] w-[40vw] h-[40vw] bg-secondary-container/20 rounded-full blur-[120px]"></div>
+<div class="absolute bottom-[-10%] left-[-10%] w-[40vw] h-[40vw] bg-primary/5 rounded-full blur-[120px]"></div>
+<main class="w-full max-w-md z-10">
+<div class="flex flex-col items-center space-y-10">
+<!-- Brand Identity Section -->
+<div class="flex flex-col items-center text-center space-y-4">
+<div class="w-20 h-20 bg-primary-container rounded-lg flex items-center justify-center shadow-lg transform rotate-3 overflow-hidden" data-alt="Close up of a stylized geometric drop logo representing clinical cleaning fluid in deep indigo and white">
+<span class="material-symbols-outlined text-4xl text-on-primary-container" style="font-variation-settings: 'FILL' 1;">sanitizer</span>
+</div>
+<div>
+<h1 class="font-headline text-3xl font-extrabold tracking-tighter text-primary">ED Limp</h1>
+<p class="font-label text-xs uppercase tracking-widest text-secondary font-bold">Clinical Cleaning</p>
+</div>
+</div>
+<!-- PIN Content Section -->
+<div class="w-full space-y-8">
+<div class="text-center space-y-2">
+<h2 class="font-headline text-2xl font-bold text-on-surface">Acesso por PIN</h2>
+<p class="text-on-surface-variant font-medium">Digite seu código</p>
+</div>
+<!-- PIN Visual Indicators -->
+<div class="flex justify-center space-x-4">
+<!-- State: Filled -->
+<div class="pin-dot bg-primary"></div>
+<!-- State: Filled -->
+<div class="pin-dot bg-primary"></div>
+<!-- State: Empty -->
+<div class="pin-dot bg-surface-container-highest"></div>
+<!-- State: Empty -->
+<div class="pin-dot bg-surface-container-highest"></div>
+</div>
+<!-- Numeric Keypad -->
+<div class="grid grid-cols-3 gap-4 max-w-[320px] mx-auto">
+<!-- Row 1 -->
+<button class="keypad-button w-20 h-20 rounded-full bg-surface-container-low hover:bg-surface-container-high active:scale-95 transition-all flex items-center justify-center">
+<span class="text-2xl font-bold text-primary">1</span>
+</button>
+<button class="keypad-button w-20 h-20 rounded-full bg-surface-container-low hover:bg-surface-container-high active:scale-95 transition-all flex items-center justify-center">
+<span class="text-2xl font-bold text-primary">2</span>
+</button>
+<button class="keypad-button w-20 h-20 rounded-full bg-surface-container-low hover:bg-surface-container-high active:scale-95 transition-all flex items-center justify-center">
+<span class="text-2xl font-bold text-primary">3</span>
+</button>
+<!-- Row 2 -->
+<button class="keypad-button w-20 h-20 rounded-full bg-surface-container-low hover:bg-surface-container-high active:scale-95 transition-all flex items-center justify-center">
+<span class="text-2xl font-bold text-primary">4</span>
+</button>
+<button class="keypad-button w-20 h-20 rounded-full bg-surface-container-low hover:bg-surface-container-high active:scale-95 transition-all flex items-center justify-center">
+<span class="text-2xl font-bold text-primary">5</span>
+</button>
+<button class="keypad-button w-20 h-20 rounded-full bg-surface-container-low hover:bg-surface-container-high active:scale-95 transition-all flex items-center justify-center">
+<span class="text-2xl font-bold text-primary">6</span>
+</button>
+<!-- Row 3 -->
+<button class="keypad-button w-20 h-20 rounded-full bg-surface-container-low hover:bg-surface-container-high active:scale-95 transition-all flex items-center justify-center">
+<span class="text-2xl font-bold text-primary">7</span>
+</button>
+<button class="keypad-button w-20 h-20 rounded-full bg-surface-container-low hover:bg-surface-container-high active:scale-95 transition-all flex items-center justify-center">
+<span class="text-2xl font-bold text-primary">8</span>
+</button>
+<button class="keypad-button w-20 h-20 rounded-full bg-surface-container-low hover:bg-surface-container-high active:scale-95 transition-all flex items-center justify-center">
+<span class="text-2xl font-bold text-primary">9</span>
+</button>
+<!-- Row 4 -->
+<div class="w-20 h-20"></div>
+<button class="keypad-button w-20 h-20 rounded-full bg-surface-container-low hover:bg-surface-container-high active:scale-95 transition-all flex items-center justify-center">
+<span class="text-2xl font-bold text-primary">0</span>
+</button>
+<button class="keypad-button w-20 h-20 rounded-full flex items-center justify-center hover:bg-surface-container/50 transition-colors">
+<span class="material-symbols-outlined text-outline text-3xl" data-icon="backspace">backspace</span>
+</button>
+</div>
+<!-- Footer Actions -->
+<div class="pt-6 text-center space-y-6">
+<button class="text-primary font-bold text-sm hover:underline decoration-2 underline-offset-4">
+                        Esqueceu o PIN?
+                    </button>
+<div class="pt-4">
+<button class="inline-flex items-center space-x-2 bg-secondary-container text-on-secondary-container px-8 py-4 rounded-full font-bold shadow-sm hover:shadow-md active:scale-95 transition-all group">
+<span class="material-symbols-outlined group-hover:rotate-12 transition-transform" data-icon="fingerprint">fingerprint</span>
+<span>Usar Biometria</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Support Link Footer -->
+<footer class="absolute bottom-10 w-full text-center px-6">
+<p class="font-label text-xs text-outline tracking-tight">
+            Precisa de ajuda? Entre em contato com o <a class="text-primary font-bold hover:text-primary-container transition-colors" href="#">Suporte Técnico</a>
+</p>
+</footer>
+</body></html>

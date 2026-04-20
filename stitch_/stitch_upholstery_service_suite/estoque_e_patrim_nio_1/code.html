@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-primary-container": "#abd2ff",
+                    "primary-container": "#005b96",
+                    "on-secondary-container": "#006f63",
+                    "error": "#ba1a1a",
+                    "surface-dim": "#d8dadc",
+                    "on-primary-fixed-variant": "#00497a",
+                    "on-tertiary-fixed-variant": "#3a4a49",
+                    "surface-container-highest": "#e0e3e5",
+                    "secondary": "#006b5f",
+                    "secondary-container": "#76f4e0",
+                    "outline-variant": "#c1c7d1",
+                    "inverse-on-surface": "#eff1f3",
+                    "secondary-fixed-dim": "#59dbc7",
+                    "surface-tint": "#12629d",
+                    "surface-container-lowest": "#ffffff",
+                    "surface-container": "#eceef0",
+                    "inverse-primary": "#9ccaff",
+                    "on-tertiary-container": "#c0d2d1",
+                    "surface-container-high": "#e6e8ea",
+                    "surface-container-low": "#f2f4f6",
+                    "primary-fixed-dim": "#9ccaff",
+                    "error-container": "#ffdad6",
+                    "on-error": "#ffffff",
+                    "on-primary-fixed": "#001d35",
+                    "on-tertiary": "#ffffff",
+                    "on-background": "#191c1e",
+                    "background": "#f7f9fb",
+                    "primary": "#004370",
+                    "tertiary-container": "#4a5b5a",
+                    "tertiary": "#334343",
+                    "surface": "#f7f9fb",
+                    "surface-bright": "#f7f9fb",
+                    "tertiary-fixed-dim": "#b8cac9",
+                    "on-secondary-fixed": "#00201c",
+                    "inverse-surface": "#2d3133",
+                    "on-primary": "#ffffff",
+                    "tertiary-fixed": "#d4e6e5",
+                    "on-secondary-fixed-variant": "#005047",
+                    "primary-fixed": "#d0e4ff",
+                    "on-error-container": "#93000a",
+                    "outline": "#717781",
+                    "on-surface": "#191c1e",
+                    "on-surface-variant": "#414750",
+                    "secondary-fixed": "#79f7e3",
+                    "surface-variant": "#e0e3e5",
+                    "on-tertiary-fixed": "#0e1e1e",
+                    "on-secondary": "#ffffff"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "2xl": "1rem",
+                    "3xl": "1.5rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Manrope"],
+                    "body": ["Inter"],
+                    "label": ["Inter"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .clinical-gradient {
+            background: linear-gradient(135deg, #004370 0%, #005b96 100%);
+        }
+        .teal-gradient {
+            background: linear-gradient(135deg, #006b5f 0%, #79f7e3 100%);
+        }
+    </style>
+</head>
+<body class="bg-surface font-body text-on-surface">
+<!-- SideNavBar (Authority: JSON) -->
+<aside class="h-screen w-64 fixed left-0 top-0 overflow-y-auto bg-[#f2f4f6] dark:bg-slate-900 flex flex-col py-8 px-6 z-50">
+<div class="mb-10">
+<h1 class="text-xl font-bold tracking-tight text-[#004370] dark:text-[#005b96] font-headline">Pristine Curator</h1>
+<p class="text-xs font-medium text-[#414750] mt-1">Gestão de Estofados</p>
+</div>
+<nav class="flex-1 space-y-2">
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-[#414750] dark:text-slate-400 font-medium hover:text-[#004370] transition-all hover:bg-[#f7f9fb] dark:hover:bg-slate-800" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="text-[12px]">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-[#414750] dark:text-slate-400 font-medium hover:text-[#004370] transition-all hover:bg-[#f7f9fb] dark:hover:bg-slate-800" href="#">
+<span class="material-symbols-outlined">calendar_today</span>
+<span class="text-[12px]">Agenda</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-[#004370] dark:text-white font-bold border-r-4 border-[#004370] bg-[#f7f9fb] dark:bg-slate-800 scale-[0.98]" href="#">
+<span class="material-symbols-outlined">inventory_2</span>
+<span class="text-[12px]">Estoque</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-[#414750] dark:text-slate-400 font-medium hover:text-[#004370] transition-all hover:bg-[#f7f9fb] dark:hover:bg-slate-800" href="#">
+<span class="material-symbols-outlined">payments</span>
+<span class="text-[12px]">Financeiro</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-[#414750] dark:text-slate-400 font-medium hover:text-[#004370] transition-all hover:bg-[#f7f9fb] dark:hover:bg-slate-800" href="#">
+<span class="material-symbols-outlined">insights</span>
+<span class="text-[12px]">Marketing</span>
+</a>
+</nav>
+<div class="mt-auto space-y-2 pt-6 border-t-0">
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-[#414750] dark:text-slate-400 font-medium hover:text-[#004370] transition-all" href="#">
+<span class="material-symbols-outlined">settings</span>
+<span class="text-[12px]">Configurações</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-xl text-[#414750] dark:text-slate-400 font-medium hover:text-[#004370] transition-all" href="#">
+<span class="material-symbols-outlined">help</span>
+<span class="text-[12px]">Suporte</span>
+</a>
+</div>
+</aside>
+<!-- Main Content Shell -->
+<main class="ml-64 min-h-screen">
+<!-- TopNavBar (Authority: JSON) -->
+<header class="fixed top-0 right-0 w-[calc(100%-16rem)] z-40 bg-[#f7f9fb]/80 backdrop-blur-xl flex justify-between items-center px-12 py-4 h-20">
+<div class="flex-1 max-w-md">
+<div class="relative group">
+<span class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-outline">search</span>
+<input class="w-full bg-surface-container-low border-none rounded-full py-2.5 pl-12 pr-4 focus:ring-2 focus:ring-primary/20 text-on-surface-variant text-sm" placeholder="Pesquisar insumos ou ativos..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-6">
+<button class="text-[#414750] hover:text-[#005b96] transition-all active:scale-95">
+<span class="material-symbols-outlined">notifications</span>
+</button>
+<button class="text-[#414750] hover:text-[#005b96] transition-all active:scale-95">
+<span class="material-symbols-outlined">mail</span>
+</button>
+<div class="h-10 w-10 rounded-full overflow-hidden border-2 border-surface-container-highest">
+<img alt="Profile" data-alt="portrait of a professional male business owner in a clean modern environment with soft studio lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB6KUfmTVg46p0jLW32CzADhiac64Fxbm7GTGHMfrAQZP56xgAyBteP9WN0KC0yKCQpV5PMxcB5Ab8gBZpyeMC7LgdLbXCIA5o2KzGlw_1xliUQaIUnh3vI63cc-DbWXdfAO7lU62ohC1iQVm272J8zpDyEvnUeSbyfaq3vaRfCZ4jUka2SW0myS6RUYFKF2JasojvRiSBRcih3a5XEDxW_lWH6OR4WzasSkR03Ls5dxoZDED2L2nlwH12j_fHN4tkAgpddHMThyI1q"/>
+</div>
+</div>
+</header>
+<!-- Canvas Body -->
+<div class="pt-28 px-12 pb-12">
+<!-- Header Section -->
+<div class="flex justify-between items-end mb-10">
+<div>
+<h2 class="text-4xl font-extrabold font-headline tracking-tight text-primary">Estoque e Patrimônio</h2>
+<p class="text-on-surface-variant mt-2 max-w-xl">Gerenciamento clínico de insumos químicos e ativos operacionais para manutenção da qualidade Pristine.</p>
+</div>
+<button class="clinical-gradient text-white px-8 py-3.5 rounded-3xl font-bold flex items-center gap-2 hover:opacity-90 transition-opacity">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">add</span>
+                    Novo Item
+                </button>
+</div>
+<!-- Custom Tabs -->
+<div class="flex gap-8 mb-8 relative">
+<button class="pb-4 text-primary font-bold border-b-2 border-primary transition-all">Estoque</button>
+<button class="pb-4 text-on-surface-variant font-medium hover:text-primary transition-all">Patrimônio</button>
+<div class="absolute bottom-0 left-0 w-full h-[1px] bg-outline-variant/15"></div>
+</div>
+<!-- Bento Grid Layout -->
+<div class="grid grid-cols-12 gap-6">
+<!-- Insumos Liquidos (Main Card) -->
+<div class="col-span-8 bg-surface-container-lowest rounded-3xl p-8 transition-all">
+<div class="flex justify-between items-center mb-8">
+<h3 class="text-xl font-bold font-headline">Insumos Químicos</h3>
+<span class="text-xs font-semibold text-secondary px-3 py-1 bg-secondary-container/30 rounded-full">Atualizado agora</span>
+</div>
+<div class="space-y-8">
+<!-- Inventory Item -->
+<div class="group">
+<div class="flex justify-between items-center mb-3">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 bg-surface-container-low rounded-2xl flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">science</span>
+</div>
+<div>
+<h4 class="font-bold text-on-surface">Shampoo Neutro Premium</h4>
+<p class="text-xs text-on-surface-variant">Lote: #8829-PR</p>
+</div>
+</div>
+<div class="text-right">
+<span class="text-sm font-bold text-primary">7.2L / 10L</span>
+<p class="text-[10px] text-on-surface-variant font-medium">RENDIMENTO ESTIMADO: 22 SERVIÇOS</p>
+</div>
+</div>
+<div class="w-full h-2 bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-primary w-[72%] rounded-full"></div>
+</div>
+</div>
+<!-- Inventory Item -->
+<div class="group">
+<div class="flex justify-between items-center mb-3">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 bg-surface-container-low rounded-2xl flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined">water_drop</span>
+</div>
+<div>
+<h4 class="font-bold text-on-surface">Impermeabilizante Ultra-Shield</h4>
+<p class="text-xs text-on-surface-variant">Lote: #9012-TX</p>
+</div>
+</div>
+<div class="text-right">
+<span class="text-sm font-bold text-error">1.5L / 15L</span>
+<p class="text-[10px] text-error font-bold">REPOSIÇÃO NECESSÁRIA</p>
+</div>
+</div>
+<div class="w-full h-2 bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-error w-[10%] rounded-full"></div>
+</div>
+</div>
+<!-- Inventory Item -->
+<div class="group">
+<div class="flex justify-between items-center mb-3">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 bg-surface-container-low rounded-2xl flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">sanitizer</span>
+</div>
+<div>
+<h4 class="font-bold text-on-surface">Desinfetante Hospitalar Bio</h4>
+<p class="text-xs text-on-surface-variant">Lote: #7721-BIO</p>
+</div>
+</div>
+<div class="text-right">
+<span class="text-sm font-bold text-primary">4.0L / 5L</span>
+<p class="text-[10px] text-on-surface-variant font-medium">RENDIMENTO ESTIMADO: 15 SERVIÇOS</p>
+</div>
+</div>
+<div class="w-full h-2 bg-surface-container rounded-full overflow-hidden">
+<div class="h-full bg-primary w-[80%] rounded-full"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Patromônio Sidebar Cards -->
+<div class="col-span-4 space-y-6">
+<div class="bg-surface-container-lowest rounded-3xl p-8 border-none relative overflow-hidden">
+<div class="absolute top-0 right-0 p-4 opacity-5">
+<span class="material-symbols-outlined text-6xl">precision_manufacturing</span>
+</div>
+<h3 class="text-lg font-bold font-headline mb-6">Status de Ativos</h3>
+<div class="space-y-6">
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 bg-secondary/10 rounded-xl flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined">vacuum</span>
+</div>
+<span class="font-bold text-sm">Extratora P01</span>
+</div>
+<span class="text-[10px] uppercase tracking-widest font-bold px-2 py-1 bg-secondary-container/40 text-on-secondary-container rounded-md">Ok</span>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 bg-error/10 rounded-xl flex items-center justify-center text-error">
+<span class="material-symbols-outlined">vacuum</span>
+</div>
+<span class="font-bold text-sm">Extratora P02</span>
+</div>
+<span class="text-[10px] uppercase tracking-widest font-bold px-2 py-1 bg-error-container text-on-error-container rounded-md">Precisa Manutenção</span>
+</div>
+<div class="flex items-center justify-between">
+<div class="flex items-center gap-3">
+<div class="w-10 h-10 bg-secondary/10 rounded-xl flex items-center justify-center text-secondary">
+<span class="material-symbols-outlined">cleaning_services</span>
+</div>
+<span class="font-bold text-sm">Escovadeira Turbo</span>
+</div>
+<span class="text-[10px] uppercase tracking-widest font-bold px-2 py-1 bg-secondary-container/40 text-on-secondary-container rounded-md">Ok</span>
+</div>
+</div>
+<button class="w-full mt-8 py-3 text-primary text-xs font-bold border border-primary/20 rounded-xl hover:bg-surface-container-low transition-colors">
+                            Ver Histórico de Manutenção
+                        </button>
+</div>
+<!-- Small Insight Card -->
+<div class="teal-gradient rounded-3xl p-6 text-white">
+<div class="flex items-center gap-2 mb-4">
+<span class="material-symbols-outlined text-sm">auto_awesome</span>
+<span class="text-[10px] font-bold uppercase tracking-widest">Dica de Gestão</span>
+</div>
+<p class="text-sm font-medium leading-relaxed">Sua próxima manutenção preventiva para o kit de extratoras é em 12 dias. Agende agora para evitar paradas.</p>
+</div>
+</div>
+<!-- Secondary Data Row -->
+<div class="col-span-12 grid grid-cols-3 gap-6">
+<div class="bg-surface-container-low rounded-3xl p-6 flex items-center gap-6">
+<div class="w-14 h-14 bg-white rounded-2xl flex items-center justify-center text-primary shadow-sm">
+<span class="material-symbols-outlined text-3xl">inventory</span>
+</div>
+<div>
+<span class="text-on-surface-variant text-xs font-medium">Insumos em falta</span>
+<h4 class="text-2xl font-extrabold font-headline">02</h4>
+</div>
+</div>
+<div class="bg-surface-container-low rounded-3xl p-6 flex items-center gap-6">
+<div class="w-14 h-14 bg-white rounded-2xl flex items-center justify-center text-primary shadow-sm">
+<span class="material-symbols-outlined text-3xl">payments</span>
+</div>
+<div>
+<span class="text-on-surface-variant text-xs font-medium">Valor Total Estoque</span>
+<h4 class="text-2xl font-extrabold font-headline">R$ 4.820</h4>
+</div>
+</div>
+<div class="bg-surface-container-low rounded-3xl p-6 flex items-center gap-6">
+<div class="w-14 h-14 bg-white rounded-2xl flex items-center justify-center text-primary shadow-sm">
+<span class="material-symbols-outlined text-3xl">build_circle</span>
+</div>
+<div>
+<span class="text-on-surface-variant text-xs font-medium">Equipamentos Ativos</span>
+<h4 class="text-2xl font-extrabold font-headline">14/15</h4>
+</div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- FAB Suppression Policy followed: Not rendered on inventory detail screens -->
+</body></html>

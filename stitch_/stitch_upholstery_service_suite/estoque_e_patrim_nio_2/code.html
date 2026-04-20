@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+
+<html class="light" lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@200..800&amp;family=Plus+Jakarta+Sans:wght@200..800&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "outline": "#757684",
+                    "on-secondary-container": "#2e7100",
+                    "on-primary-fixed": "#000e5e",
+                    "on-primary-fixed-variant": "#2a3ba2",
+                    "secondary-container": "#92f859",
+                    "on-error": "#ffffff",
+                    "on-surface": "#1b1b22",
+                    "on-primary-container": "#aab4ff",
+                    "surface-container-lowest": "#ffffff",
+                    "primary-fixed": "#dee0ff",
+                    "on-tertiary-fixed-variant": "#004e59",
+                    "tertiary-fixed-dim": "#44d8f1",
+                    "on-secondary-fixed-variant": "#1f5100",
+                    "primary-fixed-dim": "#bbc3ff",
+                    "error": "#ba1a1a",
+                    "surface-container-highest": "#e3e1eb",
+                    "surface-container-high": "#e9e7f0",
+                    "surface-container-low": "#f5f2fc",
+                    "outline-variant": "#c6c5d5",
+                    "on-surface-variant": "#454653",
+                    "tertiary-fixed": "#a1efff",
+                    "on-secondary-fixed": "#082100",
+                    "on-tertiary-container": "#2dcae2",
+                    "on-background": "#1b1b22",
+                    "surface-tint": "#4454bb",
+                    "tertiary-container": "#00515c",
+                    "surface": "#fbf8ff",
+                    "on-tertiary": "#ffffff",
+                    "on-error-container": "#93000a",
+                    "background": "#fbf8ff",
+                    "error-container": "#ffdad6",
+                    "on-secondary": "#ffffff",
+                    "surface-container": "#efedf6",
+                    "secondary-fixed": "#95fb5c",
+                    "on-primary": "#ffffff",
+                    "inverse-on-surface": "#f2eff9",
+                    "surface-variant": "#e3e1eb",
+                    "primary": "#0f238e",
+                    "secondary": "#2b6c00",
+                    "on-tertiary-fixed": "#001f25",
+                    "inverse-primary": "#bbc3ff",
+                    "tertiary": "#003941",
+                    "primary-container": "#2d3ea5",
+                    "surface-dim": "#dbd9e2",
+                    "surface-bright": "#fbf8ff",
+                    "inverse-surface": "#303037",
+                    "secondary-fixed-dim": "#7ade42"
+            },
+            "borderRadius": {
+                    "DEFAULT": "1rem",
+                    "lg": "2rem",
+                    "xl": "3rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Manrope"],
+                    "body": ["Manrope"],
+                    "label": ["Plus Jakarta Sans"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body { font-family: 'Manrope', sans-serif; background-color: #fbf8ff; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .clinical-glass { background: rgba(255, 255, 255, 0.6); backdrop-filter: blur(20px); }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+    </style>
+</head>
+<body class="text-on-surface selection:bg-secondary-container">
+<!-- Sidebar Navigation -->
+<aside class="flex flex-col fixed left-0 top-0 h-full py-8 px-4 bg-white dark:bg-slate-950 rounded-r-[2rem] w-64 border-r-0 shadow-[40px_0_60px_-15px_rgba(0,0,0,0.05)] z-50">
+<div class="mb-12 px-4 flex items-center gap-3">
+<div class="w-10 h-10 bg-primary rounded-xl flex items-center justify-center text-white">
+<span class="material-symbols-outlined" data-icon="sanitizer">sanitizer</span>
+</div>
+<div>
+<h1 class="text-xl font-black text-indigo-900 dark:text-white leading-none">ED Limp</h1>
+<p class="text-[10px] uppercase tracking-widest text-slate-400 font-bold">Clinical Cleaning</p>
+</div>
+</div>
+<nav class="flex-1 space-y-2">
+<a class="flex items-center gap-3 px-4 py-3 rounded-full text-slate-500 dark:text-slate-400 hover:text-indigo-900 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-slate-900 transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span class="font-medium text-sm">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-full text-slate-500 dark:text-slate-400 hover:text-indigo-900 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-slate-900 transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="calendar_month">calendar_month</span>
+<span class="font-medium text-sm">Agenda</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-full text-lime-700 dark:text-lime-400 font-bold border-r-4 border-lime-500 bg-slate-50/50" href="#">
+<span class="material-symbols-outlined" data-icon="inventory_2">inventory_2</span>
+<span class="font-medium text-sm">Estoque</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-full text-slate-500 dark:text-slate-400 hover:text-indigo-900 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-slate-900 transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="payments">payments</span>
+<span class="font-medium text-sm">Financeiro</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-full text-slate-500 dark:text-slate-400 hover:text-indigo-900 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-slate-900 transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="campaign">campaign</span>
+<span class="font-medium text-sm">Marketing</span>
+</a>
+</nav>
+<div class="pt-8 mt-8 border-t border-slate-100 flex flex-col gap-2">
+<a class="flex items-center gap-3 px-4 py-3 rounded-full text-slate-500 dark:text-slate-400 hover:text-indigo-900 transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="headset_mic">headset_mic</span>
+<span class="font-medium text-sm">Suporte</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-full text-slate-500 dark:text-slate-400 hover:text-indigo-900 transition-all duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+<span class="font-medium text-sm">Sair</span>
+</a>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="ml-64 min-h-screen p-8 lg:p-12">
+<!-- Top App Bar -->
+<header class="flex justify-between items-center mb-12">
+<div>
+<h2 class="text-3xl font-extrabold tracking-tight text-primary">Estoque e Patrimônio</h2>
+<p class="text-on-surface-variant font-medium">Controle clínico de insumos e ativos operacionais</p>
+</div>
+<div class="flex items-center gap-4">
+<button class="bg-surface-container-high p-3 rounded-full hover:bg-surface-container-highest transition-colors">
+<span class="material-symbols-outlined text-primary" data-icon="notifications">notifications</span>
+</button>
+<div class="flex items-center gap-3 bg-surface-container-low pl-4 pr-2 py-2 rounded-full border border-outline-variant/15">
+<span class="font-label text-sm font-bold text-primary">Admin ED Limp</span>
+<img alt="User profile" class="w-10 h-10 rounded-full object-cover" data-alt="portrait of a professional administrator in a clean office environment wearing a navy suit and smiling confidently" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAf1r22n0DxYX7AfrmLBSwwris6GKWB2n0_QCle7j2Shh1w4B_fQYBcae3zwAFhjhpoNFP5MTqC26c-4YiZlxTaAt5qv0ORlJoUC0G5V7XQsjSvJvz92kDtXFN81HYJac5LZMNAG6jM_x4W-9-R-C4IEzIBhrt07pLR8S0YdneB1TM-CsMhoCW9YTCmdfIl4OXQrwGNApJONRoD_Y3qjCJKg23A0zK93mPLslSikVmI_BSd9wCJhjpE1q0VgfposNccHcG--ptCcjXw"/>
+</div>
+</div>
+</header>
+<!-- Metrics Overview (Asymmetric Bento Grid) -->
+<section class="grid grid-cols-12 gap-6 mb-12">
+<div class="col-span-12 lg:col-span-5 bg-primary text-on-primary p-8 rounded-lg relative overflow-hidden shadow-xl">
+<div class="relative z-10">
+<span class="font-label text-[10px] font-black uppercase tracking-[0.2em] opacity-70">Saúde de Ativos</span>
+<h3 class="text-5xl font-extrabold mt-2 mb-4 tracking-tighter">98.4%</h3>
+<p class="text-sm opacity-80 max-w-xs leading-relaxed">Seus equipamentos estão operando em capacidade clínica máxima. 3 manutenções preventivas agendadas para amanhã.</p>
+</div>
+<div class="absolute -right-8 -bottom-8 opacity-10">
+<span class="material-symbols-outlined text-[12rem]" data-icon="verified">verified</span>
+</div>
+<div class="mt-8">
+<button class="bg-secondary-container text-on-secondary-container px-6 py-3 rounded-full font-bold text-sm hover:scale-105 transition-transform">
+                        Ver Relatório Completo
+                    </button>
+</div>
+</div>
+<div class="col-span-12 md:col-span-6 lg:col-span-4 bg-surface-container-low p-8 rounded-lg flex flex-col justify-between border border-outline-variant/10">
+<div>
+<span class="font-label text-[10px] font-black uppercase tracking-[0.2em] text-secondary">Atenção Necessária</span>
+<div class="flex items-center gap-4 mt-4">
+<div class="p-4 bg-error-container rounded-2xl">
+<span class="material-symbols-outlined text-error" data-icon="warning">warning</span>
+</div>
+<div>
+<h4 class="text-2xl font-bold text-on-surface tracking-tight">04 Insumos</h4>
+<p class="text-xs text-on-surface-variant font-medium">Abaixo do estoque crítico</p>
+</div>
+</div>
+</div>
+<div class="mt-6 flex gap-2">
+<div class="h-1 flex-1 bg-error rounded-full"></div>
+<div class="h-1 flex-1 bg-surface-container-highest rounded-full"></div>
+<div class="h-1 flex-1 bg-surface-container-highest rounded-full"></div>
+</div>
+</div>
+<div class="col-span-12 md:col-span-6 lg:col-span-3 bg-secondary-container p-8 rounded-lg flex flex-col justify-center border border-secondary/10">
+<span class="material-symbols-outlined text-secondary text-4xl mb-4" data-icon="inventory">inventory</span>
+<h4 class="text-sm font-bold text-secondary uppercase tracking-widest">Patrimônio Total</h4>
+<p class="text-3xl font-black text-on-secondary-container mt-1">R$ 142.5k</p>
+<div class="mt-4 inline-flex items-center text-xs font-bold text-secondary gap-1 bg-white/50 px-3 py-1 rounded-full w-fit">
+<span class="material-symbols-outlined text-xs" data-icon="trending_up">trending_up</span>
+                    +12% este mês
+                </div>
+</div>
+</section>
+<!-- Insumos Químicos Section -->
+<section class="mb-12">
+<div class="flex items-end justify-between mb-8 px-2">
+<div>
+<h3 class="text-2xl font-bold text-primary tracking-tight">Insumos Químicos</h3>
+<p class="text-sm text-on-surface-variant">Monitoramento de volumes e reagentes clínicos</p>
+</div>
+<button class="text-primary font-bold text-sm flex items-center gap-2 hover:opacity-70 transition-opacity">
+                    Gerenciar Lotes <span class="material-symbols-outlined" data-icon="arrow_forward">arrow_forward</span>
+</button>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+<!-- Chemical Item Card 1 -->
+<div class="bg-surface-container-lowest p-6 rounded-lg shadow-sm border border-outline-variant/10 hover:shadow-md transition-shadow group">
+<div class="flex justify-between items-start mb-6">
+<div class="p-3 bg-surface-container rounded-xl group-hover:bg-secondary-container/20 transition-colors">
+<span class="material-symbols-outlined text-primary" data-icon="science">science</span>
+</div>
+<span class="bg-secondary-container/30 text-secondary text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider">Em Conformidade</span>
+</div>
+<h4 class="text-lg font-bold text-on-surface">Impermeabilizante HP-900</h4>
+<p class="text-xs text-on-surface-variant mb-6">Lote: #2024-XP90</p>
+<div class="space-y-3">
+<div class="flex justify-between text-xs font-bold font-label">
+<span class="text-on-surface-variant">Volume Atual</span>
+<span class="text-on-surface">85 Litros</span>
+</div>
+<div class="w-full bg-surface-container-highest h-2 rounded-full overflow-hidden">
+<div class="bg-primary h-full rounded-full w-[85%]"></div>
+</div>
+</div>
+</div>
+<!-- Chemical Item Card 2 -->
+<div class="bg-surface-container-lowest p-6 rounded-lg shadow-sm border border-outline-variant/10 hover:shadow-md transition-shadow group">
+<div class="flex justify-between items-start mb-6">
+<div class="p-3 bg-surface-container rounded-xl">
+<span class="material-symbols-outlined text-primary" data-icon="cleaning_services">cleaning_services</span>
+</div>
+<span class="bg-error-container text-error text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider">Reposição Urgente</span>
+</div>
+<h4 class="text-lg font-bold text-on-surface">Detergente Enzimático Clin</h4>
+<p class="text-xs text-on-surface-variant mb-6">Lote: #2024-ENZ2</p>
+<div class="space-y-3">
+<div class="flex justify-between text-xs font-bold font-label">
+<span class="text-on-surface-variant">Volume Atual</span>
+<span class="text-error">12 Litros</span>
+</div>
+<div class="w-full bg-surface-container-highest h-2 rounded-full overflow-hidden">
+<div class="bg-error h-full rounded-full w-[12%]"></div>
+</div>
+</div>
+</div>
+<!-- Chemical Item Card 3 -->
+<div class="bg-surface-container-lowest p-6 rounded-lg shadow-sm border border-outline-variant/10 hover:shadow-md transition-shadow group">
+<div class="flex justify-between items-start mb-6">
+<div class="p-3 bg-surface-container rounded-xl">
+<span class="material-symbols-outlined text-primary" data-icon="opacity">opacity</span>
+</div>
+<span class="bg-surface-container-highest text-on-surface-variant text-[10px] font-bold px-3 py-1 rounded-full uppercase tracking-wider">Estoque Médio</span>
+</div>
+<h4 class="text-lg font-bold text-on-surface">Solvente de Nano-Proteção</h4>
+<p class="text-xs text-on-surface-variant mb-6">Lote: #2024-NANO</p>
+<div class="space-y-3">
+<div class="flex justify-between text-xs font-bold font-label">
+<span class="text-on-surface-variant">Volume Atual</span>
+<span class="text-on-surface">42 Litros</span>
+</div>
+<div class="w-full bg-surface-container-highest h-2 rounded-full overflow-hidden">
+<div class="bg-primary h-full rounded-full w-[42%]"></div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Asset Status & Management (Two Column Layout) -->
+<section class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+<!-- Asset Status Table-like list -->
+<div class="lg:col-span-2 bg-surface-container-low rounded-lg p-8">
+<div class="flex justify-between items-center mb-8">
+<h3 class="text-xl font-bold text-primary">Status de Ativos</h3>
+<div class="flex gap-2">
+<button class="bg-white p-2 rounded-lg border border-outline-variant/20"><span class="material-symbols-outlined text-sm" data-icon="filter_list">filter_list</span></button>
+<button class="bg-white p-2 rounded-lg border border-outline-variant/20"><span class="material-symbols-outlined text-sm" data-icon="search">search</span></button>
+</div>
+</div>
+<div class="space-y-4">
+<!-- Asset Row -->
+<div class="bg-white p-4 rounded-xl flex items-center justify-between border border-outline-variant/5">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 bg-surface-container rounded-lg flex items-center justify-center overflow-hidden">
+<img alt="Extratora Profissional" class="w-full h-full object-cover" data-alt="high-tech industrial carpet cleaning machine with sleek metallic finish and digital control panel in a bright studio" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCgjz7WZz2WEeTo8HaExpb9Lz4mIdKlbqhVkLsPqRbojgEu8-lmEgJ_fnHdIz6NC-B1qTkYR8nkGoJc-4g5ANEEqtyxk8apCsEahlA7EN4pNgdTIILDnZNnZggPOls_qaRG2kQcFcG9MZnIJOu_is10ECVJYjhz5gNm9toOFf-rKfINoyu7ZA0GPlckxMorHPz3n_4G_IyU122NicQtSjdsH5jD2_3Lp8p87WMbLcv-oX4op1lYniDR6Kk7iHL7u6oxLYNQxHELNYx1"/>
+</div>
+<div>
+<h5 class="font-bold text-sm text-on-surface">Extratora Industrial X-200</h5>
+<p class="text-xs text-on-surface-variant">ID: PAT-0092 • Última Manutenção: 12/05</p>
+</div>
+</div>
+<div class="flex items-center gap-8">
+<div class="text-right hidden md:block">
+<p class="text-xs font-bold text-on-surface">Status Operacional</p>
+<span class="text-[10px] text-secondary font-black uppercase tracking-tighter">Ativo • Disponível</span>
+</div>
+<button class="p-2 hover:bg-slate-50 rounded-full transition-colors">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="more_vert">more_vert</span>
+</button>
+</div>
+</div>
+<!-- Asset Row -->
+<div class="bg-white p-4 rounded-xl flex items-center justify-between border border-outline-variant/5">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 bg-surface-container rounded-lg flex items-center justify-center overflow-hidden">
+<img alt="Vaporizadora" class="w-full h-full object-cover" data-alt="professional steam cleaner nozzle with steam emerging against a dark clinical background, high detail macro shot" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAr4AflbSJwy7h_MdQLcu49CWTUSs7q4ieD6aCql_NSlTyiMoUucKXA_7WTmNiPOmo0PNn3-HNXR6ovEBSGY0d8GNjb_AHDAskqYpiWUGsfUrLdPkG-ye1c-D5s3AZ0wi8_DuT4jGRT7-FD8kydsHXFwz_9DKq3h3gqX2KXFriYnhHCge2ADOFhtWTpNDwEnhAoLfzWYH49TjbnmQgJdJScyDOjNf17WWbrq0kjnaG3_QvyPDMZBXjpLVPXsODkYy8ezwAzPHy3sc3D"/>
+</div>
+<div>
+<h5 class="font-bold text-sm text-on-surface">Vaporizadora Clinical V-9</h5>
+<p class="text-xs text-on-surface-variant">ID: PAT-0104 • Última Manutenção: 08/06</p>
+</div>
+</div>
+<div class="flex items-center gap-8">
+<div class="text-right hidden md:block">
+<p class="text-xs font-bold text-on-surface">Status Operacional</p>
+<span class="text-[10px] text-on-primary-fixed-variant font-black uppercase tracking-tighter">Em Manutenção</span>
+</div>
+<button class="p-2 hover:bg-slate-50 rounded-full transition-colors">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="more_vert">more_vert</span>
+</button>
+</div>
+</div>
+<!-- Asset Row -->
+<div class="bg-white p-4 rounded-xl flex items-center justify-between border border-outline-variant/5">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 bg-surface-container rounded-lg flex items-center justify-center">
+<span class="material-symbols-outlined text-primary" data-icon="dry_cleaning">dry_cleaning</span>
+</div>
+<div>
+<h5 class="font-bold text-sm text-on-surface">Conjunto de EPIs - Lote 14</h5>
+<p class="text-xs text-on-surface-variant">ID: PAT-0220 • Auditado em: Ontem</p>
+</div>
+</div>
+<div class="flex items-center gap-8">
+<div class="text-right hidden md:block">
+<p class="text-xs font-bold text-on-surface">Status Operacional</p>
+<span class="text-[10px] text-secondary font-black uppercase tracking-tighter">Em Uso • Equipe Alpha</span>
+</div>
+<button class="p-2 hover:bg-slate-50 rounded-full transition-colors">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="more_vert">more_vert</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Management Actions Sidebar -->
+<div class="space-y-6">
+<div class="bg-white p-8 rounded-lg shadow-[0_20px_40px_-20px_rgba(15,35,142,0.1)] border border-outline-variant/10">
+<h4 class="text-lg font-black text-primary mb-6">Ações Rápidas</h4>
+<div class="grid grid-cols-1 gap-3">
+<button class="w-full flex items-center justify-between px-6 py-4 bg-secondary-container text-on-secondary-container rounded-full font-bold text-sm group hover:translate-x-1 transition-transform">
+<span>Novo Pedido de Compra</span>
+<span class="material-symbols-outlined" data-icon="add_shopping_cart">add_shopping_cart</span>
+</button>
+<button class="w-full flex items-center justify-between px-6 py-4 bg-primary text-on-primary rounded-full font-bold text-sm group hover:translate-x-1 transition-transform">
+<span>Cadastrar Novo Ativo</span>
+<span class="material-symbols-outlined" data-icon="add_circle">add_circle</span>
+</button>
+<button class="w-full flex items-center justify-between px-6 py-4 border-2 border-primary/20 text-primary rounded-full font-bold text-sm group hover:border-primary transition-colors">
+<span>Agendar Manutenção</span>
+<span class="material-symbols-outlined" data-icon="settings_suggest">settings_suggest</span>
+</button>
+</div>
+</div>
+<div class="bg-primary-container p-6 rounded-lg text-white relative overflow-hidden">
+<div class="relative z-10">
+<h4 class="font-bold mb-2">Suporte à Gestão</h4>
+<p class="text-xs opacity-70 mb-4">Dúvidas sobre o controle de patrimônio clínico?</p>
+<button class="text-xs font-black uppercase tracking-widest text-secondary-container flex items-center gap-2">
+                            Falar com consultor <span class="material-symbols-outlined text-sm" data-icon="open_in_new">open_in_new</span>
+</button>
+</div>
+<span class="material-symbols-outlined absolute -right-4 -bottom-4 text-7xl opacity-10" data-icon="support_agent">support_agent</span>
+</div>
+</div>
+</section>
+</main>
+<!-- Contextual FAB (Hidden on scroll or specific sections, but mandated for dashboard-like screens) -->
+<button class="fixed bottom-8 right-8 w-16 h-16 bg-secondary-container text-on-secondary-container rounded-full shadow-2xl flex items-center justify-center hover:scale-110 active:scale-95 transition-all z-40 group">
+<span class="material-symbols-outlined text-3xl" data-icon="add">add</span>
+<span class="absolute right-full mr-4 bg-primary text-white px-4 py-2 rounded-full text-xs font-bold whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none shadow-lg">Novo Item</span>
+</button>
+</body></html>

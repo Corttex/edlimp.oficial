@@ -1,0 +1,372 @@
+<!DOCTYPE html>
+
+<html class="light" lang="pt-br"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "outline": "#757684",
+                        "on-secondary-container": "#2e7100",
+                        "on-primary-fixed": "#000e5e",
+                        "on-primary-fixed-variant": "#2a3ba2",
+                        "secondary-container": "#92f859",
+                        "on-error": "#ffffff",
+                        "on-surface": "#1b1b22",
+                        "on-primary-container": "#aab4ff",
+                        "surface-container-lowest": "#ffffff",
+                        "primary-fixed": "#dee0ff",
+                        "on-tertiary-fixed-variant": "#004e59",
+                        "tertiary-fixed-dim": "#44d8f1",
+                        "on-secondary-fixed-variant": "#1f5100",
+                        "primary-fixed-dim": "#bbc3ff",
+                        "error": "#ba1a1a",
+                        "surface-container-highest": "#e3e1eb",
+                        "surface-container-high": "#e9e7f0",
+                        "surface-container-low": "#f5f2fc",
+                        "outline-variant": "#c6c5d5",
+                        "on-surface-variant": "#454653",
+                        "tertiary-fixed": "#a1efff",
+                        "on-secondary-fixed": "#082100",
+                        "on-tertiary-container": "#2dcae2",
+                        "on-background": "#1b1b22",
+                        "surface-tint": "#4454bb",
+                        "tertiary-container": "#00515c",
+                        "surface": "#fbf8ff",
+                        "on-tertiary": "#ffffff",
+                        "on-error-container": "#93000a",
+                        "background": "#fbf8ff",
+                        "error-container": "#ffdad6",
+                        "on-secondary": "#ffffff",
+                        "surface-container": "#efedf6",
+                        "secondary-fixed": "#95fb5c",
+                        "on-primary": "#ffffff",
+                        "inverse-on-surface": "#f2eff9",
+                        "surface-variant": "#e3e1eb",
+                        "primary": "#0f238e",
+                        "secondary": "#2b6c00",
+                        "on-tertiary-fixed": "#001f25",
+                        "inverse-primary": "#bbc3ff",
+                        "tertiary": "#003941",
+                        "primary-container": "#2d3ea5",
+                        "surface-dim": "#dbd9e2",
+                        "surface-bright": "#fbf8ff",
+                        "inverse-surface": "#303037",
+                        "secondary-fixed-dim": "#7ade42"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "1rem",
+                        "lg": "2rem",
+                        "xl": "3rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Manrope"],
+                        "body": ["Manrope"],
+                        "label": ["Plus Jakarta Sans"]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            font-family: 'Manrope', sans-serif;
+            background-color: #fbf8ff;
+        }
+        .technical-label {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+    </style>
+</head>
+<body class="bg-background text-on-background">
+<!-- TopNavBar Shell -->
+<header class="fixed top-0 w-full z-40 bg-slate-50/60 backdrop-blur-xl shadow-sm flex justify-between items-center px-6 py-3 w-full">
+<div class="flex items-center gap-8">
+<span class="text-2xl font-bold tracking-tighter text-indigo-900">ED Limp</span>
+<div class="hidden md:flex items-center bg-surface-container-highest rounded-full px-4 py-1.5 gap-2">
+<span class="material-symbols-outlined text-outline" data-icon="search">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-sm technical-label w-64" placeholder="Pesquisar no sistema..." type="text"/>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<button class="p-2 text-slate-500 hover:bg-slate-100/50 transition-colors rounded-full active:scale-95 duration-150">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="p-2 text-slate-500 hover:bg-slate-100/50 transition-colors rounded-full active:scale-95 duration-150">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+</button>
+<div class="w-10 h-10 rounded-full overflow-hidden border-2 border-primary-container">
+<img alt="User profile" data-alt="professional portrait of a manager in a clean clinical environment with soft natural lighting and confident expression" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC9iKoO5AG2dVzoCrPpek4I7YXhRHU6ad4gwvMpUSKEQtlY794YQ1JCUodZmN0e6QKIPtmloBOsOv_cmZ4uTe7X2kpb53ypSV8tEt6_U55__9-VLucCutWuNs0NNPJqHIPHHVwicdiLuDXXDzsAttwiL0yIAbTAm7jtT6nxtTp9bNmENFYR03ubjbF4jtuohKiROzl7HMMUTwe2bwY4rccagpdQkRMlomx7rKZGrzkBd_O6HX-e0iI7gVt1FTLIGt0qAQ5ZYrhEG_4S"/>
+</div>
+</div>
+</header>
+<!-- SideNavBar Shell -->
+<aside class="flex flex-col fixed left-0 top-0 h-full py-8 px-4 bg-white rounded-r-[2rem] w-64 shadow-[40px_0_60px_-15px_rgba(0,0,0,0.05)] z-50">
+<div class="mb-10 px-4">
+<h1 class="text-xl font-black text-indigo-900">ED Limp</h1>
+<p class="text-xs text-slate-500 technical-label">Clinical Cleaning</p>
+</div>
+<nav class="flex-1 space-y-2">
+<a class="flex items-center gap-3 px-4 py-3 text-lime-700 font-bold border-r-4 border-lime-500 bg-slate-50 transition-all hover:translate-x-1 duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="dashboard">dashboard</span>
+<span>Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 hover:text-indigo-900 hover:bg-slate-50 transition-all hover:translate-x-1 duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="calendar_month">calendar_month</span>
+<span>Agenda</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 hover:text-indigo-900 hover:bg-slate-50 transition-all hover:translate-x-1 duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="inventory_2">inventory_2</span>
+<span>Estoque</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 hover:text-indigo-900 hover:bg-slate-50 transition-all hover:translate-x-1 duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="payments">payments</span>
+<span>Financeiro</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-slate-500 hover:text-indigo-900 hover:bg-slate-50 transition-all hover:translate-x-1 duration-200" href="#">
+<span class="material-symbols-outlined" data-icon="campaign">campaign</span>
+<span>Marketing</span>
+</a>
+</nav>
+<div class="mt-auto space-y-2">
+<button class="w-full bg-secondary-container text-on-secondary-container py-3 rounded-full font-bold text-sm mb-6 active:scale-95 transition-transform">
+                Solicitar Orçamento
+            </button>
+<a class="flex items-center gap-3 px-4 py-2 text-slate-500 hover:text-indigo-900 transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="headset_mic">headset_mic</span>
+<span class="text-sm">Suporte</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-2 text-slate-500 hover:text-indigo-900 transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="logout">logout</span>
+<span class="text-sm">Sair</span>
+</a>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="ml-64 pt-24 px-8 pb-12">
+<header class="mb-10">
+<h2 class="text-4xl font-extrabold tracking-tight text-on-surface mb-2">Visão Geral</h2>
+<p class="text-on-surface-variant font-medium">Bem-vindo ao centro de controle ED Limp. Aqui está o resumo da sua operação clínica.</p>
+</header>
+<!-- Bento Grid Performance Cards -->
+<section class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-10">
+<!-- Revenue Card -->
+<div class="bg-surface-container-lowest p-6 rounded-lg shadow-[40px_0_60px_-15px_rgba(0,0,0,0.05)] border-l-4 border-primary">
+<div class="flex items-center gap-3 mb-4">
+<span class="material-symbols-outlined text-primary bg-primary-fixed p-2 rounded-full" data-icon="payments">payments</span>
+<span class="technical-label text-xs font-semibold uppercase tracking-wider text-on-surface-variant">Receita Mensal</span>
+</div>
+<p class="text-3xl font-extrabold text-on-surface">R$ 42.850</p>
+<div class="mt-2 flex items-center gap-1 text-secondary text-sm font-bold">
+<span class="material-symbols-outlined text-xs" data-icon="trending_up">trending_up</span>
+<span>+12.5%</span>
+<span class="text-on-surface-variant font-normal ml-1">vs mês anterior</span>
+</div>
+</div>
+<!-- Active Bookings -->
+<div class="bg-surface-container-lowest p-6 rounded-lg shadow-[40px_0_60px_-15px_rgba(0,0,0,0.05)] border-l-4 border-secondary">
+<div class="flex items-center gap-3 mb-4">
+<span class="material-symbols-outlined text-secondary bg-secondary-container p-2 rounded-full" data-icon="verified">verified</span>
+<span class="technical-label text-xs font-semibold uppercase tracking-wider text-on-surface-variant">Agendamentos Ativos</span>
+</div>
+<p class="text-3xl font-extrabold text-on-surface">128</p>
+<div class="mt-2 flex items-center gap-1 text-primary text-sm font-bold">
+<span class="material-symbols-outlined text-xs" data-icon="event">event</span>
+<span>94%</span>
+<span class="text-on-surface-variant font-normal ml-1">taxa de ocupação</span>
+</div>
+</div>
+<!-- Pending Services -->
+<div class="bg-surface-container-lowest p-6 rounded-lg shadow-[40px_0_60px_-15px_rgba(0,0,0,0.05)] border-l-4 border-tertiary-fixed-dim">
+<div class="flex items-center gap-3 mb-4">
+<span class="material-symbols-outlined text-tertiary-container bg-tertiary-fixed p-2 rounded-full" data-icon="pending_actions">pending_actions</span>
+<span class="technical-label text-xs font-semibold uppercase tracking-wider text-on-surface-variant">Serviços Pendentes</span>
+</div>
+<p class="text-3xl font-extrabold text-on-surface">14</p>
+<div class="mt-2 flex items-center gap-1 text-error text-sm font-bold">
+<span class="material-symbols-outlined text-xs" data-icon="schedule">schedule</span>
+<span>Aguardando</span>
+<span class="text-on-surface-variant font-normal ml-1">confirmação técnica</span>
+</div>
+</div>
+<!-- Low Stock -->
+<div class="bg-surface-container-lowest p-6 rounded-lg shadow-[40px_0_60px_-15px_rgba(0,0,0,0.05)] border-l-4 border-error">
+<div class="flex items-center gap-3 mb-4">
+<span class="material-symbols-outlined text-error bg-error-container p-2 rounded-full" data-icon="warning">warning</span>
+<span class="technical-label text-xs font-semibold uppercase tracking-wider text-on-surface-variant">Alertas de Estoque</span>
+</div>
+<p class="text-3xl font-extrabold text-on-surface">03</p>
+<div class="mt-2 flex items-center gap-1 text-error text-sm font-bold">
+<span class="material-symbols-outlined text-xs" data-icon="inventory">inventory</span>
+<span>Itens críticos</span>
+<span class="text-on-surface-variant font-normal ml-1">necessitam compra</span>
+</div>
+</div>
+</section>
+<!-- Charts and Lists Section -->
+<div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+<!-- Revenue vs Expenses Chart Area (Visualized with Styled Divs) -->
+<div class="lg:col-span-2 bg-surface-container-low p-8 rounded-lg">
+<div class="flex justify-between items-end mb-8">
+<div>
+<h3 class="text-xl font-extrabold text-primary mb-1">Performance Financeira</h3>
+<p class="text-on-surface-variant text-sm technical-label uppercase tracking-widest">Receita vs Despesas - Semanal</p>
+</div>
+<div class="flex gap-4">
+<div class="flex items-center gap-2">
+<span class="w-3 h-3 rounded-full bg-primary"></span>
+<span class="text-xs font-semibold text-on-surface-variant uppercase">Receita</span>
+</div>
+<div class="flex items-center gap-2">
+<span class="w-3 h-3 rounded-full bg-secondary"></span>
+<span class="text-xs font-semibold text-on-surface-variant uppercase">Despesa</span>
+</div>
+</div>
+</div>
+<!-- Simulated Chart -->
+<div class="h-64 flex items-end justify-between gap-4 px-4 border-b border-outline-variant">
+<div class="flex-1 flex flex-col items-center gap-2">
+<div class="w-full flex justify-center items-end gap-1 h-full">
+<div class="w-4 bg-primary rounded-t-full" style="height: 60%;"></div>
+<div class="w-4 bg-secondary rounded-t-full" style="height: 30%;"></div>
+</div>
+<span class="text-[10px] technical-label font-bold text-on-surface-variant">SEG</span>
+</div>
+<div class="flex-1 flex flex-col items-center gap-2">
+<div class="w-full flex justify-center items-end gap-1 h-full">
+<div class="w-4 bg-primary rounded-t-full" style="height: 80%;"></div>
+<div class="w-4 bg-secondary rounded-t-full" style="height: 25%;"></div>
+</div>
+<span class="text-[10px] technical-label font-bold text-on-surface-variant">TER</span>
+</div>
+<div class="flex-1 flex flex-col items-center gap-2">
+<div class="w-full flex justify-center items-end gap-1 h-full">
+<div class="w-4 bg-primary rounded-t-full" style="height: 45%;"></div>
+<div class="w-4 bg-secondary rounded-t-full" style="height: 40%;"></div>
+</div>
+<span class="text-[10px] technical-label font-bold text-on-surface-variant">QUA</span>
+</div>
+<div class="flex-1 flex flex-col items-center gap-2">
+<div class="w-full flex justify-center items-end gap-1 h-full">
+<div class="w-4 bg-primary rounded-t-full" style="height: 90%;"></div>
+<div class="w-4 bg-secondary rounded-t-full" style="height: 20%;"></div>
+</div>
+<span class="text-[10px] technical-label font-bold text-on-surface-variant">QUI</span>
+</div>
+<div class="flex-1 flex flex-col items-center gap-2">
+<div class="w-full flex justify-center items-end gap-1 h-full">
+<div class="w-4 bg-primary rounded-t-full" style="height: 70%;"></div>
+<div class="w-4 bg-secondary rounded-t-full" style="height: 35%;"></div>
+</div>
+<span class="text-[10px] technical-label font-bold text-on-surface-variant">SEX</span>
+</div>
+<div class="flex-1 flex flex-col items-center gap-2">
+<div class="w-full flex justify-center items-end gap-1 h-full">
+<div class="w-4 bg-primary rounded-t-full" style="height: 40%;"></div>
+<div class="w-4 bg-secondary rounded-t-full" style="height: 15%;"></div>
+</div>
+<span class="text-[10px] technical-label font-bold text-on-surface-variant">SAB</span>
+</div>
+</div>
+<!-- Recent Transactions Overlay -->
+<div class="mt-10">
+<div class="flex justify-between items-center mb-6">
+<h4 class="font-bold text-on-surface">Transações Recentes</h4>
+<button class="text-primary text-sm font-bold hover:underline">Ver todas</button>
+</div>
+<div class="space-y-4">
+<div class="flex items-center justify-between p-4 bg-surface-container-lowest rounded-lg border-l-4 border-secondary">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-secondary" data-icon="add_circle">add_circle</span>
+<div>
+<p class="font-bold text-on-surface text-sm">Serviço de Impermeabilização #882</p>
+<p class="text-xs text-on-surface-variant technical-label">Cliente: Residencial Alpha</p>
+</div>
+</div>
+<span class="font-bold text-secondary text-sm">+ R$ 1.250,00</span>
+</div>
+<div class="flex items-center justify-between p-4 bg-surface-container-lowest rounded-lg border-l-4 border-primary">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-primary" data-icon="remove_circle">remove_circle</span>
+<div>
+<p class="font-bold text-on-surface text-sm">Compra de Insumos Bio-Tech</p>
+<p class="text-xs text-on-surface-variant technical-label">Fornecedor: CleanSupplies Ltda</p>
+</div>
+</div>
+<span class="font-bold text-primary text-sm">- R$ 450,00</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Today's Schedule -->
+<div class="bg-surface-container-highest p-8 rounded-lg flex flex-col">
+<div class="flex items-center justify-between mb-8">
+<h3 class="text-xl font-extrabold text-primary">Agenda de Hoje</h3>
+<span class="bg-primary text-on-primary px-3 py-1 rounded-full text-xs technical-label font-bold">04 Jan</span>
+</div>
+<div class="flex-1 space-y-6">
+<!-- Schedule Item 1 -->
+<div class="relative pl-8 border-l-2 border-primary-container pb-6">
+<div class="absolute -left-[11px] top-0 w-5 h-5 rounded-full bg-primary border-4 border-surface-container-highest"></div>
+<div class="flex flex-col">
+<span class="text-xs font-bold text-primary uppercase technical-label tracking-tighter mb-1">08:00 - 10:30</span>
+<h5 class="font-bold text-on-surface mb-1">Limpeza Clínica - Unimed Sul</h5>
+<p class="text-xs text-on-surface-variant">Equipe Alpha - Unidade Higienização III</p>
+<div class="mt-3 flex items-center gap-2">
+<div class="flex -space-x-2">
+<img alt="Staff 1" class="w-6 h-6 rounded-full border-2 border-white" data-alt="close-up portrait of a female cleaning professional in a clinical uniform smiling" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA5poZmQbRLyPtXDCdBGb4rgo-UE6edaOFhWekfPvX6MeSG4KTvqN7OnZR_ZzYhIkhfASWgwkJyvWIoyBQR0WrS6eYUtAQ3JIk2V_xwWjOp2pcudw_rFOTFSY4_y-uA1-RNiEqjaqSJfXhQQrHoXHo5zkjtFDyFYbSoaOjE6qPENlme4AbfzIr1cgqYGuFgJ58JySSRwDJHktZoW1bNNQXPp84g1c77BbtlNszp8ZCvzDs0vR_YoZIGGblB7iYM9txJNASz1iAK1Z2P"/>
+<img alt="Staff 2" class="w-6 h-6 rounded-full border-2 border-white" data-alt="portrait of a male clinical sanitation technician in a blue uniform with a professional demeanor" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAHev0P9DSg9jnozRu9ZuVFxZw06o6FxjyCWowyBGQFpWBMxlRRMZ_9a_HzgwneVyZ7Byv_O51XI_IbKDLGskt5Tn8BwRii3GDtxoS_ZshpmRTDmE2cyF1UvaL22ZuWerp7aI29v8i8_ITC27IdgWF9S6cQ4WIF1h0FEXyEGPjzWtieIZmm5YH-ZM9y3LnPodWUofjbe0tgHrmqO7JK5l_lyGx7CKFl4y2Ogf_ugzGuklx0y-bmwTPWQ6fOBle--IJdaSkkmxsj22VG"/>
+</div>
+<span class="text-[10px] technical-label font-medium text-on-surface-variant">+2 em campo</span>
+</div>
+</div>
+</div>
+<!-- Schedule Item 2 -->
+<div class="relative pl-8 border-l-2 border-primary-container pb-6">
+<div class="absolute -left-[11px] top-0 w-5 h-5 rounded-full bg-secondary border-4 border-surface-container-highest"></div>
+<div class="flex flex-col">
+<span class="text-xs font-bold text-secondary uppercase technical-label tracking-tighter mb-1">11:00 - 15:00</span>
+<h5 class="font-bold text-on-surface mb-1">Impermeabilização Premium</h5>
+<p class="text-xs text-on-surface-variant">Residência Park Way - Sr. Carlos</p>
+<div class="mt-2 inline-flex items-center gap-1 bg-secondary-container px-2 py-0.5 rounded-full w-fit">
+<span class="material-symbols-outlined text-[10px]" data-icon="opacity" data-weight="fill" style="font-variation-settings: 'FILL' 1;">opacity</span>
+<span class="text-[10px] font-bold text-on-secondary-container uppercase">Protegido</span>
+</div>
+</div>
+</div>
+<!-- Schedule Item 3 -->
+<div class="relative pl-8 border-l-2 border-primary-container pb-6">
+<div class="absolute -left-[11px] top-0 w-5 h-5 rounded-full bg-outline-variant border-4 border-surface-container-highest"></div>
+<div class="flex flex-col opacity-60">
+<span class="text-xs font-bold text-on-surface-variant uppercase technical-label tracking-tighter mb-1">16:30 - 18:00</span>
+<h5 class="font-bold text-on-surface mb-1">Vistoria Técnica Pós-Serviço</h5>
+<p class="text-xs text-on-surface-variant">Laboratório LabEx - Setor A</p>
+</div>
+</div>
+</div>
+<div class="mt-8 bg-surface-container-lowest rounded-lg p-4 relative overflow-hidden">
+<div class="relative z-10">
+<p class="text-xs font-bold text-primary technical-label uppercase mb-1">Dica do Especialista</p>
+<p class="text-[11px] text-on-surface leading-snug">Lembre-se de recalibrar os pulverizadores para o serviço de impermeabilização da tarde.</p>
+</div>
+<span class="material-symbols-outlined absolute -right-2 -bottom-2 text-primary-container/20 text-6xl" data-icon="lightbulb">lightbulb</span>
+</div>
+</div>
+</div>
+</main>
+<!-- FAB for Quick Actions - Dashboard context -->
+<button class="fixed bottom-8 right-8 w-16 h-16 bg-primary text-on-primary rounded-full shadow-lg flex items-center justify-center hover:scale-110 active:scale-95 transition-all z-50">
+<span class="material-symbols-outlined text-3xl" data-icon="add">add</span>
+</button>
+</body></html>

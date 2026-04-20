@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Pristine Curator | Marketing e Analytics</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700;800&amp;family=Inter:wght@400;500;600&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-primary-container": "#abd2ff",
+                    "primary-container": "#005b96",
+                    "on-secondary-container": "#006f63",
+                    "error": "#ba1a1a",
+                    "surface-dim": "#d8dadc",
+                    "on-primary-fixed-variant": "#00497a",
+                    "on-tertiary-fixed-variant": "#3a4a49",
+                    "surface-container-highest": "#e0e3e5",
+                    "secondary": "#006b5f",
+                    "secondary-container": "#76f4e0",
+                    "outline-variant": "#c1c7d1",
+                    "inverse-on-surface": "#eff1f3",
+                    "secondary-fixed-dim": "#59dbc7",
+                    "surface-tint": "#12629d",
+                    "surface-container-lowest": "#ffffff",
+                    "surface-container": "#eceef0",
+                    "inverse-primary": "#9ccaff",
+                    "on-tertiary-container": "#c0d2d1",
+                    "surface-container-high": "#e6e8ea",
+                    "surface-container-low": "#f2f4f6",
+                    "primary-fixed-dim": "#9ccaff",
+                    "error-container": "#ffdad6",
+                    "on-error": "#ffffff",
+                    "on-primary-fixed": "#001d35",
+                    "on-tertiary": "#ffffff",
+                    "on-background": "#191c1e",
+                    "background": "#f7f9fb",
+                    "primary": "#004370",
+                    "tertiary-container": "#4a5b5a",
+                    "tertiary": "#334343",
+                    "surface": "#f7f9fb",
+                    "surface-bright": "#f7f9fb",
+                    "tertiary-fixed-dim": "#b8cac9",
+                    "on-secondary-fixed": "#00201c",
+                    "inverse-surface": "#2d3133",
+                    "on-primary": "#ffffff",
+                    "tertiary-fixed": "#d4e6e5",
+                    "on-secondary-fixed-variant": "#005047",
+                    "primary-fixed": "#d0e4ff",
+                    "on-error-container": "#93000a",
+                    "outline": "#717781",
+                    "on-surface": "#191c1e",
+                    "on-surface-variant": "#414750",
+                    "secondary-fixed": "#79f7e3",
+                    "surface-variant": "#e0e3e5",
+                    "on-tertiary-fixed": "#0e1e1e",
+                    "on-secondary": "#ffffff"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "2xl": "1rem",
+                    "3xl": "1.5rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Manrope"],
+                    "body": ["Inter"],
+                    "label": ["Inter"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        .font-headline { font-family: 'Manrope', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .whisper-shadow {
+            box-shadow: 0px 12px 32px rgba(25, 28, 30, 0.06);
+        }
+        .liquid-gradient {
+            background: linear-gradient(135deg, #004370 0%, #005b96 100%);
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface flex min-h-screen">
+<!-- SideNavBar Component -->
+<aside class="h-screen w-64 fixed left-0 top-0 overflow-y-auto bg-[#f2f4f6] dark:bg-slate-900 flex flex-col py-8 px-6 z-50">
+<div class="mb-10">
+<h1 class="text-xl font-bold tracking-tight text-[#004370] dark:text-[#005b96] font-headline">Pristine Curator</h1>
+<p class="text-[10px] uppercase tracking-widest text-on-surface-variant/60 font-medium mt-1">Gestão de Estofados</p>
+</div>
+<nav class="flex-1 space-y-1">
+<a class="flex items-center gap-3 px-4 py-3 text-[#414750] dark:text-slate-400 font-medium hover:text-[#004370] transition-colors rounded-xl hover:bg-[#f7f9fb] dark:hover:bg-slate-800" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span class="text-sm">Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-[#414750] dark:text-slate-400 font-medium hover:text-[#004370] transition-colors rounded-xl hover:bg-[#f7f9fb] dark:hover:bg-slate-800" href="#">
+<span class="material-symbols-outlined">calendar_today</span>
+<span class="text-sm">Agenda</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-[#414750] dark:text-slate-400 font-medium hover:text-[#004370] transition-colors rounded-xl hover:bg-[#f7f9fb] dark:hover:bg-slate-800" href="#">
+<span class="material-symbols-outlined">inventory_2</span>
+<span class="text-sm">Estoque</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-[#414750] dark:text-slate-400 font-medium hover:text-[#004370] transition-colors rounded-xl hover:bg-[#f7f9fb] dark:hover:bg-slate-800" href="#">
+<span class="material-symbols-outlined">payments</span>
+<span class="text-sm">Financeiro</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 text-[#004370] dark:text-white font-bold border-r-4 border-[#004370] bg-[#f7f9fb] dark:bg-slate-800 rounded-l-xl" href="#">
+<span class="material-symbols-outlined">insights</span>
+<span class="text-sm">Marketing</span>
+</a>
+</nav>
+<button class="mt-8 mb-8 liquid-gradient text-white py-3 px-4 rounded-3xl font-semibold flex items-center justify-center gap-2 text-sm shadow-lg hover:opacity-90 active:scale-[0.98] transition-all">
+<span class="material-symbols-outlined text-sm">add</span>
+            Novo Serviço
+        </button>
+<div class="mt-auto border-t border-outline-variant/10 pt-6 space-y-1">
+<a class="flex items-center gap-3 px-4 py-2 text-[#414750] font-medium hover:text-[#004370] transition-colors text-sm" href="#">
+<span class="material-symbols-outlined text-[20px]">settings</span>
+                Configurações
+            </a>
+<a class="flex items-center gap-3 px-4 py-2 text-[#414750] font-medium hover:text-[#004370] transition-colors text-sm" href="#">
+<span class="material-symbols-outlined text-[20px]">help</span>
+                Suporte
+            </a>
+</div>
+</aside>
+<!-- Main Content Canvas -->
+<main class="flex-1 ml-64 min-h-screen relative">
+<!-- TopNavBar Component -->
+<header class="fixed top-0 right-0 w-[calc(100%-16rem)] z-40 bg-[#f7f9fb]/80 backdrop-blur-xl h-20 flex justify-between items-center px-12">
+<div class="flex items-center bg-surface-container-low rounded-full px-4 py-2 w-96">
+<span class="material-symbols-outlined text-outline">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-sm w-full placeholder:text-outline/60" placeholder="Pesquisar métricas..." type="text"/>
+</div>
+<div class="flex items-center gap-6">
+<div class="flex items-center gap-4 border-r border-outline-variant/20 pr-6">
+<button class="relative text-on-surface-variant hover:text-primary transition-all active:scale-[0.95]">
+<span class="material-symbols-outlined">notifications</span>
+<span class="absolute top-0 right-0 w-2 h-2 bg-error rounded-full"></span>
+</button>
+<button class="text-on-surface-variant hover:text-primary transition-all active:scale-[0.95]">
+<span class="material-symbols-outlined">mail</span>
+</button>
+</div>
+<div class="flex items-center gap-3 cursor-pointer group">
+<div class="text-right">
+<p class="text-sm font-bold text-on-surface">Mariana Silva</p>
+<p class="text-[10px] text-on-surface-variant uppercase font-medium">Proprietária</p>
+</div>
+<div class="w-10 h-10 rounded-full bg-primary-fixed-dim flex items-center justify-center overflow-hidden border-2 border-white">
+<img alt="Avatar do Proprietário" data-alt="professional portrait of a confident brazilian woman business owner with a warm smile and stylish hair" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDPUWBbPUPxtoxtzRMiWmZLwiRurRY6jWHGF5E38tsPropkFQ7dcEqf2kYwSD6UiyaheHq0v24d5v-g7I6uGjcsTNgvYndp0ik9YB7GaBgyRF3tn8RcOYDjexaVf4Jr2s6KKk9ZHnLvmtBDgroshUrW9bHQIREQP02gTJsOl2pB2FxWh6q-ODYk4Hlq4W5xJALbNvxJIqnZa1IiUAatdUcfzdTKTCbY2lZ1-GmOplvNfxdaPTC2zc8EKZgnBTjurQXH6S8C8sXw_Vtx"/>
+</div>
+</div>
+</div>
+</header>
+<!-- Content Body -->
+<div class="pt-28 px-12 pb-12">
+<div class="flex justify-between items-end mb-10">
+<div>
+<h2 class="text-4xl font-extrabold font-headline tracking-tight text-primary">Marketing e Analytics</h2>
+<p class="text-on-surface-variant mt-2 max-w-lg">Acompanhe a performance das suas campanhas no Meta e Instagram para impulsionar seu negócio de curadoria.</p>
+</div>
+<div class="flex gap-3">
+<button class="bg-surface-container-high text-on-primary-fixed-variant px-6 py-2.5 rounded-3xl font-semibold text-sm flex items-center gap-2 hover:bg-surface-container-highest transition-all">
+<span class="material-symbols-outlined text-[20px]">calendar_month</span>
+                        Últimos 30 Dias
+                    </button>
+<button class="bg-primary text-white px-6 py-2.5 rounded-3xl font-semibold text-sm flex items-center gap-2 hover:opacity-90 transition-all">
+<span class="material-symbols-outlined text-[20px]">download</span>
+                        Exportar Relatório
+                    </button>
+</div>
+</div>
+<!-- Bento Grid - Key Metrics -->
+<div class="grid grid-cols-12 gap-6 mb-8">
+<!-- Reach Card -->
+<div class="col-span-12 md:col-span-4 bg-surface-container-lowest rounded-3xl p-8 whisper-shadow border-b-4 border-secondary-fixed">
+<div class="flex justify-between items-start mb-4">
+<div class="p-3 rounded-2xl bg-secondary-container/30 text-secondary">
+<span class="material-symbols-outlined">ads_click</span>
+</div>
+<span class="text-secondary font-bold text-sm bg-secondary-fixed/20 px-2 py-1 rounded-lg flex items-center">
+<span class="material-symbols-outlined text-sm">trending_up</span> 12.5%
+                        </span>
+</div>
+<p class="text-on-surface-variant text-sm font-medium">Alcance Total</p>
+<h3 class="text-3xl font-extrabold font-headline mt-1">42.850</h3>
+<p class="text-[11px] text-outline mt-4">Contas alcançadas em campanhas Meta</p>
+</div>
+<!-- New Leads Card -->
+<div class="col-span-12 md:col-span-4 bg-surface-container-lowest rounded-3xl p-8 whisper-shadow border-b-4 border-primary-fixed">
+<div class="flex justify-between items-start mb-4">
+<div class="p-3 rounded-2xl bg-primary-fixed/30 text-primary">
+<span class="material-symbols-outlined">person_add</span>
+</div>
+<span class="text-primary font-bold text-sm bg-primary-fixed/40 px-2 py-1 rounded-lg flex items-center">
+<span class="material-symbols-outlined text-sm">trending_up</span> 8.2%
+                        </span>
+</div>
+<p class="text-on-surface-variant text-sm font-medium">Novos Leads</p>
+<h3 class="text-3xl font-extrabold font-headline mt-1">314</h3>
+<p class="text-[11px] text-outline mt-4">Contatos qualificados via Instagram</p>
+</div>
+<!-- Ad Spend vs Return -->
+<div class="col-span-12 md:col-span-4 bg-surface-container-lowest rounded-3xl p-8 whisper-shadow border-b-4 border-tertiary-fixed">
+<div class="flex justify-between items-start mb-4">
+<div class="p-3 rounded-2xl bg-tertiary-fixed/30 text-tertiary">
+<span class="material-symbols-outlined">account_balance_wallet</span>
+</div>
+<span class="text-on-surface-variant font-bold text-xs">ROAS: 4.2x</span>
+</div>
+<p class="text-on-surface-variant text-sm font-medium">Investimento x Retorno</p>
+<div class="flex items-baseline gap-2 mt-1">
+<h3 class="text-3xl font-extrabold font-headline">R$ 4.200</h3>
+<span class="text-outline text-xs italic">vs R$ 17.6k</span>
+</div>
+<p class="text-[11px] text-outline mt-4">Investimento total em anúncios pagos</p>
+</div>
+</div>
+<!-- Main Analytics Section -->
+<div class="grid grid-cols-12 gap-6 items-start">
+<!-- Funnel Visualization -->
+<div class="col-span-12 lg:col-span-5 bg-surface-container-low rounded-3xl p-8 h-full">
+<h4 class="text-xl font-bold font-headline mb-8 flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary">filter_alt</span>
+                        Funil de Conversão
+                    </h4>
+<div class="space-y-6">
+<!-- Funnel Stage: Reach -->
+<div class="relative">
+<div class="flex justify-between text-xs font-bold uppercase mb-2 text-on-surface-variant tracking-wider">
+<span>Alcance</span>
+<span>100%</span>
+</div>
+<div class="h-12 w-full bg-surface-container-highest rounded-2xl overflow-hidden relative">
+<div class="h-full bg-primary/20 w-full"></div>
+<div class="absolute inset-0 flex items-center px-4 font-bold text-primary">42.8k Impressões</div>
+</div>
+</div>
+<!-- Funnel Stage: Engagement -->
+<div class="relative px-4">
+<div class="flex justify-between text-xs font-bold uppercase mb-2 text-on-surface-variant tracking-wider">
+<span>Engajamento</span>
+<span>24.3%</span>
+</div>
+<div class="h-12 w-full bg-surface-container-highest rounded-2xl overflow-hidden relative">
+<div class="h-full bg-primary/40 w-[24.3%]"></div>
+<div class="absolute inset-0 flex items-center px-4 font-bold text-primary">10.4k Cliques/Interações</div>
+</div>
+</div>
+<!-- Funnel Stage: Lead -->
+<div class="relative px-8">
+<div class="flex justify-between text-xs font-bold uppercase mb-2 text-on-surface-variant tracking-wider">
+<span>Leads</span>
+<span>3.0%</span>
+</div>
+<div class="h-12 w-full bg-surface-container-highest rounded-2xl overflow-hidden relative">
+<div class="h-full bg-primary/60 w-[12%]"></div>
+<div class="absolute inset-0 flex items-center px-4 font-bold text-white">314 Contatos</div>
+</div>
+</div>
+<!-- Funnel Stage: Sale -->
+<div class="relative px-12">
+<div class="flex justify-between text-xs font-bold uppercase mb-2 text-on-surface-variant tracking-wider">
+<span>Vendas</span>
+<span>1.2%</span>
+</div>
+<div class="h-12 w-full bg-surface-container-highest rounded-2xl overflow-hidden relative">
+<div class="h-full liquid-gradient w-[5%]"></div>
+<div class="absolute inset-0 flex items-center px-4 font-bold text-white">52 Contratos</div>
+</div>
+</div>
+</div>
+<div class="mt-10 p-4 bg-secondary-container/20 rounded-2xl border-l-4 border-secondary">
+<p class="text-sm font-medium text-on-secondary-container">Insights da Pristine:</p>
+<p class="text-xs text-on-secondary-container/80 mt-1">O engajamento subiu 15% após posts sobre 'Processo de Higienização'. Considere aumentar o orçamento nessas peças.</p>
+</div>
+</div>
+<!-- Instagram Grid -->
+<div class="col-span-12 lg:col-span-7">
+<div class="flex justify-between items-center mb-6">
+<h4 class="text-xl font-bold font-headline flex items-center gap-2">
+<span class="material-symbols-outlined text-pink-600">photo_library</span>
+                            Recent Posts &amp; Engagement
+                        </h4>
+<a class="text-sm font-bold text-primary hover:underline transition-all" href="#">Ver no Instagram</a>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<!-- Post 1 -->
+<div class="bg-surface-container-lowest rounded-3xl overflow-hidden whisper-shadow group">
+<div class="aspect-square relative">
+<img alt="Instagram Post" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="clean minimal luxury living room with a cream velvet sofa and soft morning light hitting the texture" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC9ntxSGDZeh3rbcEPdLQQ4g-4_FNGXUmkxm_QkGePrTlh2xKlLd1HGdcrRI01Bohnwt_-VTa9oriF-55_JMGXyHKSTdc92Rbf9duhKrcZA_D3Tj0YVhZBfBs_Y2OOpGQrseJzYNa6ObP2lDe4MX_9Jh9mN37wo4KbZIElnwIUTfYDxo-6q8bWH-a822KKshZxdrRYnClfEV88tkzAhuD1BkbvByvqfOQ8jPox21JsD6rDtiJLf4WCaiodnTPSTNyHGO7SbUc-N_sea"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4">
+<span class="text-white text-xs font-medium">Publicado há 2 dias</span>
+</div>
+</div>
+<div class="p-5">
+<div class="flex justify-between mb-4">
+<div class="flex items-center gap-3 text-on-surface-variant">
+<span class="flex items-center gap-1 text-xs font-bold">
+<span class="material-symbols-outlined text-[18px] text-pink-500" style="font-variation-settings: 'FILL' 1;">favorite</span> 1.2k
+                                        </span>
+<span class="flex items-center gap-1 text-xs font-bold">
+<span class="material-symbols-outlined text-[18px] text-primary" style="font-variation-settings: 'FILL' 1;">comment</span> 84
+                                        </span>
+</div>
+<span class="text-[10px] bg-secondary-container text-on-secondary-container px-2 py-0.5 rounded-full font-bold">TOP PERFORMANCE</span>
+</div>
+<p class="text-xs text-on-surface-variant line-clamp-2">A higienização não é apenas limpeza, é cuidado com a saúde da sua família...</p>
+</div>
+</div>
+<!-- Post 2 -->
+<div class="bg-surface-container-lowest rounded-3xl overflow-hidden whisper-shadow group">
+<div class="aspect-square relative">
+<img alt="Instagram Post" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="close-up detail of high-quality fabric texture with water droplets rolling off a waterproofed surface" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA4ZtRDLlEpiF_IoNQgF2T1DmDjCRq_WT_UMOJg5IHVd_SekSWCCgppHwZG2XzZTUbvJW0fWXmAYakdXz1DNe7OsJ41RgBM-BiqXNp6XUi4BSfRG1PbiBKCk1RjeG6vbM9hYWETBO5kHdwkpxE9AhLtY-J3MZOmixUYLnBiPHNWLc8GmGcniFdm-eLMHosxwZcD9zcFlaYbG8hcmwll9WCrlhMJWAB2dsj8er1g_xnLE5ppkkjUmSQwgHfxrlK5Adn4xnTTp1na8khG"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4">
+<span class="text-white text-xs font-medium">Publicado há 4 dias</span>
+</div>
+</div>
+<div class="p-5">
+<div class="flex justify-between mb-4">
+<div class="flex items-center gap-3 text-on-surface-variant">
+<span class="flex items-center gap-1 text-xs font-bold">
+<span class="material-symbols-outlined text-[18px] text-pink-500" style="font-variation-settings: 'FILL' 1;">favorite</span> 856
+                                        </span>
+<span class="flex items-center gap-1 text-xs font-bold">
+<span class="material-symbols-outlined text-[18px] text-primary" style="font-variation-settings: 'FILL' 1;">comment</span> 32
+                                        </span>
+</div>
+</div>
+<p class="text-xs text-on-surface-variant line-clamp-2">Impermeabilização com nanotecnologia. O líquido nem toca a fibra!</p>
+</div>
+</div>
+<!-- Post 3 -->
+<div class="bg-surface-container-lowest rounded-3xl overflow-hidden whisper-shadow group">
+<div class="aspect-square relative">
+<img alt="Instagram Post" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="modern office setting with designer armchairs being professionally steam cleaned by a technician" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCdWao82ceN5tYf21mVzrW-eY3nNrUx17m4J9gjbXQxYen6YOok2VuHgTEtWpoLFUuMji64rUGDCY1cIkS83QDjKNU1KOOMHalW6lC05Ij3QxQAal0ipN7I0gaVeyQX-YwCrUYqftRE5c0fCllP4cqFMSBhW5gdx8itPjEbeULdIMyEoVB73tj0PpoiWb2ppfwKl9g9l6I8GlAuuD0rSrq-cir5QjUtSm_u5llipbKIi4n5kBUhDT3_nNkBjYTYNztW1F2y0QKvuPbL"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4">
+<span class="text-white text-xs font-medium">Publicado há 1 semana</span>
+</div>
+</div>
+<div class="p-5">
+<div class="flex justify-between mb-4">
+<div class="flex items-center gap-3 text-on-surface-variant">
+<span class="flex items-center gap-1 text-xs font-bold">
+<span class="material-symbols-outlined text-[18px] text-pink-500" style="font-variation-settings: 'FILL' 1;">favorite</span> 2.4k
+                                        </span>
+<span class="flex items-center gap-1 text-xs font-bold">
+<span class="material-symbols-outlined text-[18px] text-primary" style="font-variation-settings: 'FILL' 1;">comment</span> 156
+                                        </span>
+</div>
+<span class="text-[10px] bg-primary-fixed text-primary px-2 py-0.5 rounded-full font-bold">REEL VIRAL</span>
+</div>
+<p class="text-xs text-on-surface-variant line-clamp-2">Satisfação garantida: veja o antes e depois dessa poltrona icônica.</p>
+</div>
+</div>
+<!-- Post 4 -->
+<div class="bg-surface-container-lowest rounded-3xl overflow-hidden whisper-shadow group">
+<div class="aspect-square relative">
+<img alt="Instagram Post" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="interior design shot of a master bedroom with a large upholstered headboard and luxury linens" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDbdEIEP0249P_B62SuO3_4i6lGKDLsetT59SDsx58WWUQNzMoXTGmjnG1qiyUe8eEhd2yE5BQ8gTxr9FwgPndh-78OvE9KIjxLOAQwoX7J65oSxLNXWXcGJeWCADMLOXoqLJeKXsY73NFmDkcEi8XxFB8HjIXlsIbJTPu-5u0gq92i5WAnURZGjnsHHjBomHYCGn82mdkvceq0hRM7C8A0g7XZi_FhRoKWEY9DicboesYY6wZlwa6GiAm2Wbt7PhXEwUkDCvo9Z6-m"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4">
+<span class="text-white text-xs font-medium">Publicado há 10 dias</span>
+</div>
+</div>
+<div class="p-5">
+<div class="flex justify-between mb-4">
+<div class="flex items-center gap-3 text-on-surface-variant">
+<span class="flex items-center gap-1 text-xs font-bold">
+<span class="material-symbols-outlined text-[18px] text-pink-500" style="font-variation-settings: 'FILL' 1;">favorite</span> 512
+                                        </span>
+<span class="flex items-center gap-1 text-xs font-bold">
+<span class="material-symbols-outlined text-[18px] text-primary" style="font-variation-settings: 'FILL' 1;">comment</span> 12
+                                        </span>
+</div>
+</div>
+<p class="text-xs text-on-surface-variant line-clamp-2">Dormir em um ambiente higienizado muda a qualidade do seu sono...</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Bottom Stats Bar -->
+<div class="mt-12 p-8 bg-primary rounded-3xl text-white flex flex-col md:flex-row justify-between items-center gap-8">
+<div class="flex items-center gap-6">
+<div class="w-16 h-16 rounded-2xl bg-white/10 flex items-center justify-center backdrop-blur-md">
+<span class="material-symbols-outlined text-3xl">query_stats</span>
+</div>
+<div>
+<p class="text-white/60 text-sm font-medium">Custo por Lead Médio (CPL)</p>
+<h4 class="text-3xl font-bold font-headline tracking-tight">R$ 13,37</h4>
+</div>
+</div>
+<div class="h-12 w-px bg-white/20 hidden md:block"></div>
+<div>
+<p class="text-white/60 text-sm font-medium">Taxa de Conversão de Anúncio</p>
+<h4 class="text-3xl font-bold font-headline tracking-tight">4.8%</h4>
+</div>
+<div class="h-12 w-px bg-white/20 hidden md:block"></div>
+<button class="bg-secondary-fixed text-on-secondary-fixed px-8 py-4 rounded-3xl font-bold hover:scale-[1.02] transition-all">
+                    Otimizar Campanhas
+                </button>
+</div>
+</div>
+</main>
+</body></html>

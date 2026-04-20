@@ -1,0 +1,355 @@
+<!DOCTYPE html>
+
+<html class="light" lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@300;400;500;600;700;800&amp;family=Plus+Jakarta+Sans:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "outline": "#757684",
+                    "on-secondary-container": "#2e7100",
+                    "on-primary-fixed": "#000e5e",
+                    "on-primary-fixed-variant": "#2a3ba2",
+                    "secondary-container": "#92f859",
+                    "on-error": "#ffffff",
+                    "on-surface": "#1b1b22",
+                    "on-primary-container": "#aab4ff",
+                    "surface-container-lowest": "#ffffff",
+                    "primary-fixed": "#dee0ff",
+                    "on-tertiary-fixed-variant": "#004e59",
+                    "tertiary-fixed-dim": "#44d8f1",
+                    "on-secondary-fixed-variant": "#1f5100",
+                    "primary-fixed-dim": "#bbc3ff",
+                    "error": "#ba1a1a",
+                    "surface-container-highest": "#e3e1eb",
+                    "surface-container-high": "#e9e7f0",
+                    "surface-container-low": "#f5f2fc",
+                    "outline-variant": "#c6c5d5",
+                    "on-surface-variant": "#454653",
+                    "tertiary-fixed": "#a1efff",
+                    "on-secondary-fixed": "#082100",
+                    "on-tertiary-container": "#2dcae2",
+                    "on-background": "#1b1b22",
+                    "surface-tint": "#4454bb",
+                    "tertiary-container": "#00515c",
+                    "surface": "#fbf8ff",
+                    "on-tertiary": "#ffffff",
+                    "on-error-container": "#93000a",
+                    "background": "#fbf8ff",
+                    "error-container": "#ffdad6",
+                    "on-secondary": "#ffffff",
+                    "surface-container": "#efedf6",
+                    "secondary-fixed": "#95fb5c",
+                    "on-primary": "#ffffff",
+                    "inverse-on-surface": "#f2eff9",
+                    "surface-variant": "#e3e1eb",
+                    "primary": "#0f238e",
+                    "secondary": "#2b6c00",
+                    "on-tertiary-fixed": "#001f25",
+                    "inverse-primary": "#bbc3ff",
+                    "tertiary": "#003941",
+                    "primary-container": "#2d3ea5",
+                    "surface-dim": "#dbd9e2",
+                    "surface-bright": "#fbf8ff",
+                    "inverse-surface": "#303037",
+                    "secondary-fixed-dim": "#7ade42"
+            },
+            "borderRadius": {
+                    "DEFAULT": "1rem",
+                    "lg": "2rem",
+                    "xl": "3rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Manrope"],
+                    "body": ["Manrope"],
+                    "label": ["Plus Jakarta Sans"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+</head>
+<body class="bg-surface font-body text-on-surface antialiased flex min-h-screen">
+<!-- SideNavBar (Authority Source: JSON) -->
+<nav class="bg-white dark:bg-slate-950 rounded-r-[2rem] h-screen w-64 border-r-0 shadow-[40px_0_60px_-15px_rgba(0,0,0,0.05)] flex flex-col fixed left-0 top-0 py-8 px-4 z-50 font-manrope font-medium text-sm">
+<div class="mb-12 px-4">
+<h1 class="text-xl font-black text-indigo-900 dark:text-white tracking-tighter">ED Limp</h1>
+<p class="text-[10px] uppercase tracking-widest text-slate-400 font-bold mt-1">Clinical Cleaning</p>
+</div>
+<div class="flex flex-col gap-2 grow">
+<a class="flex items-center gap-3 px-4 py-3 rounded-full text-slate-500 dark:text-slate-400 hover:text-indigo-900 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-slate-900 transition-all hover:translate-x-1 duration-200" href="#">
+<span class="material-symbols-outlined">dashboard</span>
+<span>Dashboard</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-full text-slate-500 dark:text-slate-400 hover:text-indigo-900 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-slate-900 transition-all hover:translate-x-1 duration-200" href="#">
+<span class="material-symbols-outlined">calendar_month</span>
+<span>Agenda</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-full text-slate-500 dark:text-slate-400 hover:text-indigo-900 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-slate-900 transition-all hover:translate-x-1 duration-200" href="#">
+<span class="material-symbols-outlined">inventory_2</span>
+<span>Estoque</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-full text-slate-500 dark:text-slate-400 hover:text-indigo-900 dark:hover:text-white hover:bg-slate-50 dark:hover:bg-slate-900 transition-all hover:translate-x-1 duration-200" href="#">
+<span class="material-symbols-outlined">payments</span>
+<span>Financeiro</span>
+</a>
+<!-- Active Tab: Marketing -->
+<a class="flex items-center gap-3 px-4 py-3 rounded-full text-lime-700 dark:text-lime-400 font-bold border-r-4 border-lime-500 transition-all hover:translate-x-1 duration-200 bg-secondary-container/10" href="#">
+<span class="material-symbols-outlined">campaign</span>
+<span>Marketing</span>
+</a>
+</div>
+<div class="mt-auto border-t border-slate-100 pt-6 flex flex-col gap-2">
+<a class="flex items-center gap-3 px-4 py-3 rounded-full text-slate-500 dark:text-slate-400 hover:text-indigo-900 transition-all" href="#">
+<span class="material-symbols-outlined">headset_mic</span>
+<span>Suporte</span>
+</a>
+<a class="flex items-center gap-3 px-4 py-3 rounded-full text-slate-500 dark:text-slate-400 hover:text-indigo-900 transition-all" href="#">
+<span class="material-symbols-outlined">logout</span>
+<span>Sair</span>
+</a>
+</div>
+</nav>
+<!-- Main Content Canvas -->
+<main class="ml-64 w-full p-8 lg:p-12">
+<!-- Header -->
+<header class="flex justify-between items-end mb-12">
+<div>
+<h2 class="text-4xl font-headline font-extrabold text-primary tracking-tight">Marketing &amp; Analytics</h2>
+<p class="text-on-surface-variant font-body mt-2">Visão clínica do seu crescimento e performance digital.</p>
+</div>
+<div class="flex gap-4 items-center">
+<div class="bg-surface-container-low px-6 py-3 rounded-full flex items-center gap-3 cursor-pointer hover:bg-surface-container transition-colors">
+<span class="material-symbols-outlined text-primary">calendar_today</span>
+<span class="text-sm font-label font-semibold">Últimos 30 dias</span>
+</div>
+<button class="bg-secondary-container text-on-secondary-container px-8 py-3 rounded-full font-bold shadow-sm hover:brightness-95 transition-all active:scale-95">
+                    Exportar Relatório
+                </button>
+</div>
+</header>
+<!-- Analytics Grid (Bento Style) -->
+<div class="grid grid-cols-12 gap-6">
+<!-- Hero Metric: Alcance da Campanha -->
+<div class="col-span-12 lg:col-span-8 bg-primary rounded-lg p-8 text-white relative overflow-hidden shadow-xl">
+<div class="relative z-10 flex flex-col h-full justify-between">
+<div>
+<span class="bg-white/20 px-3 py-1 rounded-full text-xs font-label uppercase tracking-widest">Performance Real-Time</span>
+<h3 class="text-3xl font-headline font-bold mt-4">Alcance Global da Campanha</h3>
+<div class="flex items-end gap-4 mt-2">
+<span class="text-6xl font-black">124.8k</span>
+<span class="text-secondary-container font-bold flex items-center mb-2">
+<span class="material-symbols-outlined">trending_up</span> +18.4%
+                            </span>
+</div>
+</div>
+<!-- Chart Simulation -->
+<div class="mt-8 flex items-end gap-2 h-32">
+<div class="w-full bg-white/10 rounded-t-lg h-1/2"></div>
+<div class="w-full bg-white/10 rounded-t-lg h-3/4"></div>
+<div class="w-full bg-white/20 rounded-t-lg h-2/3"></div>
+<div class="w-full bg-white/30 rounded-t-lg h-full"></div>
+<div class="w-full bg-white/20 rounded-t-lg h-4/5"></div>
+<div class="w-full bg-secondary-container rounded-t-lg h-full shadow-[0_0_20px_rgba(146,248,89,0.3)]"></div>
+<div class="w-full bg-white/10 rounded-t-lg h-1/2"></div>
+</div>
+</div>
+<!-- Abstract "Waterproof" Texture Overlay -->
+<div class="absolute right-0 top-0 w-1/3 h-full opacity-10 pointer-events-none">
+<img class="w-full h-full object-cover" data-alt="abstract flowing liquid shapes in deep blue and white with glossy highlights reflecting a clinical and clean atmosphere" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB1Slj1nOJRLpTseoryZQM2MpSdepo1SjACdwGWT89Swzke_Zz1lPcpVVp289KO0wACx7ySPGnIc9XNQ8fmL7SdAkE-K3olKpHPQcfy9411vKX4MLoZgsZA1Of4Wqlk3LulGy_pVWreKG7EZFh5oxx4tdda-zTEvtjj5ZMzV1xtkMSjLxxNw_FlsAL85WJ3x4PxKYV1tWoNMYE-TMa5LNDzRtnTvmkVXxPYYrJXwjiE-t1YJeCbU714MObBht0B7hMCm21CcBdMjDle"/>
+</div>
+</div>
+<!-- ROI Card -->
+<div class="col-span-12 lg:col-span-4 bg-surface-container-low rounded-lg p-8 flex flex-col justify-between border border-outline-variant/10">
+<div>
+<div class="w-12 h-12 bg-secondary-container rounded-full flex items-center justify-center mb-6">
+<span class="material-symbols-outlined text-on-secondary-container">account_balance_wallet</span>
+</div>
+<p class="text-on-surface-variant font-label text-sm font-semibold uppercase tracking-wider">ROI do Investimento</p>
+<h3 class="text-5xl font-headline font-black text-primary mt-2">4.8x</h3>
+</div>
+<div class="mt-6">
+<div class="w-full bg-surface-container-highest h-2 rounded-full overflow-hidden">
+<div class="bg-secondary h-full w-[80%] rounded-full"></div>
+</div>
+<p class="text-xs text-on-surface-variant mt-2 font-medium">Meta trimestral: 6.0x</p>
+</div>
+</div>
+<!-- Conversion Funnel -->
+<div class="col-span-12 lg:col-span-5 bg-white rounded-lg p-8 shadow-sm">
+<h4 class="text-lg font-headline font-bold mb-8 text-primary">Funil de Conversão</h4>
+<div class="space-y-6">
+<div class="flex items-center gap-4">
+<div class="w-full">
+<div class="flex justify-between text-xs font-label mb-1">
+<span class="text-on-surface-variant">Impressões</span>
+<span class="font-bold">2.4M</span>
+</div>
+<div class="h-10 bg-primary/5 rounded-full overflow-hidden flex">
+<div class="bg-primary/90 h-full w-full"></div>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="w-[90%] mx-auto">
+<div class="flex justify-between text-xs font-label mb-1">
+<span class="text-on-surface-variant">Cliques Únicos</span>
+<span class="font-bold">84k</span>
+</div>
+<div class="h-10 bg-primary/5 rounded-full overflow-hidden flex">
+<div class="bg-primary/70 h-full w-[85%]"></div>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="w-[80%] mx-auto">
+<div class="flex justify-between text-xs font-label mb-1">
+<span class="text-on-surface-variant">Leads Gerados</span>
+<span class="font-bold">1.2k</span>
+</div>
+<div class="h-10 bg-primary/5 rounded-full overflow-hidden flex">
+<div class="bg-secondary-container h-full w-[45%]"></div>
+</div>
+</div>
+</div>
+<div class="flex items-center gap-4">
+<div class="w-[70%] mx-auto">
+<div class="flex justify-between text-xs font-label mb-1">
+<span class="text-on-surface-variant">Vendas Finalizadas</span>
+<span class="font-bold">342</span>
+</div>
+<div class="h-10 bg-primary/5 rounded-full overflow-hidden flex">
+<div class="bg-secondary h-full w-[25%]"></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Recent Social Posts & Leads -->
+<div class="col-span-12 lg:col-span-7 space-y-6">
+<!-- Leads Summary -->
+<div class="bg-surface-container-lowest border border-outline-variant/20 rounded-lg p-6 flex items-center justify-between">
+<div class="flex items-center gap-6">
+<div class="flex -space-x-3">
+<div class="w-12 h-12 rounded-full border-2 border-white bg-slate-200 overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="portrait of a professional woman smiling in a bright office environment" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCiQgmmLj8MVcdsZpCZTvBZSJpHzP7NRTLuLH_57PaPOQEaybECqOYvvUO4CX07rGyhE1azYOxRExzQ2PugCSOst2BWJ2HZKrbJwbjRR1Z0SjDBbG7XzFPI10OYalBaYTw42FRk71-HIV1bghhL3djpXl9c1gSOCGnOK97jxmILk3zwp8IYAAOz96k7DC_OlTDj4hAvmKPlDdch-D86doiUNBkM1sBNAg0Aj4v7WJC8e-2QHvU-iTA6o4gOurtXEcGREvBEKGmZznuK"/>
+</div>
+<div class="w-12 h-12 rounded-full border-2 border-white bg-slate-200 overflow-hidden">
+<img class="w-full h-full object-cover" data-alt="headshot of a man with friendly expression in professional setting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAVZteT5649M-yt5l5STh1Z_A8CjIyrJSZ8inL2t1SXUcImvgVBumxE2Muu-lfu7zEwexEaQAhqe-V5iDMpKzjMVV1p7piofmGYSl6rgTdhG9qBNnvtuyRHcLdf5i2cS30CeXyo6ge5xcJklOlBb514F_dGgBqHlWaPDhObR8hQ_XK8XlFXy6MXUEJSMY_tMZbtNGRGzGJRTuMT9OjVb6C4xZ5vFkZpXDD3cVLPwgqzRUWHV65cIBlkRB_2llfUizB2MEYYrT5zCgF-"/>
+</div>
+<div class="w-12 h-12 rounded-full border-2 border-white bg-primary flex items-center justify-center text-white text-xs font-bold">+18</div>
+</div>
+<div>
+<h5 class="font-headline font-bold text-primary">Novos Leads Hoje</h5>
+<p class="text-sm font-label text-on-surface-variant">Origem predominante: Instagram Ads</p>
+</div>
+</div>
+<button class="text-primary font-bold text-sm flex items-center gap-2 hover:underline">
+                        Ver Todos <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+<!-- Recent Social Activity -->
+<div class="bg-white rounded-lg p-8 shadow-sm">
+<div class="flex justify-between items-center mb-6">
+<h4 class="text-lg font-headline font-bold text-primary">Posts Recentes</h4>
+<div class="flex gap-2">
+<span class="p-2 bg-surface-container rounded-full text-on-surface-variant material-symbols-outlined text-sm cursor-pointer">chevron_left</span>
+<span class="p-2 bg-surface-container rounded-full text-on-surface-variant material-symbols-outlined text-sm cursor-pointer">chevron_right</span>
+</div>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div class="group relative aspect-video rounded-xl overflow-hidden cursor-pointer">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="professional industrial cleaning worker in safety gear using high-tech equipment on a surface" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDbzoPh955rrhz4tAUQ6OtCD5kDRCIXGaDvxioNa1MstFivyrfmG48u5pJNvYjqgzgPXELQh6rZtFc6ZLY0kpntcbyuW2LLujRyZ2IkTerYhhswJXlqLYJ520cVzzjI67_kWMGT4_VRc1IPcp1fKqrJbOuM0vAIea8RcAoZ4qwpAjZI3Fn6NMDXdca9KYTYoBMeXP1jG_055s-7ZSX-4ad9Zvffah28MZOsVvjY0vhGQNMMOhG2b7dKK01TRa4Fn88mFzhR3p-3Ocuo"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent p-4 flex flex-col justify-end">
+<p class="text-white text-xs font-label">"Proteção Invisível..."</p>
+<div class="flex gap-3 mt-2 text-white/80 text-[10px]">
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-xs" style="font-variation-settings: 'FILL' 1;">favorite</span> 1.2k</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-xs" style="font-variation-settings: 'FILL' 1;">comment</span> 42</span>
+</div>
+</div>
+</div>
+<div class="group relative aspect-video rounded-xl overflow-hidden cursor-pointer">
+<img class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="macro shot of water droplets rolling off a perfectly waterproofed fabric surface showing the lotus effect" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBwu4Wjj-SDiba8YS-n4cBiLLDoojUPaCgQCA6Z6ovA5703xvxwCusXXcC3CiI3HqLvxu2cKdyXDMN7McRMX-Ixr8idhehRmJHhSHHYGfV-Yd64exB5OT-m6nd2fIZUi1_RgOro_oEgk0siKGxGk7GtfNEGEO0Y1yD_EDNx_8AzE4O_DsyfEdYQIE07i8J-1jINRLS3SEE6dbohn1Hrcq4vh78QPlWrEpEvw38ZYFiRTGXRj4slzpiiQs03-SnYYAqwM86HtMkz65dw"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent p-4 flex flex-col justify-end">
+<p class="text-white text-xs font-label">"O segredo da impermeabi..."</p>
+<div class="flex gap-3 mt-2 text-white/80 text-[10px]">
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-xs" style="font-variation-settings: 'FILL' 1;">favorite</span> 890</span>
+<span class="flex items-center gap-1"><span class="material-symbols-outlined text-xs" style="font-variation-settings: 'FILL' 1;">comment</span> 15</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Ad Channels Distribution -->
+<div class="col-span-12 bg-surface-container-lowest rounded-lg p-10 flex flex-wrap gap-12 items-center justify-around border border-outline-variant/10">
+<div class="flex flex-col items-center gap-3">
+<div class="w-16 h-16 rounded-full bg-[#E1306C]/10 flex items-center justify-center">
+<img alt="Instagram" class="w-8 h-8 opacity-80" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAUd7XpwyeQGSphbF0d-ovoLhM3w8mQlKue5PbXX3Wu8dnzi5pLY73wVnjcrOdij3-G6Xxlwhunwd9E5yfFO16buOs4QFiesHvj1GKebwZU0AeAJy0YyIvXunadeaEKx1g0Pyepi7H-Qr5-posf0gr-zNHKIyWmcZ-85SFZZ9wSJOUqUNW1DtZW_UUzV57APu2-KzWlWks3U9FAVlSHJYuK2WZrE8omnRg3MUhS7THMS4BoYrAE3J_zi6l0SiylL0QbrgY4Ah9cJQdX"/>
+</div>
+<div class="text-center">
+<p class="font-headline font-bold text-primary">Instagram</p>
+<p class="text-xs text-on-surface-variant font-label">45% do Tráfego</p>
+</div>
+</div>
+<div class="w-px h-12 bg-outline-variant/30 hidden lg:block"></div>
+<div class="flex flex-col items-center gap-3">
+<div class="w-16 h-16 rounded-full bg-[#1877F2]/10 flex items-center justify-center">
+<img alt="Facebook" class="w-8 h-8 opacity-80" src="https://lh3.googleusercontent.com/aida-public/AB6AXuACgTiY6MYaKDDKkT-u3d64Qp-9GgXVtxlCR6N6Zps5U1KHy3dgdYo_oHhjYhL58cPcy4yo7XgM_4AsxcdUidOojGKTPzw0geleBouDHYFdLTi3Hnqukc4P05NUU_XwrXzDP8LkgvSolfOIuTE9E7DBPQTYlZFbS9OoJ3Wa_Fg2LG75kFNdCem8I1I9PcT3BwtKZMZ5EMtcKX1r1-orHwWjEytNHucjCXB0fahqROZ4Sy4NTVqOXVph4SFxm__zybKnmZOSjaPdK6vS"/>
+</div>
+<div class="text-center">
+<p class="font-headline font-bold text-primary">Facebook</p>
+<p class="text-xs text-on-surface-variant font-label">28% do Tráfego</p>
+</div>
+</div>
+<div class="w-px h-12 bg-outline-variant/30 hidden lg:block"></div>
+<div class="flex flex-col items-center gap-3">
+<div class="w-16 h-16 rounded-full bg-[#4285F4]/10 flex items-center justify-center">
+<img alt="Google" class="w-8 h-8 opacity-80" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCH5wzc5SglvhNdGWuNNCsYGq--ikn2kDjRd8OilTFrSfrfZuaKNRea1AVQ4HB7uYxbaJgvwIOtZAG4yA0KfFnkpyJ2jkV6FkDwNinCfzRYp2Fupu3IfAL1uosKxF9mgQX-KebgSSvZQ8KpTOanysyrmNyfYdLWrvrUKN1B8xe1Tkt_gqZfgvodzDtpTnZdhYJl8uaUiuVrefdInzXyE53OWmFDHHBXf3U2j7hjSv0wxpMio8wKaMT6gzYQRZrIdNvGi1aTfHsWVwWt"/>
+</div>
+<div class="text-center">
+<p class="font-headline font-bold text-primary">Google Ads</p>
+<p class="text-xs text-on-surface-variant font-label">18% do Tráfego</p>
+</div>
+</div>
+<div class="w-px h-12 bg-outline-variant/30 hidden lg:block"></div>
+<div class="flex flex-col items-center gap-3">
+<div class="w-16 h-16 rounded-full bg-surface-container flex items-center justify-center">
+<span class="material-symbols-outlined text-outline">more_horiz</span>
+</div>
+<div class="text-center">
+<p class="font-headline font-bold text-primary">Outros</p>
+<p class="text-xs text-on-surface-variant font-label">9% do Tráfego</p>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- TopNavBar (Authority Source: JSON) - Mobile Only Visibility Logic applied via hidden md:flex -->
+<nav class="fixed top-0 w-full z-40 bg-slate-50/60 dark:bg-slate-900/60 backdrop-blur-xl flex justify-between items-center px-6 py-3 shadow-sm dark:shadow-none font-manrope tracking-tight leading-relaxed md:hidden">
+<h1 class="text-2xl font-bold tracking-tighter text-indigo-900 dark:text-white">ED Limp</h1>
+<div class="flex gap-4">
+<span class="material-symbols-outlined text-slate-500">notifications</span>
+<span class="material-symbols-outlined text-slate-500">settings</span>
+</div>
+</nav>
+<!-- Custom Floating Action Button for Marketing (Contextual) -->
+<button class="fixed bottom-8 right-8 w-16 h-16 bg-secondary text-white rounded-full shadow-2xl flex items-center justify-center hover:scale-110 active:scale-95 transition-all z-50">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">add_chart</span>
+</button>
+</body></html>

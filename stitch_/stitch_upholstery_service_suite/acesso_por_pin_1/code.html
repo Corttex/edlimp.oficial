@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+
+<html lang="pt-BR"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Pristine Curator - Acesso por PIN</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Manrope:wght@700;800&amp;family=Inter:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-primary-container": "#abd2ff",
+                        "primary-container": "#005b96",
+                        "on-secondary-container": "#006f63",
+                        "error": "#ba1a1a",
+                        "surface-dim": "#d8dadc",
+                        "on-primary-fixed-variant": "#00497a",
+                        "on-tertiary-fixed-variant": "#3a4a49",
+                        "surface-container-highest": "#e0e3e5",
+                        "secondary": "#006b5f",
+                        "secondary-container": "#76f4e0",
+                        "outline-variant": "#c1c7d1",
+                        "inverse-on-surface": "#eff1f3",
+                        "secondary-fixed-dim": "#59dbc7",
+                        "surface-tint": "#12629d",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-container": "#eceef0",
+                        "inverse-primary": "#9ccaff",
+                        "on-tertiary-container": "#c0d2d1",
+                        "surface-container-high": "#e6e8ea",
+                        "surface-container-low": "#f2f4f6",
+                        "primary-fixed-dim": "#9ccaff",
+                        "error-container": "#ffdad6",
+                        "on-error": "#ffffff",
+                        "on-primary-fixed": "#001d35",
+                        "on-tertiary": "#ffffff",
+                        "on-background": "#191c1e",
+                        "background": "#f7f9fb",
+                        "primary": "#004370",
+                        "tertiary-container": "#4a5b5a",
+                        "tertiary": "#334343",
+                        "surface": "#f7f9fb",
+                        "surface-bright": "#f7f9fb",
+                        "tertiary-fixed-dim": "#b8cac9",
+                        "on-secondary-fixed": "#00201c",
+                        "inverse-surface": "#2d3133",
+                        "on-primary": "#ffffff",
+                        "tertiary-fixed": "#d4e6e5",
+                        "on-secondary-fixed-variant": "#005047",
+                        "primary-fixed": "#d0e4ff",
+                        "on-error-container": "#93000a",
+                        "outline": "#717781",
+                        "on-surface": "#191c1e",
+                        "on-surface-variant": "#414750",
+                        "secondary-fixed": "#79f7e3",
+                        "surface-variant": "#e0e3e5",
+                        "on-tertiary-fixed": "#0e1e1e",
+                        "on-secondary": "#ffffff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Manrope"],
+                        "body": ["Inter"],
+                        "label": ["Inter"]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        body { font-family: 'Inter', sans-serif; }
+        .font-headline { font-family: 'Manrope', sans-serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .pin-dot {
+            transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+    </style>
+</head>
+<body class="bg-surface text-on-surface flex items-center justify-center min-h-screen p-4 overflow-hidden">
+<!-- Asymmetric Background Elements for "The Pristine Curator" look -->
+<div class="fixed top-[-10%] right-[-5%] w-96 h-96 bg-secondary-container opacity-20 blur-[100px] rounded-full"></div>
+<div class="fixed bottom-[-5%] left-[-5%] w-80 h-80 bg-primary-fixed opacity-30 blur-[120px] rounded-full"></div>
+<main class="relative z-10 w-full max-w-md">
+<!-- Content Container -->
+<div class="bg-surface-container-lowest/80 backdrop-blur-xl rounded-[2.5rem] p-10 md:p-14 shadow-[0_12px_32px_rgba(25,28,30,0.06)] flex flex-col items-center">
+<!-- Branding -->
+<header class="text-center mb-12">
+<div class="inline-flex items-center justify-center w-16 h-16 rounded-full bg-gradient-to-br from-primary to-primary-container mb-6">
+<span class="material-symbols-outlined text-white text-3xl" data-icon="sanitizer">sanitizer</span>
+</div>
+<h1 class="text-2xl font-headline font-extrabold tracking-tight text-primary leading-none">Pristine Curator</h1>
+<p class="text-on-surface-variant font-medium mt-2 text-sm tracking-wide">Gestão de Estofados</p>
+</header>
+<!-- PIN Display -->
+<section class="text-center w-full mb-12">
+<h2 class="text-xl font-headline font-bold text-on-surface mb-8">Acesso por PIN</h2>
+<div class="flex justify-center gap-6 mb-2">
+<!-- Filled Dot -->
+<div class="w-4 h-4 rounded-full bg-primary pin-dot shadow-[0_0_8px_rgba(0,67,112,0.3)]"></div>
+<!-- Filled Dot -->
+<div class="w-4 h-4 rounded-full bg-primary pin-dot shadow-[0_0_8px_rgba(0,67,112,0.3)]"></div>
+<!-- Empty Dot -->
+<div class="w-4 h-4 rounded-full bg-surface-container-highest pin-dot"></div>
+<!-- Empty Dot -->
+<div class="w-4 h-4 rounded-full bg-surface-container-highest pin-dot"></div>
+</div>
+<p class="text-xs text-on-surface-variant/60 font-medium mt-4 tracking-widest uppercase">Digite seu código de 4 dígitos</p>
+</section>
+<!-- Keypad -->
+<div class="grid grid-cols-3 gap-6 w-full max-w-[280px]">
+<!-- Row 1 -->
+<button class="aspect-square flex items-center justify-center text-2xl font-headline font-bold text-on-surface hover:bg-surface-container-low active:scale-95 transition-all rounded-2xl">1</button>
+<button class="aspect-square flex items-center justify-center text-2xl font-headline font-bold text-on-surface hover:bg-surface-container-low active:scale-95 transition-all rounded-2xl">2</button>
+<button class="aspect-square flex items-center justify-center text-2xl font-headline font-bold text-on-surface hover:bg-surface-container-low active:scale-95 transition-all rounded-2xl">3</button>
+<!-- Row 2 -->
+<button class="aspect-square flex items-center justify-center text-2xl font-headline font-bold text-on-surface hover:bg-surface-container-low active:scale-95 transition-all rounded-2xl">4</button>
+<button class="aspect-square flex items-center justify-center text-2xl font-headline font-bold text-on-surface hover:bg-surface-container-low active:scale-95 transition-all rounded-2xl">5</button>
+<button class="aspect-square flex items-center justify-center text-2xl font-headline font-bold text-on-surface hover:bg-surface-container-low active:scale-95 transition-all rounded-2xl">6</button>
+<!-- Row 3 -->
+<button class="aspect-square flex items-center justify-center text-2xl font-headline font-bold text-on-surface hover:bg-surface-container-low active:scale-95 transition-all rounded-2xl">7</button>
+<button class="aspect-square flex items-center justify-center text-2xl font-headline font-bold text-on-surface hover:bg-surface-container-low active:scale-95 transition-all rounded-2xl">8</button>
+<button class="aspect-square flex items-center justify-center text-2xl font-headline font-bold text-on-surface hover:bg-surface-container-low active:scale-95 transition-all rounded-2xl">9</button>
+<!-- Row 4 -->
+<button class="aspect-square flex items-center justify-center text-sm font-label font-semibold text-error hover:bg-error-container/20 active:scale-95 transition-all rounded-2xl tracking-tight">LIMPAR</button>
+<button class="aspect-square flex items-center justify-center text-2xl font-headline font-bold text-on-surface hover:bg-surface-container-low active:scale-95 transition-all rounded-2xl">0</button>
+<button class="aspect-square flex items-center justify-center text-sm font-label font-semibold text-primary hover:bg-primary-fixed active:scale-95 transition-all rounded-2xl tracking-tight">LOGIN</button>
+</div>
+<!-- Footer Action -->
+<footer class="mt-12 text-center">
+<button class="group flex items-center gap-2 text-on-surface-variant hover:text-primary transition-colors duration-300">
+<span class="material-symbols-outlined text-xl" data-icon="fingerprint">fingerprint</span>
+<span class="text-sm font-medium">Usar Biometria</span>
+</button>
+</footer>
+</div>
+<!-- Supportive Visual Element -->
+<div class="mt-8 flex justify-center gap-8 text-[10px] uppercase tracking-[0.2em] text-on-surface-variant/40 font-semibold">
+<span>Segurança Criptografada</span>
+<span>Ambiente Clínico</span>
+</div>
+</main>
+<!-- Contextual Info Card (Asymmetric Layout) -->
+<div class="fixed bottom-8 right-8 hidden lg:block w-72">
+<div class="bg-surface-container-low p-6 rounded-3xl">
+<div class="flex items-center gap-3 mb-4">
+<span class="material-symbols-outlined text-secondary" data-icon="lock_open">lock_open</span>
+<span class="text-xs font-bold font-headline text-on-surface tracking-wide uppercase">Dica de Segurança</span>
+</div>
+<p class="text-sm leading-relaxed text-on-surface-variant font-medium">
+                Seu PIN é pessoal e intransferível. Evite usar sequências óbvias para garantir a integridade dos dados de estoque e serviços.
+            </p>
+</div>
+</div>
+</body></html>
