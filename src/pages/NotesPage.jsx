@@ -1,10 +1,7 @@
 import { useState, useEffect } from 'react';
 
 export default function NotesPage() {
-  const [notes, setNotes] = useState([
-    { id: 1, title: 'Checklist Impermeabilização', content: '1. Aspirar fundo\n2. Escovação leve\n3. Aplicação Shield Pro', category: 'Técnico', date: '12 Abr', archived: false },
-    { id: 2, title: 'Fornecedor novo - Tecidos', content: 'Contato: (11) 9888-7777 - Falar com Marcos.', category: 'Contatos', date: '10 Abr', archived: false },
-  ]);
+  const [notes, setNotes] = useState([]);
   const [showArchived, setShowArchived] = useState(false);
 
   return (
@@ -17,7 +14,7 @@ export default function NotesPage() {
         <div className="flex gap-4">
           <button 
             onClick={() => setShowArchived(!showArchived)}
-            className={`px-6 py-2.5 rounded-full text-sm font-bold transition-all border ${showArchived ? 'bg-primary text-white border-primary' : 'bg-white text-on-surface-variant border-outline-variant/20'}`}
+            className={`px-6 py-2.5 rounded-full text-sm font-bold transition-all border ${showArchived ? 'bg-primary text-white border-primary' : 'bg-surface text-on-surface-variant border-outline-variant/20'}`}
           >
             {showArchived ? 'Ver Ativas' : 'Ver Arquivadas'}
           </button>
@@ -30,7 +27,7 @@ export default function NotesPage() {
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
         {notes.filter(n => n.archived === showArchived).map(note => (
-          <div key={note.id} className="bg-white rounded-[2rem] p-8 shadow-sm border border-outline-variant/10 hover:shadow-xl hover:scale-[1.02] transition-all group">
+          <div key={note.id} className="bg-surface-container rounded-2xl p-8 shadow-sm border border-outline-variant/10 hover:shadow-xl hover:scale-[1.02] transition-all group">
             <div className="flex justify-between items-start mb-6">
               <span className="bg-secondary-container/20 text-on-secondary-container px-3 py-1 rounded-full text-[9px] font-black uppercase tracking-widest">{note.category}</span>
               <div className="flex gap-1 opacity-0 group-hover:opacity-100 transition-opacity">
@@ -38,7 +35,7 @@ export default function NotesPage() {
                   onClick={() => {
                     setNotes(notes.map(n => n.id === note.id ? { ...n, archived: !n.archived } : n));
                   }}
-                  className="w-8 h-8 rounded-full bg-slate-50 flex items-center justify-center text-on-surface-variant hover:bg-primary/10 hover:text-primary"
+                  className="w-8 h-8 rounded-full bg-surface-container-highest flex items-center justify-center text-on-surface-variant hover:bg-primary/10 hover:text-primary"
                 >
                   <span className="material-symbols-outlined text-lg">{note.archived ? 'unarchive' : 'archive'}</span>
                 </button>
@@ -48,7 +45,7 @@ export default function NotesPage() {
                       setNotes(notes.filter(n => n.id !== note.id));
                     }
                   }}
-                  className="w-8 h-8 rounded-full bg-slate-50 flex items-center justify-center text-on-surface-variant hover:bg-error/10 hover:text-error"
+                  className="w-8 h-8 rounded-full bg-surface-container-highest flex items-center justify-center text-on-surface-variant hover:bg-error/10 hover:text-error"
                 >
                   <span className="material-symbols-outlined text-lg">delete</span>
                 </button>

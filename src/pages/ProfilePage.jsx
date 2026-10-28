@@ -43,6 +43,17 @@ export default function ProfilePage() {
 
   const activeLinks = govLinks[formData.company.uf] || govLinks.DEFAULT;
 
+  const handleAvatarChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setFormData({ ...formData, avatar: reader.result });
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
   const handleSave = () => {
     updateUser(formData);
     setIsEditing(false);
@@ -72,7 +83,7 @@ export default function ProfilePage() {
             </button>
             <button 
               onClick={handleSave}
-              className="bg-secondary text-on-secondary px-6 py-2.5 rounded-full font-bold hover:shadow-lg transition-all active:scale-95"
+              className="bg-primary text-on-primary px-6 py-2.5 rounded-full font-bold hover:shadow-lg transition-all active:scale-95"
             >
               Salvar Alterações
             </button>
@@ -83,23 +94,23 @@ export default function ProfilePage() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* Profile Card */}
         <div className="lg:col-span-1">
-          <div className="bg-surface p-8 rounded-[2rem] border border-outline-variant/10 shadow-sm text-center">
+          <div className="bg-surface p-8 rounded-2xl border border-outline-variant/10 shadow-sm text-center">
             <div className="relative inline-block mb-6">
               <div className="w-32 h-32 rounded-full overflow-hidden border-4 border-primary/10 mx-auto">
                 <img 
-                  src={formData.avatar || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=400&h=400&fit=crop'} 
+                   src={formData.avatar || 'https://images.unsplash.com/photo-1535713875002-d1d0cf377fde?w=400&h=400&fit=crop'} 
                   alt="User Avatar" 
                   className="w-full h-full object-cover"
                 />
               </div>
               {isEditing && (
-                <div className="absolute bottom-1 right-1 bg-white dark:bg-slate-800 p-2 rounded-full shadow-lg border border-outline-variant/20 cursor-pointer hover:bg-slate-50">
+                <div className="absolute bottom-1 right-1 bg-white dark:bg-slate-800 p-2 rounded-full shadow-lg border border-outline-variant/20 cursor-pointer hover:bg-slate-50 transition-all active:scale-90">
                   <span className="material-symbols-outlined text-primary text-lg">photo_camera</span>
                   <input 
-                    type="text" 
-                    placeholder="URL da Foto" 
+                    type="file" 
+                    accept="image/*"
                     className="absolute inset-0 opacity-0 cursor-pointer"
-                    onChange={(e) => setFormData({...formData, avatar: e.target.value})}
+                    onChange={handleAvatarChange}
                   />
                 </div>
               )}
@@ -140,7 +151,7 @@ export default function ProfilePage() {
 
         {/* Company Data */}
         <div className="lg:col-span-2 space-y-8">
-          <div className="bg-surface p-8 rounded-[2rem] border border-outline-variant/10 shadow-sm">
+          <div className="bg-surface p-8 rounded-2xl border border-outline-variant/10 shadow-sm">
             <div className="flex items-center gap-3 mb-6">
               <div className="w-10 h-10 bg-primary/10 rounded-full flex items-center justify-center">
                 <span className="material-symbols-outlined text-primary">business</span>
@@ -210,7 +221,7 @@ export default function ProfilePage() {
             </div>
           </div>
 
-          <div className="bg-surface p-8 rounded-[2rem] border border-outline-variant/10 shadow-sm">
+          <div className="bg-surface p-8 rounded-2xl border border-outline-variant/10 shadow-sm">
             <div className="flex items-center gap-3 mb-6">
               <div className="w-10 h-10 bg-secondary/20 rounded-full flex items-center justify-center">
                 <span className="material-symbols-outlined text-secondary">account_balance</span>

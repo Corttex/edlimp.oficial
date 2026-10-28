@@ -84,7 +84,7 @@ export default function QuoteGeneratorPage() {
           <p className="text-on-surface-variant font-body text-sm mt-1">Monte o escopo de atendimento e gere o orçamento.</p>
         </div>
 
-        <div className="bg-white dark:bg-surface-container p-6 rounded-[2rem] shadow-subtle border border-outline-variant/10 space-y-4">
+        <div className="bg-white dark:bg-surface-container p-6 rounded-2xl shadow-subtle border border-outline-variant/10 space-y-4">
           <div>
             <label className="block text-[10px] font-black uppercase text-slate-400 mb-1 tracking-widest">Nome do Cliente</label>
             <input 
@@ -119,13 +119,13 @@ export default function QuoteGeneratorPage() {
           </div>
         </div>
 
-        <div className="bg-surface-container-low p-6 rounded-lg border border-outline-variant/10 space-y-4">
-          <h3 className="font-bold text-primary">Adicionar Serviços</h3>
+        <div className="bg-surface-container-low p-6 rounded-2xl border border-outline-variant/10 space-y-4">
+          <h3 className="text-[10px] font-black uppercase text-primary tracking-widest">Adicionar Serviços</h3>
           <div className="flex gap-2">
             <select 
               value={selectedService} 
               onChange={e => setSelectedService(e.target.value)} 
-              className="flex-1 bg-white rounded-lg px-4 py-2 text-sm focus:ring-2 focus:ring-primary/20"
+              className="flex-1 bg-surface-container-high border-none rounded-xl px-4 py-2 text-sm focus:ring-2 focus:ring-primary/20 text-on-surface"
             >
               <option value="">Selecione um móvel/objeto</option>
               {servicesBase.map(s => (
@@ -134,7 +134,7 @@ export default function QuoteGeneratorPage() {
             </select>
             <button 
               onClick={addItemToQuote}
-              className="bg-primary text-white font-bold p-2 px-4 rounded-lg hover:brightness-95 transition-all"
+              className="bg-primary text-on-primary font-black p-2 px-4 rounded-xl hover:scale-105 active:scale-95 transition-all shadow-lg shadow-primary/10"
             >
               <span className="material-symbols-outlined align-middle">add</span>
             </button>
@@ -142,42 +142,42 @@ export default function QuoteGeneratorPage() {
 
           <div className="mt-4 space-y-2">
              {quoteData.items.map(item => (
-               <div key={item.key} className="flex justify-between items-center text-sm bg-white px-4 py-2 rounded border border-outline-variant/5 shadow-sm">
-                 <span className="font-medium text-on-surface">{item.type}</span>
-                 <div className="flex items-center gap-4">
-                   <span className="font-bold text-secondary">R$ {Number(item.price).toFixed(2)}</span>
-                   <button onClick={() => removeItem(item.key)} className="text-error opacity-60 hover:opacity-100">
-                     <span className="material-symbols-outlined text-sm align-middle">close</span>
-                   </button>
-                 </div>
-               </div>
+                <div key={item.key} className="flex justify-between items-center bg-surface-container-highest px-4 py-3 rounded-2xl border border-outline-variant/5 shadow-sm">
+                  <span className="font-black text-[10px] uppercase text-on-surface tracking-widest">{item.type}</span>
+                  <div className="flex items-center gap-4">
+                    <span className="font-black text-secondary text-xs">R$ {Number(item.price).toFixed(2)}</span>
+                    <button onClick={() => removeItem(item.key)} className="text-error opacity-60 hover:opacity-100 transition-all p-1 hover:bg-error/10 rounded-full">
+                      <span className="material-symbols-outlined text-sm align-middle">close</span>
+                    </button>
+                  </div>
+                </div>
              ))}
           </div>
         </div>
 
-        <div className="bg-white p-6 rounded-lg shadow-sm border border-outline-variant/10 space-y-4">
-          <h3 className="font-bold text-primary mb-2">Informações do Rodapé</h3>
+        <div className="bg-surface-container p-6 rounded-2xl shadow-sm border border-outline-variant/10 space-y-4">
+          <h3 className="text-[10px] font-black uppercase text-primary tracking-widest mb-2">Informações do Rodapé</h3>
           <div>
-            <label className="block text-xs font-bold text-on-surface-variant mb-1">Termos e Condições</label>
+            <label className="block text-[9px] font-black uppercase text-on-surface-variant/60 mb-1 tracking-widest">Termos e Condições</label>
             <textarea 
               value={termsText} 
               onChange={e => setTermsText(e.target.value)} 
-              className="w-full bg-surface-container rounded-lg px-4 py-2 text-xs focus:ring-2 focus:ring-primary/20 h-16 resize-none" 
+              className="w-full bg-surface-container-high border-none rounded-xl px-4 py-3 text-xs focus:ring-2 focus:ring-primary/20 h-16 resize-none text-on-surface" 
             />
           </div>
           <div>
-            <label className="block text-xs font-bold text-on-surface-variant mb-1">Rodapé / Contato</label>
+            <label className="block text-[9px] font-black uppercase text-on-surface-variant/60 mb-1 tracking-widest">Rodapé / Contato</label>
             <input 
               value={contactText} 
               onChange={e => setContactText(e.target.value)} 
-              className="w-full bg-surface-container rounded-lg px-4 py-2 text-xs focus:ring-2 focus:ring-primary/20" 
+              className="w-full bg-surface-container-high border-none rounded-xl px-4 py-3 text-xs focus:ring-2 focus:ring-primary/20 text-on-surface" 
             />
           </div>
         </div>
         
         <button 
           onClick={generatePDF}
-          className="w-full bg-secondary text-on-secondary font-black py-4 rounded-2xl shadow-premium hover:shadow-xl hover:scale-[1.02] active:scale-95 transition-all flex justify-center items-center gap-2 uppercase tracking-widest text-xs hover-lift"
+          className="w-full bg-primary text-on-primary font-black py-4 rounded-2xl shadow-premium hover:shadow-xl hover:scale-[1.02] active:scale-95 transition-all flex justify-center items-center gap-2 uppercase tracking-widest text-xs hover-lift"
         >
           <span className="material-symbols-outlined">picture_as_pdf</span>
           Gerar Orçamento em PDF
@@ -199,7 +199,7 @@ export default function QuoteGeneratorPage() {
                 </div>
                 <div>
                   <h1 className="text-3xl font-extrabold text-primary tracking-tight">ED Limp</h1>
-                  <p className="text-secondary font-bold text-xs uppercase tracking-widest mt-1">Soluções Clínicas em Limpeza</p>
+                  <p className="text-secondary font-bold text-xs uppercase tracking-widest mt-1">Especialistas em Limpeza e Proteção</p>
                 </div>
               </div>
               <div className="text-right text-xs text-on-surface-variant font-medium">

@@ -1,0 +1,13 @@
+version: '3.8'
+
+services:
+  edlimp-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: edlimp_app
+    restart: always
+    ports:
+      - "80:80"
+    environment:
+      - NODE_ENV=production

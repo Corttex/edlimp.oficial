@@ -8,9 +8,14 @@ export default {
   theme: {
     extend: {
       "colors": {
-          "primary": "#2638b6",
-          "secondary": "#a7fc5d",
+          "primary": "var(--primary)",
+          "on-primary": "var(--on-primary)",
+          "secondary": "var(--secondary)",
+          "on-secondary": "var(--on-secondary)",
+          "secondary-container": "var(--secondary-container)",
+          "on-secondary-container": "var(--on-secondary-container)",
           "background": "var(--background)",
+          "on-background": "var(--on-surface)",
           "surface": "var(--surface)",
           "on-surface": "var(--on-surface)",
           "on-surface-variant": "var(--on-surface-variant)",
@@ -20,25 +25,23 @@ export default {
           "surface-container-high": "var(--surface-container-high)",
           "surface-container-highest": "var(--surface-container-highest)",
           "surface-container-lowest": "var(--surface-container-lowest)",
-          "error": "#ba1a1a",
-          "error-container": "#ffdad6",
-          "on-primary": "#ffffff",
-          "on-secondary": "#082100",
-          "secondary-container": "#c4ff8f",
-          "on-secondary-container": "#082100",
-          "primary-container": "#233aa7",
-          "on-primary-container": "#e0e3ff",
+          "error": "#ef4444",
+          "error-container": "var(--error-container)",
       },
       "borderRadius": {
-          "DEFAULT": "1rem",
-          "lg": "2rem",
-          "xl": "3rem",
+          "DEFAULT": "0.375rem",
+          "sm": "0.25rem",
+          "md": "0.5rem",
+          "lg": "0.75rem",
+          "xl": "1rem",
+          "2xl": "1.25rem",
+          "3xl": "1.5rem",
           "full": "9999px"
       },
       "fontFamily": {
-          "headline": ["Manrope"],
-          "body": ["Manrope"],
-          "label": ["Plus Jakarta Sans"]
+          "headline": ["Outfit", "sans-serif"],
+          "body": ["Inter", "sans-serif"],
+          "label": ["Outfit", "sans-serif"]
       }
     },
   },

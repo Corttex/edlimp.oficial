@@ -4,7 +4,7 @@ export default function OSGeneratorPage() {
   const [servicesBase, setServicesBase] = useState([]);
   const [showPrintMode, setShowPrintMode] = useState(false);
   const [items, setItems] = useState([
-    { service: 'Higienização Clínica', dimension: '3-lugares', price: 450 }
+    { service: 'Higienização Profunda', dimension: '3-lugares', price: 450 }
   ]);
   const [clientData, setClientData] = useState({
     name: '', address: '', phone: '', email: '', cnpj: '', obs: '',
@@ -74,21 +74,21 @@ export default function OSGeneratorPage() {
     <div className="p-8 max-w-7xl mx-auto">
       <header className="flex justify-between items-center mb-10">
         <div>
-          <h2 className="text-3xl font-black text-primary -tracking-wider">ED Limp - Soluções Clínicas</h2>
+          <h2 className="text-3xl font-black text-primary -tracking-wider">ED Limp - Soluções Premium</h2>
           <p className="text-on-surface-variant font-bold uppercase tracking-widest text-[10px] mt-1">Gerador Oficial de Ordem de Serviço</p>
         </div>
         <button 
           onClick={handlePrint}
-          className="bg-primary text-white font-black px-10 py-4 rounded-2xl shadow-premium hover:shadow-xl hover:scale-[1.02] active:scale-95 transition-all text-xs uppercase tracking-widest flex items-center gap-2 hover-lift"
+          className="bg-primary text-on-primary font-black px-8 py-3 rounded-2xl shadow-premium hover:shadow-xl hover:scale-[1.02] active:scale-95 transition-all text-xs uppercase tracking-widest flex items-center gap-2 hover-lift"
         >
           <span className="material-symbols-outlined">print</span>
-          Gerar/Imprimir O.S
+          Gerar/Imprimir Ordem de Serviço
         </button>
       </header>
 
       <div className="grid grid-cols-12 gap-10">
         <div className="col-span-12 lg:col-span-7 space-y-10">
-          <section className="bg-white dark:bg-surface-container rounded-[2.5rem] p-10 shadow-subtle border border-outline-variant/10">
+          <section className="bg-white dark:bg-surface-container rounded-2xl p-10 shadow-subtle border border-outline-variant/10">
             <h3 className="text-lg font-black text-primary mb-8 flex items-center gap-3">
               <span className="material-symbols-outlined text-secondary">person</span>
               Dados do Paciente/Cliente
@@ -128,7 +128,7 @@ export default function OSGeneratorPage() {
             </div>
           </section>
 
-          <section className="bg-white dark:bg-surface-container rounded-[2.5rem] p-10 shadow-subtle border border-outline-variant/10">
+          <section className="bg-white dark:bg-surface-container rounded-2xl p-10 shadow-subtle border border-outline-variant/10">
             <h3 className="text-lg font-black text-primary mb-8">Serviços Solicitados</h3>
             {items.map((item, idx) => (
               <div key={idx} className="grid grid-cols-12 gap-4 mb-4">
@@ -170,7 +170,7 @@ export default function OSGeneratorPage() {
                   <div className="w-20 h-20 bg-primary rounded-2xl flex items-center justify-center text-white font-black text-2xl">ED</div>
                   <div>
                     <h1 className="text-2xl font-black text-primary">ED LIMP</h1>
-                    <p className="text-[10px] font-bold text-on-surface-variant mt-1">Soluções Clínicas</p>
+                    <p className="text-[10px] font-bold text-on-surface-variant mt-1">Soluções Premium</p>
                   </div>
                </div>
                <div className="text-right">
@@ -226,7 +226,7 @@ export default function OSGeneratorPage() {
              <footer className="flex justify-between items-end pt-10 border-t border-slate-100">
                 <div className="w-64 border-t-2 border-primary pt-2 text-center">
                   <p className="text-[10px] font-black uppercase text-primary">Assinatura do Técnico</p>
-                  <p className="text-[8px] font-bold text-on-surface-variant mt-1">ED LIMP - Soluções Clínicas</p>
+                  <p className="text-[8px] font-bold text-on-surface-variant mt-1">ED LIMP - Soluções Especializadas</p>
                 </div>
                 <div className="text-right">
                   <p className="text-[10px] font-black uppercase text-slate-400">Total Geral</p>
