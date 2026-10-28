@@ -50,7 +50,7 @@ export default function App() {
     <AuthProvider>
       <BrowserRouter>
         <Routes>
-          <Route path="/" element={<LandingPage />} />
+          <Route path="/" element={<Navigate to="/painel" replace />} />
           <Route element={<AuthLayout />}>
             <Route path="/painel" element={<AcessoPinPage />} />
           </Route>
