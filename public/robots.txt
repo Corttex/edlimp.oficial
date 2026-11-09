@@ -14,3 +14,4 @@ Disallow: /*.json$
 
 # Mapa do site oficial
 Sitemap: https://edlimp.gestaocomercial360.com.br/sitemap.xml
+
