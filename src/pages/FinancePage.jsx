@@ -11,15 +11,35 @@ export default function FinancePage() {
     setTransactions(getStoredFinance());
   }, []);
 
-  // Novo Lançamento Modal
+  // Novo Lançamento Modal com suporte a Comprovante / Anexo de NF / Recibo
   const [newTrans, setNewTrans] = useState({
     desc: '',
     client: '',
     type: 'entrada',
     amount: '',
     category: 'Serviço Concluído',
-    method: 'PIX'
+    method: 'PIX',
+    attachment: null,
+    attachmentName: '',
   });
+
+  const handleFileUpload = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    if (file.size > 2 * 1024 * 1024) {
+      alert('O arquivo deve ter no máximo 2MB.');
+      return;
+    }
+    const reader = new FileReader();
+    reader.onload = (event) => {
+      setNewTrans(prev => ({
+        ...prev,
+        attachment: event.target.result,
+        attachmentName: file.name
+      }));
+    };
+    reader.readAsDataURL(file);
+  };
 
   const handleAddTransaction = (e) => {
     e.preventDefault();
@@ -28,39 +48,52 @@ export default function FinancePage() {
       id: Date.now(),
       desc: newTrans.desc,
       client: newTrans.client || 'Cliente Particular',
-      date: 'Hoje, ' + new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' }),
+      date: new Date().toLocaleDateString('pt-BR') + ' ' + new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' }),
       type: newTrans.type,
       amount: parseFloat(newTrans.amount),
       category: newTrans.category,
       method: newTrans.method,
-      status: 'Confirmado'
+      status: 'Confirmado',
+      attachment: newTrans.attachment,
+      attachmentName: newTrans.attachmentName,
     };
     const updated = saveStoredTransaction(t);
     setTransactions(updated);
     setShowAddModal(false);
-    setNewTrans({ desc: '', client: '', type: 'entrada', amount: '', category: 'Serviço Concluído', method: 'PIX' });
+    setNewTrans({ desc: '', client: '', type: 'entrada', amount: '', category: 'Serviço Concluído', method: 'PIX', attachment: null, attachmentName: '' });
+  };
+
+  const handleDelete = (id) => {
+    if (confirm('Deseja excluir este lançamento?')) {
+      const updated = deleteStoredTransaction(id);
+      setTransactions(updated);
+    }
   };
 
   const filteredTransactions = transactions.filter(t => {
     if (filterType !== 'todos' && t.type !== filterType) return false;
     if (searchTerm) {
-      return t.desc.toLowerCase().includes(searchTerm.toLowerCase()) ||
-             t.client.toLowerCase().includes(searchTerm.toLowerCase());
+      return (t.desc || '').toLowerCase().includes(searchTerm.toLowerCase()) ||
+             (t.client || '').toLowerCase().includes(searchTerm.toLowerCase()) ||
+             (t.category || '').toLowerCase().includes(searchTerm.toLowerCase());
     }
     return true;
   });
 
-  // Gráfico Mensal de Fluxo de Caixa (Jan a Jun)
-  const monthlyFlow = [
-    { month: 'Jan', rev: 14.2, exp: 5.1 },
-    { month: 'Fev', rev: 18.5, exp: 6.2 },
-    { month: 'Mar', rev: 22.0, exp: 7.4 },
-    { month: 'Abr', rev: 26.8, exp: 8.1 },
-    { month: 'Mai', rev: 34.5, exp: 9.8 },
-    { month: 'Jun', rev: 42.8, exp: 11.2, isCurrent: true },
-  ];
+  // Cálculos Reais Dinâmicos
+  const totalEntradas = transactions
+    .filter(t => t.type === 'entrada')
+    .reduce((acc, curr) => acc + (Number(curr.amount) || 0), 0);
 
-  const maxVal = 45; // base para proporção em %
+  const totalSaidas = transactions
+    .filter(t => t.type === 'saida')
+    .reduce((acc, curr) => acc + (Number(curr.amount) || 0), 0);
+
+  const saldoLiquido = totalEntradas - totalSaidas;
+
+  const formatCurrency = (val) => {
+    return Number(val || 0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+  };
 
   return (
     <div className="w-full pb-16 font-body animate-fadeIn">
@@ -78,7 +111,7 @@ export default function FinancePage() {
             Financeiro & DRE
           </h2>
           <p className="text-on-surface-variant text-sm font-medium mt-1">
-            Controle de faturamento de ordens de serviço, insumos e margem operacional líquida.
+            Controle de faturamento de ordens de serviço, insumos, combustível e comprovantes de NF/Recibos.
           </p>
         </div>
 
@@ -96,7 +129,7 @@ export default function FinancePage() {
 
           <button 
             onClick={() => setShowAddModal(true)}
-            className="bg-primary text-on-primary font-bold px-6 py-2.5 rounded-full text-xs hover:scale-105 active:scale-95 transition-all flex items-center gap-2 shadow-lg shadow-primary/20"
+            className="bg-primary text-slate-950 font-black px-6 py-2.5 rounded-full text-xs hover:scale-105 active:scale-95 transition-all flex items-center gap-2 shadow-lg shadow-primary/20"
           >
             <span className="material-symbols-outlined text-sm font-black">add</span>
             <span>Novo Lançamento</span>
@@ -104,38 +137,42 @@ export default function FinancePage() {
         </div>
       </header>
 
-      {/* Financial Summary Cards (Bento Style do financeiro_2) */}
+      {/* Financial Summary Cards - 100% DINÂMICOS E REAIS */}
       <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
         
-        {/* Card 1: Saldo Atual */}
+        {/* Card 1: Saldo Líquido Real */}
         <div className="bg-surface-container-low p-6 rounded-2xl border border-outline-variant/10 shadow-subtle flex flex-col justify-between">
           <div className="flex justify-between items-start">
             <div className="w-12 h-12 rounded-2xl bg-secondary-container flex items-center justify-center text-on-secondary-container shadow-sm">
               <span className="material-symbols-outlined text-2xl font-bold">account_balance_wallet</span>
             </div>
             <span className="bg-secondary-container/40 text-secondary text-[10px] font-black px-2.5 py-1 rounded-full">
-              +12.5% vs mês ant.
+              {transactions.length} registros
             </span>
           </div>
           <div className="mt-4">
-            <p className="text-on-surface-variant text-[10px] font-black uppercase tracking-widest">Saldo em Caixa</p>
-            <h3 className="text-3xl font-black text-primary font-headline mt-0.5">R$ 45.230,00</h3>
+            <p className="text-on-surface-variant text-[10px] font-black uppercase tracking-widest">Saldo em Caixa Real</p>
+            <h3 className={`text-3xl font-black font-headline mt-0.5 ${saldoLiquido >= 0 ? 'text-primary' : 'text-error'}`}>
+              {formatCurrency(saldoLiquido)}
+            </h3>
           </div>
         </div>
 
-        {/* Card 2: Receita Mensal */}
+        {/* Card 2: Receita Total */}
         <div className="bg-surface-container-low p-6 rounded-2xl border border-outline-variant/10 shadow-subtle flex flex-col justify-between">
           <div className="flex justify-between items-start">
             <div className="w-12 h-12 rounded-2xl bg-primary/10 flex items-center justify-center text-primary shadow-sm">
               <span className="material-symbols-outlined text-2xl font-bold">trending_up</span>
             </div>
             <span className="bg-primary/10 text-primary text-[10px] font-black px-2.5 py-1 rounded-full">
-              Meta: 90%
+              Entradas
             </span>
           </div>
           <div className="mt-4">
-            <p className="text-on-surface-variant text-[10px] font-black uppercase tracking-widest">Receita Mensal (Jun)</p>
-            <h3 className="text-3xl font-black text-on-surface font-headline mt-0.5">R$ 18.750,00</h3>
+            <p className="text-on-surface-variant text-[10px] font-black uppercase tracking-widest">Receita Total Registrada</p>
+            <h3 className="text-3xl font-black text-on-surface font-headline mt-0.5">
+              {formatCurrency(totalEntradas)}
+            </h3>
           </div>
         </div>
 
@@ -146,244 +183,304 @@ export default function FinancePage() {
               <span className="material-symbols-outlined text-2xl font-bold">trending_down</span>
             </div>
             <span className="bg-error/10 text-error text-[10px] font-black px-2.5 py-1 rounded-full">
-              -4.2% controlado
+              Saídas
             </span>
           </div>
           <div className="mt-4">
-            <p className="text-on-surface-variant text-[10px] font-black uppercase tracking-widest">Despesas Totais</p>
-            <h3 className="text-3xl font-black text-on-surface font-headline mt-0.5">R$ 6.420,00</h3>
+            <p className="text-on-surface-variant text-[10px] font-black uppercase tracking-widest">Despesas & Custos Reais</p>
+            <h3 className="text-3xl font-black text-on-surface font-headline mt-0.5">
+              {formatCurrency(totalSaidas)}
+            </h3>
           </div>
         </div>
 
-        {/* Card 4: Liquidez Imediata (Design Destaque Verde Logo com texto preto de alto contraste) */}
+        {/* Card 4: Liquidez Disponível */}
         <div className="bg-primary p-6 rounded-2xl shadow-xl flex flex-col justify-between text-slate-950 relative overflow-hidden">
           <div className="absolute -right-4 -bottom-4 opacity-10 pointer-events-none text-slate-950">
             <span className="material-symbols-outlined text-[130px]">water_drop</span>
           </div>
           <div>
-            <span className="text-slate-950/80 text-[10px] font-black uppercase tracking-widest">Liquidez Disponível</span>
-            <h3 className="text-3xl font-black font-headline mt-1 text-slate-950">R$ 12.310,00</h3>
-            <p className="text-xs text-slate-900/85 mt-1 font-bold">Livre para investimentos em marketing e novos insumos.</p>
+            <span className="text-slate-950/80 text-[10px] font-black uppercase tracking-widest">Margem Operacional</span>
+            <h3 className="text-3xl font-black font-headline mt-1 text-slate-950">
+              {totalEntradas > 0 ? `${Math.round((saldoLiquido / totalEntradas) * 100)}%` : '100%'}
+            </h3>
+            <p className="text-xs text-slate-900/85 mt-1 font-bold">Rendimento sobre os serviços prestados.</p>
           </div>
           <button 
-            onClick={() => alert('Relatório financeiro exportado em PDF com sucesso!')}
+            onClick={() => window.print()}
             className="mt-4 bg-slate-950 text-white px-4 py-2 rounded-xl text-xs font-black uppercase tracking-wider hover:brightness-125 transition-all self-start shadow-sm"
           >
-            Exportar PDF
+            Imprimir Relatório
           </button>
         </div>
 
       </section>
 
-      {/* Gráfico Comparativo: Fluxo de Caixa Mensal (Receita vs Despesas) */}
-      <section className="bg-surface-container-low rounded-2xl p-6 sm:p-8 border border-outline-variant/10 shadow-subtle mb-10">
-        <div className="flex flex-col sm:flex-row justify-between sm:items-center mb-8 gap-4">
-          <div>
-            <h4 className="font-bold font-headline text-primary dark:text-white text-lg flex items-center gap-2">
-              <span className="material-symbols-outlined text-secondary">bar_chart</span>
-              Fluxo de Caixa Mensal (Semestre)
-            </h4>
-            <p className="text-xs text-on-surface-variant font-medium mt-0.5">
-              Comparativo das entradas operacionais de limpeza vs custos com reagentes e despesas fixas.
-            </p>
+      {/* Lista de Transações */}
+      <section className="bg-surface-container-low rounded-2xl p-6 sm:p-8 border border-outline-variant/10 shadow-subtle">
+        <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-4 mb-6">
+          <div className="flex items-center gap-2">
+            <h3 className="font-bold text-lg text-on-surface">Extrato Financeiro</h3>
+            <span className="text-xs text-on-surface-variant">({filteredTransactions.length} lançamentos)</span>
           </div>
 
-          <div className="flex items-center gap-4 text-xs font-bold">
-            <span className="flex items-center gap-1.5 text-on-surface">
-              <span className="w-3.5 h-3.5 rounded-md bg-primary"></span> Receitas
-            </span>
-            <span className="flex items-center gap-1.5 text-on-surface">
-              <span className="w-3.5 h-3.5 rounded-md bg-secondary"></span> Despesas
-            </span>
-          </div>
-        </div>
-
-        {/* Gráfico de Barras Estilizado */}
-        <div className="h-64 flex items-end justify-between gap-3 sm:gap-6 px-2 sm:px-6 border-b border-outline-variant/20 pb-4">
-          {monthlyFlow.map((item, idx) => (
-            <div key={idx} className="flex-1 flex flex-col items-center gap-2 h-full justify-end group">
-              <div className="w-full flex justify-center items-end gap-1.5 sm:gap-2 h-full">
-                {/* Barra de Receita */}
-                <div 
-                  className={`w-4 sm:w-7 rounded-t-lg transition-all duration-700 relative group-hover:brightness-110 ${item.isCurrent ? 'bg-primary shadow-lg shadow-primary/30' : 'bg-primary/40'}`}
-                  style={{ height: `${(item.rev / maxVal) * 100}%` }}
-                >
-                  <span className="absolute -top-7 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity bg-slate-900 text-white text-[9px] font-bold px-1.5 py-0.5 rounded whitespace-nowrap pointer-events-none">
-                    R$ {item.rev}k
-                  </span>
-                </div>
-
-                {/* Barra de Despesa */}
-                <div 
-                  className={`w-4 sm:w-7 rounded-t-lg transition-all duration-700 relative group-hover:brightness-110 ${item.isCurrent ? 'bg-secondary' : 'bg-secondary/40'}`}
-                  style={{ height: `${(item.exp / maxVal) * 100}%` }}
-                >
-                  <span className="absolute -top-7 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity bg-slate-900 text-white text-[9px] font-bold px-1.5 py-0.5 rounded whitespace-nowrap pointer-events-none">
-                    R$ {item.exp}k
-                  </span>
-                </div>
-              </div>
-              <span className={`text-[10px] font-mono font-bold uppercase ${item.isCurrent ? 'text-primary font-black' : 'text-on-surface-variant'}`}>
-                {item.month}
-              </span>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* Extrato de Lançamentos Recentes com Filtros */}
-      <section className="bg-surface-container-low rounded-2xl p-6 sm:p-8 border border-outline-variant/10 shadow-subtle space-y-6">
-        <div className="flex flex-col sm:flex-row justify-between sm:items-center gap-4">
-          <div>
-            <h4 className="font-bold font-headline text-primary dark:text-white text-lg flex items-center gap-2">
-              <span className="material-symbols-outlined text-secondary">receipt_long</span>
-              Extrato Financeiro Recente
-            </h4>
-            <p className="text-xs text-on-surface-variant font-medium mt-0.5">
-              Histórico detalhado de entradas e despesas da operação ED Limp.
-            </p>
-          </div>
-
-          <div className="flex bg-surface-container rounded-full p-1 border border-outline-variant/10">
-            {[
-              { id: 'todos', label: 'Todos' },
-              { id: 'entrada', label: 'Entradas' },
-              { id: 'saida', label: 'Saídas' },
-            ].map(f => (
-              <button 
-                key={f.id}
-                onClick={() => setFilterType(f.id)}
-                className={`px-4 py-1.5 rounded-full text-xs font-bold transition-all ${filterType === f.id ? 'bg-primary text-white shadow-sm' : 'text-on-surface-variant hover:text-primary'}`}
+          <div className="flex gap-2">
+            {['todos', 'entrada', 'saida'].map(type => (
+              <button
+                key={type}
+                onClick={() => setFilterType(type)}
+                className={`px-4 py-1.5 rounded-full text-xs font-bold uppercase tracking-wider transition-all ${
+                  filterType === type 
+                    ? 'bg-primary text-slate-950 shadow-sm' 
+                    : 'bg-surface-container text-on-surface-variant hover:text-on-surface'
+                }`}
               >
-                {f.label}
+                {type === 'todos' ? 'Todos' : type === 'entrada' ? 'Receitas' : 'Despesas'}
               </button>
             ))}
           </div>
         </div>
 
-        <div className="divide-y divide-outline-variant/10">
-          {filteredTransactions.map(item => (
-            <div key={item.id} className="py-4 flex flex-col sm:flex-row justify-between sm:items-center gap-3 hover:bg-surface-container/30 px-3 rounded-2xl transition-colors">
-              <div className="flex items-center gap-3">
-                <div className={`w-11 h-11 rounded-2xl flex items-center justify-center shrink-0 ${item.type === 'entrada' ? 'bg-secondary-container/40 text-secondary' : 'bg-error-container text-error'}`}>
-                  <span className="material-symbols-outlined text-xl">
-                    {item.type === 'entrada' ? 'arrow_downward' : 'arrow_upward'}
-                  </span>
-                </div>
-                <div>
-                  <h5 className="font-bold text-sm text-on-surface">{item.desc}</h5>
-                  <p className="text-xs text-on-surface-variant mt-0.5">
-                    {item.client} • <span className="font-mono">{item.date}</span> • <span className="font-semibold text-primary">{item.method}</span>
-                  </p>
-                </div>
-              </div>
-
-              <div className="flex items-center justify-between sm:justify-end gap-4">
-                <span className={`text-[10px] font-black px-2.5 py-1 rounded-full uppercase ${item.type === 'entrada' ? 'bg-secondary-container/30 text-secondary' : 'bg-slate-200 dark:bg-slate-700 text-on-surface-variant'}`}>
-                  {item.category}
-                </span>
-                <span className={`text-base font-black font-headline ${item.type === 'entrada' ? 'text-secondary' : 'text-error'}`}>
-                  {item.type === 'entrada' ? '+' : '-'} R$ {item.amount.toLocaleString('pt-BR', { minimumFractionDigits: 2 })}
-                </span>
-              </div>
-            </div>
-          ))}
-        </div>
+        {filteredTransactions.length === 0 ? (
+          <div className="p-12 text-center bg-surface-container/30 rounded-2xl border border-dashed border-outline-variant/20">
+            <span className="material-symbols-outlined text-4xl text-on-surface-variant/40 mb-2">receipt_long</span>
+            <h4 className="font-bold text-on-surface text-base">Nenhum lançamento encontrado</h4>
+            <p className="text-xs text-on-surface-variant mt-1">Clique em "Novo Lançamento" para registrar entradas, combustíveis, insumos e anexar notas fiscais.</p>
+            <button 
+              onClick={() => setShowAddModal(true)}
+              className="mt-4 bg-primary text-slate-950 font-black px-6 py-2.5 rounded-xl text-xs uppercase tracking-wider shadow-md hover:scale-105 transition-all"
+            >
+              + Novo Lançamento
+            </button>
+          </div>
+        ) : (
+          <div className="overflow-x-auto">
+            <table className="w-full text-left">
+              <thead>
+                <tr className="text-[10px] font-black uppercase tracking-widest text-on-surface-variant/70 border-b border-outline-variant/10 pb-3">
+                  <th className="pb-3 px-4">Descrição / Categoria</th>
+                  <th className="pb-3 px-4">Cliente / Fornecedor</th>
+                  <th className="pb-3 px-4">Data</th>
+                  <th className="pb-3 px-4">Comprovante</th>
+                  <th className="pb-3 px-4 text-right">Valor</th>
+                  <th className="pb-3 px-4 text-center">Ações</th>
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-outline-variant/10">
+                {filteredTransactions.map(t => (
+                  <tr key={t.id} className="hover:bg-surface-container/40 transition-colors">
+                    <td className="py-4 px-4">
+                      <div className="flex items-center gap-3">
+                        <div className={`w-9 h-9 rounded-xl flex items-center justify-center shrink-0 ${t.type === 'entrada' ? 'bg-secondary-container/40 text-secondary' : 'bg-error-container text-error'}`}>
+                          <span className="material-symbols-outlined text-lg">{t.type === 'entrada' ? 'arrow_downward' : 'arrow_upward'}</span>
+                        </div>
+                        <div>
+                          <p className="text-xs font-bold text-on-surface">{t.desc}</p>
+                          <span className="text-[10px] text-on-surface-variant uppercase font-semibold">{t.category} • {t.method}</span>
+                        </div>
+                      </div>
+                    </td>
+                    <td className="py-4 px-4 text-xs font-medium text-on-surface">{t.client}</td>
+                    <td className="py-4 px-4 text-xs font-mono text-on-surface-variant">{t.date}</td>
+                    <td className="py-4 px-4 text-xs">
+                      {t.attachment ? (
+                        <a 
+                          href={t.attachment} 
+                          target="_blank" 
+                          rel="noreferrer"
+                          download={t.attachmentName || 'comprovante'}
+                          className="inline-flex items-center gap-1 text-[11px] font-bold text-primary hover:underline bg-primary/10 px-2.5 py-1 rounded-lg"
+                        >
+                          <span className="material-symbols-outlined text-sm">attach_file</span>
+                          <span className="truncate max-w-[120px]">{t.attachmentName || 'Anexo NF'}</span>
+                        </a>
+                      ) : (
+                        <span className="text-on-surface-variant/40 text-[11px] italic">Sem anexo</span>
+                      )}
+                    </td>
+                    <td className={`py-4 px-4 text-right text-sm font-black font-mono ${t.type === 'entrada' ? 'text-secondary' : 'text-error'}`}>
+                      {t.type === 'entrada' ? '+' : '-'} {formatCurrency(t.amount)}
+                    </td>
+                    <td className="py-4 px-4 text-center">
+                      <button 
+                        onClick={() => handleDelete(t.id)}
+                        className="w-8 h-8 rounded-full hover:bg-error/10 text-error flex items-center justify-center transition-colors mx-auto"
+                        title="Excluir"
+                      >
+                        <span className="material-symbols-outlined text-base">delete</span>
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        )}
       </section>
 
-      {/* Modal Novo Lançamento */}
+      {/* Modal Novo Lançamento com Anexo de Recibo / NF / Gasolina */}
       {showAddModal && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="bg-white dark:bg-surface-container-low w-full max-w-md rounded-2xl p-8 shadow-2xl border border-outline-variant/20 animate-fadeIn">
-            <div className="flex justify-between items-center mb-6">
-              <h3 className="text-xl font-bold font-headline text-primary dark:text-white">Lançar no Fluxo de Caixa</h3>
-              <button onClick={() => setShowAddModal(false)} className="text-on-surface-variant hover:text-primary">
+        <div className="fixed inset-0 z-[120] bg-black/70 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="bg-surface dark:bg-surface-container max-w-lg w-full rounded-2xl p-6 sm:p-8 border border-outline-variant/20 shadow-2xl space-y-5 animate-in zoom-in-95 duration-200">
+            <div className="flex justify-between items-center pb-3 border-b border-outline-variant/15">
+              <h3 className="text-lg font-black text-on-surface flex items-center gap-2">
+                <span className="material-symbols-outlined text-primary">add_card</span>
+                Novo Lançamento Financeiro
+              </h3>
+              <button onClick={() => setShowAddModal(false)} className="text-on-surface-variant hover:text-on-surface">
                 <span className="material-symbols-outlined">close</span>
               </button>
             </div>
 
             <form onSubmit={handleAddTransaction} className="space-y-4">
-              <div className="grid grid-cols-2 gap-2">
+              {/* Tipo: Entrada ou Saída */}
+              <div className="grid grid-cols-2 gap-3">
                 <button
                   type="button"
-                  onClick={() => setNewTrans({ ...newTrans, type: 'entrada' })}
-                  className={`py-2.5 rounded-xl text-xs font-bold border transition-all ${newTrans.type === 'entrada' ? 'bg-secondary text-white border-secondary' : 'bg-surface-container border-outline-variant/20 text-on-surface-variant'}`}
+                  onClick={() => setNewTrans(prev => ({ ...prev, type: 'entrada', category: 'Serviço Concluído' }))}
+                  className={`py-3 rounded-xl text-xs font-black uppercase tracking-wider border transition-all flex items-center justify-center gap-2 ${
+                    newTrans.type === 'entrada'
+                      ? 'bg-secondary-container text-on-secondary-container border-secondary shadow-sm'
+                      : 'bg-surface-container border-outline-variant/20 text-on-surface-variant'
+                  }`}
                 >
+                  <span className="material-symbols-outlined text-sm">arrow_downward</span>
                   Entrada (Receita)
                 </button>
                 <button
                   type="button"
-                  onClick={() => setNewTrans({ ...newTrans, type: 'saida' })}
-                  className={`py-2.5 rounded-xl text-xs font-bold border transition-all ${newTrans.type === 'saida' ? 'bg-error text-white border-error' : 'bg-surface-container border-outline-variant/20 text-on-surface-variant'}`}
+                  onClick={() => setNewTrans(prev => ({ ...prev, type: 'saida', category: 'Combustível / Frota' }))}
+                  className={`py-3 rounded-xl text-xs font-black uppercase tracking-wider border transition-all flex items-center justify-center gap-2 ${
+                    newTrans.type === 'saida'
+                      ? 'bg-error-container text-error border-error shadow-sm'
+                      : 'bg-surface-container border-outline-variant/20 text-on-surface-variant'
+                  }`}
                 >
+                  <span className="material-symbols-outlined text-sm">arrow_upward</span>
                   Saída (Despesa)
                 </button>
               </div>
 
+              {/* Descrição */}
               <div>
-                <label className="text-[10px] font-black uppercase text-on-surface-variant/70 block mb-1">Descrição</label>
+                <label className="text-[10px] font-black uppercase text-on-surface-variant/70 mb-1 block">Descrição do Lançamento</label>
                 <input 
-                  type="text" 
+                  type="text"
                   required
-                  placeholder="Ex: Higienização Sofá Retrátil"
+                  placeholder={newTrans.type === 'entrada' ? 'Ex: Higienização Sofá 3 Lugares' : 'Ex: Abastecimento Van 01 (Posto Ipiranga)'}
                   value={newTrans.desc}
                   onChange={e => setNewTrans({ ...newTrans, desc: e.target.value })}
-                  className="w-full bg-surface-container border border-outline-variant/20 rounded-xl px-4 py-2.5 text-xs font-semibold text-on-surface"
+                  className="w-full bg-surface-container border border-outline-variant/20 rounded-xl px-4 py-3 text-xs font-bold text-on-surface focus:ring-2 focus:ring-primary/20"
                 />
               </div>
 
-              <div className="grid grid-cols-2 gap-3">
+              {/* Cliente / Fornecedor e Valor */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                 <div>
-                  <label className="text-[10px] font-black uppercase text-on-surface-variant/70 block mb-1">Valor (R$)</label>
+                  <label className="text-[10px] font-black uppercase text-on-surface-variant/70 mb-1 block">
+                    {newTrans.type === 'entrada' ? 'Cliente' : 'Fornecedor / Posto'}
+                  </label>
                   <input 
-                    type="number" 
-                    step="0.01"
-                    required
-                    placeholder="Ex: 450.00"
-                    value={newTrans.amount}
-                    onChange={e => setNewTrans({ ...newTrans, amount: e.target.value })}
-                    className="w-full bg-surface-container border border-outline-variant/20 rounded-xl px-4 py-2.5 text-xs font-semibold text-on-surface font-mono"
+                    type="text"
+                    placeholder="Ex: João da Silva"
+                    value={newTrans.client}
+                    onChange={e => setNewTrans({ ...newTrans, client: e.target.value })}
+                    className="w-full bg-surface-container border border-outline-variant/20 rounded-xl px-4 py-3 text-xs font-bold text-on-surface"
                   />
                 </div>
                 <div>
-                  <label className="text-[10px] font-black uppercase text-on-surface-variant/70 block mb-1">Forma de Pagto</label>
+                  <label className="text-[10px] font-black uppercase text-on-surface-variant/70 mb-1 block">Valor (R$)</label>
+                  <input 
+                    type="number"
+                    step="0.01"
+                    required
+                    placeholder="0.00"
+                    value={newTrans.amount}
+                    onChange={e => setNewTrans({ ...newTrans, amount: e.target.value })}
+                    className="w-full bg-surface-container border border-outline-variant/20 rounded-xl px-4 py-3 text-xs font-black text-on-surface"
+                  />
+                </div>
+              </div>
+
+              {/* Categoria e Forma de Pagamento */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label className="text-[10px] font-black uppercase text-on-surface-variant/70 mb-1 block">Categoria</label>
+                  <select 
+                    value={newTrans.category}
+                    onChange={e => setNewTrans({ ...newTrans, category: e.target.value })}
+                    className="w-full bg-surface-container border border-outline-variant/20 rounded-xl px-4 py-3 text-xs font-bold text-on-surface"
+                  >
+                    {newTrans.type === 'entrada' ? (
+                      <>
+                        <option value="Serviço Concluído">Serviço Concluído</option>
+                        <option value="Impermeabilização">Impermeabilização</option>
+                        <option value="Higienização Sofá">Higienização Sofá</option>
+                        <option value="Contrato Corporativo">Contrato Corporativo</option>
+                        <option value="Outros">Outros</option>
+                      </>
+                    ) : (
+                      <>
+                        <option value="Combustível / Frota">Combustível / Gasolina</option>
+                        <option value="Insumos Químicos">Insumos Químicos / Reagentes</option>
+                        <option value="Manutenção Máquinas">Manutenção de Máquinas</option>
+                        <option value="Marketing / Anúncios">Marketing / Anúncios</option>
+                        <option value="Pró-labore / Equipe">Pró-labore / Equipe</option>
+                        <option value="Alimentação / Diárias">Alimentação / Diárias</option>
+                        <option value="Outros Custos">Outros Custos</option>
+                      </>
+                    )}
+                  </select>
+                </div>
+
+                <div>
+                  <label className="text-[10px] font-black uppercase text-on-surface-variant/70 mb-1 block">Método</label>
                   <select 
                     value={newTrans.method}
                     onChange={e => setNewTrans({ ...newTrans, method: e.target.value })}
-                    className="w-full bg-surface-container border border-outline-variant/20 rounded-xl px-4 py-2.5 text-xs font-semibold text-on-surface"
+                    className="w-full bg-surface-container border border-outline-variant/20 rounded-xl px-4 py-3 text-xs font-bold text-on-surface"
                   >
                     <option value="PIX">PIX</option>
                     <option value="Cartão de Crédito">Cartão de Crédito</option>
-                    <option value="Boleto">Boleto</option>
+                    <option value="Cartão de Débito">Cartão de Débito</option>
                     <option value="Dinheiro">Dinheiro</option>
+                    <option value="Boleto">Boleto</option>
+                    <option value="Transferência">Transferência</option>
                   </select>
                 </div>
               </div>
 
-              <div>
-                <label className="text-[10px] font-black uppercase text-on-surface-variant/70 block mb-1">Cliente / Fornecedor</label>
-                <input 
-                  type="text" 
-                  placeholder="Ex: Dra. Mariana (Asa Norte)"
-                  value={newTrans.client}
-                  onChange={e => setNewTrans({ ...newTrans, client: e.target.value })}
-                  className="w-full bg-surface-container border border-outline-variant/20 rounded-xl px-4 py-2.5 text-xs font-semibold text-on-surface"
-                />
+              {/* Upload de Nota Fiscal / Cupom / Recibo */}
+              <div className="p-3 bg-surface-container-low rounded-xl border border-dashed border-outline-variant/30">
+                <label className="text-[10px] font-black uppercase text-on-surface-variant/70 mb-1 block flex items-center justify-between">
+                  <span>Anexar Nota Fiscal / Recibo de Combustível</span>
+                  <span className="text-[9px] text-primary">PDF ou Imagem (Máx 2MB)</span>
+                </label>
+                <div className="flex items-center gap-3 mt-1.5">
+                  <label className="bg-primary text-slate-950 px-4 py-2 rounded-xl text-xs font-black uppercase tracking-wider cursor-pointer hover:brightness-110 active:scale-95 transition-all flex items-center gap-1.5 shadow-sm">
+                    <span className="material-symbols-outlined text-sm font-black">upload_file</span>
+                    <span>Escolher Arquivo</span>
+                    <input type="file" accept="image/*,application/pdf" onChange={handleFileUpload} className="hidden" />
+                  </label>
+                  <span className="text-xs text-on-surface-variant truncate font-medium max-w-[200px]">
+                    {newTrans.attachmentName || 'Nenhum arquivo selecionado'}
+                  </span>
+                </div>
               </div>
 
-              <div className="pt-4 flex gap-3">
+              <div className="flex gap-3 pt-3">
                 <button 
                   type="button" 
                   onClick={() => setShowAddModal(false)}
-                  className="flex-1 bg-surface-container hover:bg-surface-container-high py-3 rounded-xl text-xs font-bold text-on-surface"
+                  className="flex-1 bg-surface-container-high text-on-surface-variant font-bold py-3 rounded-xl text-xs uppercase tracking-wider hover:bg-surface-container-highest"
                 >
                   Cancelar
                 </button>
                 <button 
-                  type="submit" 
-                  className="flex-1 bg-primary text-white py-3 rounded-xl text-xs font-bold hover:brightness-105 shadow-md"
+                  type="submit"
+                  className="flex-1 bg-primary text-slate-950 font-black py-3 rounded-xl text-xs uppercase tracking-wider hover:brightness-110 active:scale-95 transition-all shadow-md"
                 >
-                  Confirmar Lançamento
+                  Salvar Lançamento
                 </button>
               </div>
             </form>

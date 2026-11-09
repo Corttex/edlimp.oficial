@@ -15,6 +15,8 @@ export const STORAGE_KEYS = {
   PROFILES: '@EDLimp:Profiles',
   SERVICES: '@EDLimp:Services',
   COMPANY: '@EDLimp:Company',
+  MARKETING_GOALS: '@EDLimp:MarketingGoals',
+  MARKETING_REVIEWS: '@EDLimp:MarketingReviews',
 };
 
 // Funções Utilitárias com Fallback e Proteção
@@ -91,6 +93,12 @@ export const updateStoredInventoryVolume = (id, newVolume) => {
   setItem(STORAGE_KEYS.INVENTORY, updated);
   return updated;
 };
+export const deleteStoredInventoryItem = (id) => {
+  const current = getStoredInventory();
+  const updated = current.filter(c => c.id !== id);
+  setItem(STORAGE_KEYS.INVENTORY, updated);
+  return updated;
+};
 
 // 4. ATIVOS & PATRIMÔNIO (Máquinas, Extratoras, Veículos)
 export const getStoredPatrimony = () => getItem(STORAGE_KEYS.PATRIMONY, []);
@@ -101,6 +109,12 @@ export const saveStoredPatrimonyItem = (item) => {
   setItem(STORAGE_KEYS.PATRIMONY, updated);
   return updated;
 };
+export const deleteStoredPatrimonyItem = (id) => {
+  const current = getStoredPatrimony();
+  const updated = current.filter(c => c.id !== id);
+  setItem(STORAGE_KEYS.PATRIMONY, updated);
+  return updated;
+};
 
 // 5. AGENDA / AGENDAMENTOS
 export const getStoredSchedule = () => getItem(STORAGE_KEYS.SCHEDULE, []);
@@ -108,6 +122,12 @@ export const saveStoredScheduleSlot = (slot) => {
   const current = getStoredSchedule();
   const newSlot = { ...slot, id: slot.id || Date.now() };
   const updated = [newSlot, ...current];
+  setItem(STORAGE_KEYS.SCHEDULE, updated);
+  return updated;
+};
+export const deleteStoredScheduleSlot = (id) => {
+  const current = getStoredSchedule();
+  const updated = current.filter(s => s.id !== id);
   setItem(STORAGE_KEYS.SCHEDULE, updated);
   return updated;
 };
@@ -134,7 +154,28 @@ export const deleteStoredNote = (id) => {
   return updated;
 };
 
-// 7. ZERAR TODOS OS DADOS (Limpeza de Fábrica para Início Real)
+// 7. MARKETING (Metas e Avaliações reais)
+export const getStoredMarketingGoals = () => getItem(STORAGE_KEYS.MARKETING_GOALS, {
+  targetClients: 15,
+  currentClients: 0,
+  targetRevenue: 6000,
+  currentRevenue: 0,
+});
+export const saveStoredMarketingGoals = (goals) => {
+  setItem(STORAGE_KEYS.MARKETING_GOALS, goals);
+  return goals;
+};
+
+export const getStoredReviews = () => getItem(STORAGE_KEYS.MARKETING_REVIEWS, []);
+export const saveStoredReview = (rev) => {
+  const current = getStoredReviews();
+  const newRev = { ...rev, id: rev.id || Date.now(), date: rev.date || 'Hoje' };
+  const updated = [newRev, ...current];
+  setItem(STORAGE_KEYS.MARKETING_REVIEWS, updated);
+  return updated;
+};
+
+// 8. ZERAR TODOS OS DADOS (Limpeza de Fábrica para Início Real)
 // Preserva as credenciais de autenticação da sessão atual
 export const clearAllData = (preserveAuth = true) => {
   const currentUser = preserveAuth ? localStorage.getItem('@EDLimp:User') : null;
@@ -150,7 +191,7 @@ export const clearAllData = (preserveAuth = true) => {
   }
 };
 
-// 8. EXPORTAR BACKUP COMPLETO (JSON)
+// 9. EXPORTAR BACKUP COMPLETO (JSON)
 export const exportFullBackup = () => {
   const backup = {
     exportedAt: new Date().toISOString(),
@@ -161,6 +202,8 @@ export const exportFullBackup = () => {
     patrimony: getStoredPatrimony(),
     schedule: getStoredSchedule(),
     notes: getStoredNotes(),
+    marketingGoals: getStoredMarketingGoals(),
+    reviews: getStoredReviews(),
     profiles: getItem(STORAGE_KEYS.PROFILES, []),
     services: getItem(STORAGE_KEYS.SERVICES, []),
     company: getItem(STORAGE_KEYS.COMPANY, {}),
