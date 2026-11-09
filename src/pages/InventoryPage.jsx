@@ -1,88 +1,111 @@
 import { useState, useEffect } from 'react';
-import { getStoredInventory, saveStoredInventoryItem, updateStoredInventoryVolume } from '../lib/storage';
+import { 
+  getStoredInventory, 
+  saveStoredInventoryItem, 
+  updateStoredInventoryVolume, 
+  deleteStoredInventoryItem,
+  getStoredPatrimony,
+  saveStoredPatrimonyItem,
+  deleteStoredPatrimonyItem
+} from '../lib/storage';
 
 export default function InventoryPage() {
-  const [activeTab, setActiveTab] = useState('inventory'); // inventory, assets, maintenance, kits
-  const [showAddModal, setShowAddModal] = useState(false);
+  const [activeTab, setActiveTab] = useState('inventory'); // inventory, assets
+  const [showAddChemicalModal, setShowAddChemicalModal] = useState(false);
+  const [showAddAssetModal, setShowAddAssetModal] = useState(false);
+  
   const [chemicals, setChemicals] = useState([]);
+  const [patrimonyItems, setPatrimonyItems] = useState([]);
 
   useEffect(() => {
     setChemicals(getStoredInventory());
+    setPatrimonyItems(getStoredPatrimony());
   }, []);
 
-  // Ativos e Equipamentos Físicos (Patrimônio)
-  const patrimonyItems = [
-    {
-      id: 1,
-      name: 'Extratora Alemã HighPower 80L',
-      serial: 'EXT-8890-DF',
-      condition: '100% Operacional',
-      value: 12500,
-      location: 'Van 01 (Asa Sul / Sudoeste)',
-      maintenanceDue: '15/11/2026',
-      icon: 'vacuum'
-    },
-    {
-      id: 2,
-      name: 'Extratora Compacta Puzzi 10/1',
-      serial: 'EXT-3301-DF',
-      condition: '100% Operacional',
-      value: 6800,
-      location: 'Van 02 (Águas Claras / Taguatinga)',
-      maintenanceDue: '20/11/2026',
-      icon: 'cleaning_services'
-    },
-    {
-      id: 3,
-      name: 'Pulverizador de Blindagem Eletrostático',
-      serial: 'PULV-2024-PRO',
-      condition: 'Revisão Preventiva',
-      value: 5200,
-      location: 'Base Central Brasília',
-      maintenanceDue: 'Amanhã',
-      icon: 'water_drop'
-    },
-    {
-      id: 4,
-      name: 'Turbina de Secagem Rápida AirForce 3000',
-      serial: 'AIR-9921-X',
-      condition: '100% Operacional',
-      value: 3900,
-      location: 'Van 01',
-      maintenanceDue: '05/12/2026',
-      icon: 'air'
-    }
-  ];
-
-  // Novo item modal state
-  const [newItem, setNewItem] = useState({
+  // Novo Insumo Químico Modal
+  const [newChemical, setNewChemical] = useState({
     name: '',
     lot: '',
     volume: 50,
+    maxVolume: 100,
     unit: 'Litros',
-    category: 'Higienização'
+    category: 'Higienização',
+    minAlert: 15,
   });
 
-  const handleAddItem = (e) => {
+  // Novo Equipamento / Ativo
+  const [newAsset, setNewAsset] = useState({
+    name: '',
+    serial: '',
+    location: 'Van 01 (DF)',
+    value: 0,
+    condition: '100% Operacional',
+    maintenanceDue: 'A definir'
+  });
+
+  const handleAddChemical = (e) => {
     e.preventDefault();
-    if (!newItem.name) return;
+    if (!newChemical.name) return;
+    const vol = Number(newChemical.volume) || 0;
     const item = {
       id: Date.now(),
-      name: newItem.name,
-      lot: newItem.lot || `#2024-${Math.floor(1000 + Math.random() * 9000)}`,
-      volume: Number(newItem.volume),
-      maxVolume: 100,
-      unit: newItem.unit,
-      status: Number(newItem.volume) < 20 ? 'Reposição Urgente' : 'Em Conformidade',
-      statusClass: Number(newItem.volume) < 20 ? 'bg-error-container text-error' : 'bg-secondary-container/40 text-secondary',
-      barColor: Number(newItem.volume) < 20 ? 'bg-error' : 'bg-secondary',
-      icon: 'science',
-      category: newItem.category
+      name: newChemical.name,
+      lot: newChemical.lot || `#2026-${Math.floor(1000 + Math.random() * 9000)}`,
+      volume: vol,
+      maxVolume: Number(newChemical.maxVolume) || 100,
+      unit: newChemical.unit,
+      minAlert: Number(newChemical.minAlert) || 15,
+      category: newChemical.category,
+      icon: 'science'
     };
     const updated = saveStoredInventoryItem(item);
     setChemicals(updated);
-    setShowAddModal(false);
-    setNewItem({ name: '', lot: '', volume: 50, unit: 'Litros', category: 'Higienização' });
+    setShowAddChemicalModal(false);
+    setNewChemical({ name: '', lot: '', volume: 50, maxVolume: 100, unit: 'Litros', category: 'Higienização', minAlert: 15 });
+  };
+
+  const handleDeleteChemical = (id) => {
+    if (confirm('Deseja excluir este insumo do estoque?')) {
+      const updated = deleteStoredInventoryItem(id);
+      setChemicals(updated);
+    }
+  };
+
+  const handleAddAsset = (e) => {
+    e.preventDefault();
+    if (!newAsset.name) return;
+    const asset = {
+      id: Date.now(),
+      name: newAsset.name,
+      serial: newAsset.serial || `EQ-${Math.floor(1000 + Math.random() * 9000)}-DF`,
+      location: newAsset.location,
+      value: Number(newAsset.value) || 0,
+      condition: newAsset.condition,
+      maintenanceDue: newAsset.maintenanceDue || 'Em dia',
+      icon: 'vacuum'
+    };
+    const updated = saveStoredPatrimonyItem(asset);
+    setPatrimonyItems(updated);
+    setShowAddAssetModal(false);
+    setNewAsset({ name: '', serial: '', location: 'Van 01 (DF)', value: 0, condition: '100% Operacional', maintenanceDue: 'A definir' });
+  };
+
+  const handleDeleteAsset = (id) => {
+    if (confirm('Deseja excluir este equipamento da frota?')) {
+      const updated = deleteStoredPatrimonyItem(id);
+      setPatrimonyItems(updated);
+    }
+  };
+
+  // Cálculos Reais Dinâmicos
+  const totalAssetsValue = patrimonyItems.reduce((acc, curr) => acc + (Number(curr.value) || 0), 0);
+  const criticalChemicals = chemicals.filter(c => (Number(c.volume) || 0) <= (Number(c.minAlert) || 15));
+  const healthPercent = patrimonyItems.length > 0 
+    ? Math.round((patrimonyItems.filter(p => p.condition?.includes('100%')).length / patrimonyItems.length) * 100) 
+    : 100;
+
+  const formatCurrency = (val) => {
+    return Number(val || 0).toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
   };
 
   return (
@@ -114,44 +137,56 @@ export default function InventoryPage() {
               <button 
                 key={tab.id}
                 onClick={() => setActiveTab(tab.id)}
-                className={`px-5 py-2.5 rounded-xl text-xs font-bold transition-all ${activeTab === tab.id ? 'bg-primary text-white shadow-sm' : 'text-on-surface-variant hover:text-primary'}`}
+                className={`px-5 py-2.5 rounded-xl text-xs font-bold transition-all ${activeTab === tab.id ? 'bg-primary text-slate-950 font-black shadow-sm' : 'text-on-surface-variant hover:text-primary'}`}
               >
                 {tab.label}
               </button>
             ))}
           </div>
 
-          <button 
-            onClick={() => setShowAddModal(true)}
-            className="bg-secondary-container text-on-secondary-container px-5 py-2.5 rounded-xl text-xs font-bold flex items-center gap-1.5 hover:brightness-105 transition-all shadow-sm shrink-0"
-          >
-            <span className="material-symbols-outlined text-sm font-bold">add</span>
-            <span>Cadastrar Insumo</span>
-          </button>
+          {activeTab === 'inventory' ? (
+            <button 
+              onClick={() => setShowAddChemicalModal(true)}
+              className="bg-primary text-slate-950 font-black px-5 py-2.5 rounded-xl text-xs flex items-center gap-1.5 hover:brightness-110 active:scale-95 transition-all shadow-sm shrink-0"
+            >
+              <span className="material-symbols-outlined text-sm font-black">add</span>
+              <span>Cadastrar Insumo</span>
+            </button>
+          ) : (
+            <button 
+              onClick={() => setShowAddAssetModal(true)}
+              className="bg-primary text-slate-950 font-black px-5 py-2.5 rounded-xl text-xs flex items-center gap-1.5 hover:brightness-110 active:scale-95 transition-all shadow-sm shrink-0"
+            >
+              <span className="material-symbols-outlined text-sm font-black">add</span>
+              <span>Cadastrar Equipamento</span>
+            </button>
+          )}
         </div>
       </header>
 
-      {/* Metrics Overview (Asymmetric Bento Grid do estoque_e_patrim_nio_2) */}
+      {/* Metrics Overview 100% DINÂMICO E REAL */}
       <section className="grid grid-cols-1 md:grid-cols-12 gap-6 mb-10">
         
-        {/* Card 1: Saúde de Ativos (98.4%) */}
+        {/* Card 1: Saúde de Ativos */}
         <div className="md:col-span-5 bg-primary text-slate-950 p-8 rounded-2xl relative overflow-hidden shadow-xl flex flex-col justify-between">
           <div className="relative z-10">
             <span className="text-[10px] font-black uppercase tracking-[0.2em] text-slate-950/80 font-label">
               Saúde Geral de Ativos
             </span>
             <h3 className="text-5xl sm:text-6xl font-black mt-2 mb-3 tracking-tighter font-headline text-slate-950">
-              98.4%
+              {healthPercent}%
             </h3>
             <p className="text-xs sm:text-sm text-slate-900/85 max-w-sm leading-relaxed font-bold">
-              Equipamentos de extração alemã e pulverizadores operando em capacidade clínica máxima. 1 revisão preventiva programada.
+              {patrimonyItems.length > 0 
+                ? `${patrimonyItems.length} máquinas e veículos cadastrados na base oficial da ED Limp.` 
+                : 'Nenhum equipamento cadastrado ainda. Adicione suas extratoras e vans na aba Equipamentos & Frota.'}
             </p>
           </div>
 
           <div className="mt-6 relative z-10 flex items-center justify-between border-t border-slate-900/20 pt-4">
             <div className="flex items-center gap-2">
               <span className="w-2.5 h-2.5 rounded-full bg-slate-950 animate-pulse"></span>
-              <span className="text-xs font-black text-slate-900">Van 01 & Van 02 Prontas</span>
+              <span className="text-xs font-black text-slate-900">Operação em Brasília</span>
             </div>
             <button 
               onClick={() => setActiveTab('assets')}
@@ -166,31 +201,34 @@ export default function InventoryPage() {
           </div>
         </div>
 
-        {/* Card 2: Atenção Necessária / Estoque Crítico */}
+        {/* Card 2: Atenção Necessária / Insumos em Alerta */}
         <div className="md:col-span-4 bg-surface-container-low p-8 rounded-2xl flex flex-col justify-between border border-outline-variant/10 shadow-subtle">
           <div>
             <span className="text-[10px] font-black uppercase tracking-[0.2em] text-secondary">
               Monitoramento Clínico
             </span>
             <div className="flex items-center gap-4 mt-4">
-              <div className="p-4 bg-error-container text-error rounded-2xl shadow-sm shrink-0">
-                <span className="material-symbols-outlined text-2xl">warning</span>
+              <div className={`p-4 rounded-2xl shadow-sm shrink-0 ${criticalChemicals.length > 0 ? 'bg-error-container text-error' : 'bg-secondary-container/40 text-secondary'}`}>
+                <span className="material-symbols-outlined text-2xl font-bold">
+                  {criticalChemicals.length > 0 ? 'warning' : 'check_circle'}
+                </span>
               </div>
               <div>
-                <h4 className="text-3xl font-black text-on-surface tracking-tight font-headline">02 Insumos</h4>
-                <p className="text-xs text-on-surface-variant font-medium mt-0.5">Abaixo do nível de segurança</p>
+                <h4 className="text-3xl font-black text-on-surface tracking-tight font-headline">
+                  {String(criticalChemicals.length).padStart(2, '0')} Insumos
+                </h4>
+                <p className="text-xs text-on-surface-variant font-medium mt-0.5">
+                  {criticalChemicals.length > 0 ? 'Abaixo do nível de segurança' : 'Estoque em conformidade'}
+                </p>
               </div>
             </div>
           </div>
 
           <div className="mt-6 space-y-2">
-            <div className="flex gap-2">
-              <div className="h-1.5 flex-1 bg-error rounded-full"></div>
-              <div className="h-1.5 flex-1 bg-amber-400 rounded-full"></div>
-              <div className="h-1.5 flex-1 bg-secondary rounded-full"></div>
-            </div>
             <p className="text-[11px] text-on-surface-variant font-medium">
-              Detergente Enzimático Clin (12L) e Desengordurante (8L) necessitam pedido.
+              {criticalChemicals.length > 0
+                ? criticalChemicals.map(c => `${c.name} (${c.volume} ${c.unit})`).join(', ')
+                : 'Todos os produtos químicos possuem volume adequado para atendimento.'}
             </p>
           </div>
         </div>
@@ -202,228 +240,338 @@ export default function InventoryPage() {
               <span className="material-symbols-outlined text-2xl font-bold">inventory</span>
             </div>
             <h4 className="text-[10px] font-black text-secondary uppercase tracking-widest">Patrimônio em Ativos</h4>
-            <p className="text-4xl font-black text-on-secondary-container mt-1 font-headline">R$ 142.5k</p>
+            <p className="text-3xl sm:text-4xl font-black text-on-secondary-container mt-1 font-headline">
+              {formatCurrency(totalAssetsValue)}
+            </p>
           </div>
 
           <div className="mt-4 inline-flex items-center text-xs font-bold text-secondary gap-1.5 bg-white/70 px-3.5 py-1.5 rounded-full w-fit shadow-sm">
-            <span className="material-symbols-outlined text-xs">trending_up</span>
-            <span>+12% este mês</span>
+            <span className="material-symbols-outlined text-xs">precision_manufacturing</span>
+            <span>{patrimonyItems.length} máquinas/veículos</span>
           </div>
         </div>
 
       </section>
 
-      {/* ABA 1: Insumos Químicos e Barras de Lote */}
+      {/* ABA 1: Insumos Químicos */}
       {activeTab === 'inventory' && (
         <section className="space-y-6">
           <div className="flex items-end justify-between px-2">
             <div>
-              <h3 className="text-2xl font-bold text-primary dark:text-white tracking-tight font-headline">
-                Insumos Químicos & Reagentes
-              </h3>
-              <p className="text-xs text-on-surface-variant font-medium">
+              <h3 className="text-xl font-extrabold text-on-surface font-headline">Insumos Químicos & Reagentes</h3>
+              <p className="text-xs text-on-surface-variant font-medium mt-0.5">
                 Monitoramento volumétrico para blindagens e higienizações profundas.
               </p>
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {chemicals.map(item => (
-              <div 
-                key={item.id}
-                className="bg-surface-container-low p-6 rounded-2xl shadow-subtle border border-outline-variant/10 hover-lift transition-all"
+          {chemicals.length === 0 ? (
+            <div className="p-12 text-center bg-surface-container-low rounded-2xl border border-dashed border-outline-variant/30">
+              <span className="material-symbols-outlined text-4xl text-on-surface-variant/40 mb-2">science</span>
+              <h4 className="font-bold text-on-surface text-base">Nenhum produto químico cadastrado</h4>
+              <p className="text-xs text-on-surface-variant mt-1">Comece cadastrando os desinfetantes, impermeabilizantes e detergentes da ED Limp.</p>
+              <button 
+                onClick={() => setShowAddChemicalModal(true)}
+                className="mt-4 bg-primary text-slate-950 font-black px-6 py-2.5 rounded-xl text-xs uppercase tracking-wider shadow-md hover:scale-105 transition-all"
               >
-                <div className="flex justify-between items-start mb-5">
-                  <div className="p-3 bg-surface-container rounded-2xl text-primary">
-                    <span className="material-symbols-outlined text-xl">{item.icon}</span>
-                  </div>
-                  <span className={`text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-wider ${item.statusClass}`}>
-                    {item.status}
-                  </span>
-                </div>
+                + Cadastrar Primeiro Insumo
+              </button>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {chemicals.map((chem) => {
+                const percent = Math.min(100, Math.round(((Number(chem.volume) || 0) / (Number(chem.maxVolume) || 100)) * 100));
+                const isCritical = (Number(chem.volume) || 0) <= (Number(chem.minAlert) || 15);
 
-                <span className="text-[10px] font-black uppercase tracking-wider text-secondary">
-                  {item.category}
-                </span>
-                <h4 className="text-base font-bold text-on-surface mt-0.5 leading-snug">{item.name}</h4>
-                <p className="text-xs font-mono text-on-surface-variant/70 mb-5">Lote: {item.lot}</p>
+                return (
+                  <div key={chem.id} className="bg-surface-container-low p-6 rounded-2xl border border-outline-variant/15 shadow-subtle flex flex-col justify-between space-y-4">
+                    <div className="flex justify-between items-start">
+                      <div className="flex items-center gap-3">
+                        <div className={`w-10 h-10 rounded-xl flex items-center justify-center font-bold ${isCritical ? 'bg-error-container text-error' : 'bg-primary/20 text-primary'}`}>
+                          <span className="material-symbols-outlined text-xl">science</span>
+                        </div>
+                        <div>
+                          <h4 className="font-bold text-sm text-on-surface">{chem.name}</h4>
+                          <span className="text-[10px] font-mono text-on-surface-variant">{chem.lot} • {chem.category}</span>
+                        </div>
+                      </div>
+                      <button 
+                        onClick={() => handleDeleteChemical(chem.id)}
+                        className="text-error hover:bg-error/10 p-1 rounded-full transition-colors"
+                        title="Excluir"
+                      >
+                        <span className="material-symbols-outlined text-sm">delete</span>
+                      </button>
+                    </div>
 
-                <div className="space-y-2 pt-2 border-t border-outline-variant/10">
-                  <div className="flex justify-between text-xs font-bold">
-                    <span className="text-on-surface-variant font-medium">Volume Atual</span>
-                    <span className="text-on-surface font-mono">{item.volume} {item.unit} / {item.maxVolume} {item.unit}</span>
-                  </div>
-                  <div className="w-full bg-surface-container h-2.5 rounded-full overflow-hidden p-0.5">
-                    <div 
-                      className={`h-full rounded-full transition-all duration-700 ${item.barColor}`}
-                      style={{ width: `${Math.min(100, (item.volume / item.maxVolume) * 100)}%` }}
-                    />
-                  </div>
-                </div>
+                    <div className="space-y-1.5">
+                      <div className="flex justify-between items-center text-xs">
+                        <span className="font-bold text-on-surface">{chem.volume} {chem.unit}</span>
+                        <span className={`text-[10px] font-black uppercase px-2 py-0.5 rounded-full ${isCritical ? 'bg-error-container text-error' : 'bg-secondary-container/40 text-secondary'}`}>
+                          {isCritical ? 'Reposição Urgente' : 'Volume Seguro'}
+                        </span>
+                      </div>
+                      <div className="w-full bg-surface-container h-2.5 rounded-full overflow-hidden">
+                        <div className={`h-full rounded-full transition-all duration-500 ${isCritical ? 'bg-error' : 'bg-secondary'}`} style={{ width: `${percent}%` }}></div>
+                      </div>
+                    </div>
 
-                <div className="mt-4 pt-3 flex justify-between items-center text-[11px]">
-                  <span className="text-on-surface-variant font-medium">Capacidade: {Math.round((item.volume / item.maxVolume) * 100)}%</span>
-                  <button 
-                    onClick={() => {
-                      const added = prompt(`Adicionar quantos litros em ${item.name}?`, '10');
-                      if (added && !isNaN(added)) {
-                        const newVol = Math.min(item.maxVolume, item.volume + Number(added));
-                        const updated = updateStoredInventoryVolume(item.id, newVol);
-                        setChemicals(updated);
-                      }
-                    }}
-                    className="text-primary hover:underline font-bold"
-                  >
-                    + Abastecer
-                  </button>
-                </div>
-              </div>
-            ))}
-          </div>
+                    <div className="pt-2 border-t border-outline-variant/10 flex justify-between items-center">
+                      <span className="text-[11px] text-on-surface-variant font-medium">Ajustar volume:</span>
+                      <div className="flex items-center gap-2">
+                        <button 
+                          onClick={() => {
+                            const newVol = Math.max(0, (Number(chem.volume) || 0) - 2);
+                            setChemicals(updateStoredInventoryVolume(chem.id, newVol));
+                          }}
+                          className="w-7 h-7 rounded-lg bg-surface-container flex items-center justify-center font-bold text-xs"
+                        >
+                          -2
+                        </button>
+                        <button 
+                          onClick={() => {
+                            const newVol = (Number(chem.volume) || 0) + 5;
+                            setChemicals(updateStoredInventoryVolume(chem.id, newVol));
+                          }}
+                          className="w-7 h-7 rounded-lg bg-primary text-slate-950 font-bold text-xs"
+                        >
+                          +5
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+          )}
         </section>
       )}
 
-      {/* ABA 2: Equipamentos & Frota (Patrimônio) */}
+      {/* ABA 2: Equipamentos & Frota */}
       {activeTab === 'assets' && (
         <section className="space-y-6">
           <div className="flex items-end justify-between px-2">
             <div>
-              <h3 className="text-2xl font-bold text-primary dark:text-white tracking-tight font-headline">
-                Maquinário Clínico & Frota de Atendimento
-              </h3>
-              <p className="text-xs text-on-surface-variant font-medium">
-                Extratoras profissionais, pulverizadores eletrostáticos e veículos.
+              <h3 className="text-xl font-extrabold text-on-surface font-headline">Equipamentos, Extratoras & Frota</h3>
+              <p className="text-xs text-on-surface-variant font-medium mt-0.5">
+                Patrimônio físico ativo da ED Limp, manutenções e localização nas vans.
               </p>
             </div>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {patrimonyItems.map(item => (
-              <div 
-                key={item.id} 
-                className="bg-surface-container-low p-6 sm:p-8 rounded-2xl border border-outline-variant/10 shadow-subtle flex flex-col justify-between"
+          {patrimonyItems.length === 0 ? (
+            <div className="p-12 text-center bg-surface-container-low rounded-2xl border border-dashed border-outline-variant/30">
+              <span className="material-symbols-outlined text-4xl text-on-surface-variant/40 mb-2">precision_manufacturing</span>
+              <h4 className="font-bold text-on-surface text-base">Nenhum equipamento cadastrado</h4>
+              <p className="text-xs text-on-surface-variant mt-1">Cadastre as extratoras, pulverizadores e veículos que compõem os ativos da empresa.</p>
+              <button 
+                onClick={() => setShowAddAssetModal(true)}
+                className="mt-4 bg-primary text-slate-950 font-black px-6 py-2.5 rounded-xl text-xs uppercase tracking-wider shadow-md hover:scale-105 transition-all"
               >
-                <div>
-                  <div className="flex items-center justify-between mb-4">
+                + Cadastrar Primeiro Equipamento
+              </button>
+            </div>
+          ) : (
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+              {patrimonyItems.map((asset) => (
+                <div key={asset.id} className="bg-surface-container-low p-6 rounded-2xl border border-outline-variant/15 shadow-subtle flex flex-col justify-between space-y-4">
+                  <div className="flex justify-between items-start">
                     <div className="flex items-center gap-3">
-                      <div className="w-12 h-12 rounded-2xl bg-primary/10 text-primary flex items-center justify-center font-bold">
-                        <span className="material-symbols-outlined text-2xl">{item.icon}</span>
+                      <div className="w-10 h-10 rounded-xl bg-secondary-container/40 text-secondary flex items-center justify-center font-bold">
+                        <span className="material-symbols-outlined text-xl">vacuum</span>
                       </div>
                       <div>
-                        <h4 className="font-bold text-base text-on-surface">{item.name}</h4>
-                        <p className="text-xs font-mono text-on-surface-variant">Patrimônio: {item.serial}</p>
+                        <h4 className="font-bold text-sm text-on-surface">{asset.name}</h4>
+                        <span className="text-[10px] font-mono text-on-surface-variant">{asset.serial}</span>
                       </div>
                     </div>
-                    <span className="bg-secondary-container/30 text-secondary text-[10px] font-black px-3 py-1 rounded-full uppercase">
-                      {item.condition}
-                    </span>
+                    <button 
+                      onClick={() => handleDeleteAsset(asset.id)}
+                      className="text-error hover:bg-error/10 p-1 rounded-full transition-colors"
+                      title="Excluir"
+                    >
+                      <span className="material-symbols-outlined text-sm">delete</span>
+                    </button>
                   </div>
 
-                  <div className="grid grid-cols-2 gap-4 my-4 p-4 bg-surface-container rounded-2xl text-xs">
-                    <div>
-                      <p className="text-on-surface-variant/70 text-[10px] uppercase font-bold">Localização Atual</p>
-                      <p className="font-bold text-on-surface mt-0.5">{item.location}</p>
+                  <div className="space-y-1.5 text-xs">
+                    <div className="flex justify-between">
+                      <span className="text-on-surface-variant font-medium">Localização:</span>
+                      <strong className="text-on-surface">{asset.location}</strong>
                     </div>
-                    <div>
-                      <p className="text-on-surface-variant/70 text-[10px] uppercase font-bold">Próxima Revisão</p>
-                      <p className="font-bold text-primary mt-0.5">{item.maintenanceDue}</p>
+                    <div className="flex justify-between">
+                      <span className="text-on-surface-variant font-medium">Valor Avaliado:</span>
+                      <strong className="text-secondary font-mono">{formatCurrency(asset.value)}</strong>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-on-surface-variant font-medium">Condição:</span>
+                      <strong className="text-primary">{asset.condition}</strong>
+                    </div>
+                    <div className="flex justify-between">
+                      <span className="text-on-surface-variant font-medium">Próxima Revisão:</span>
+                      <span className="text-on-surface font-mono">{asset.maintenanceDue}</span>
                     </div>
                   </div>
                 </div>
-
-                <div className="pt-4 border-t border-outline-variant/10 flex justify-between items-center">
-                  <div>
-                    <span className="text-[10px] uppercase font-bold text-on-surface-variant/70">Valor do Ativo</span>
-                    <p className="text-base font-black text-secondary">R$ {item.value.toLocaleString('pt-BR')},00</p>
-                  </div>
-                  <button 
-                    onClick={() => alert(`Check-in de manutenção confirmado para ${item.name}!`)}
-                    className="bg-surface-container-high hover:bg-surface-container-highest text-on-surface px-4 py-2 rounded-xl text-xs font-bold transition-all border border-outline-variant/20"
-                  >
-                    Registrar Manutenção
-                  </button>
-                </div>
-              </div>
-            ))}
-          </div>
+              ))}
+            </div>
+          )}
         </section>
       )}
 
-      {/* Modal para Adicionar Insumo */}
-      {showAddModal && (
-        <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-          <div className="bg-white dark:bg-surface-container-low w-full max-w-md rounded-2xl p-8 shadow-2xl border border-outline-variant/20 animate-fadeIn">
-            <div className="flex justify-between items-center mb-6">
-              <h3 className="text-xl font-bold font-headline text-primary dark:text-white">Cadastrar Insumo Químico</h3>
-              <button onClick={() => setShowAddModal(false)} className="text-on-surface-variant hover:text-primary">
-                <span className="material-symbols-outlined">close</span>
-              </button>
-            </div>
-
-            <form onSubmit={handleAddItem} className="space-y-4">
+      {/* Modal Novo Insumo Químico */}
+      {showAddChemicalModal && (
+        <div className="fixed inset-0 z-[120] bg-black/70 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="bg-surface dark:bg-surface-container max-w-md w-full rounded-2xl p-6 border border-outline-variant/20 shadow-2xl space-y-4">
+            <h3 className="text-base font-black text-on-surface flex items-center gap-2">
+              <span className="material-symbols-outlined text-primary">science</span>
+              Cadastrar Novo Insumo Químico
+            </h3>
+            <form onSubmit={handleAddChemical} className="space-y-3">
               <div>
-                <label className="text-[10px] font-black uppercase text-on-surface-variant/70 block mb-1">Nome do Produto</label>
+                <label className="text-[10px] font-black uppercase text-on-surface-variant/70 mb-1 block">Nome do Produto</label>
                 <input 
                   type="text" 
                   required
-                  placeholder="Ex: Impermeabilizante Pro Shield"
-                  value={newItem.name}
-                  onChange={e => setNewItem({ ...newItem, name: e.target.value })}
-                  className="w-full bg-surface-container border border-outline-variant/20 rounded-xl px-4 py-2.5 text-xs font-semibold text-on-surface"
+                  value={newChemical.name}
+                  onChange={e => setNewChemical({ ...newChemical, name: e.target.value })}
+                  placeholder="Ex: Bactericida Desinfetante Finisher"
+                  className="w-full bg-surface-container border border-outline-variant/20 rounded-xl px-4 py-2.5 text-xs font-bold text-on-surface"
                 />
               </div>
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="text-[10px] font-black uppercase text-on-surface-variant/70 block mb-1">Lote</label>
-                  <input 
-                    type="text" 
-                    placeholder="Ex: #2024-XP01"
-                    value={newItem.lot}
-                    onChange={e => setNewItem({ ...newItem, lot: e.target.value })}
-                    className="w-full bg-surface-container border border-outline-variant/20 rounded-xl px-4 py-2.5 text-xs font-semibold text-on-surface"
-                  />
-                </div>
-                <div>
-                  <label className="text-[10px] font-black uppercase text-on-surface-variant/70 block mb-1">Volume Inicial (L)</label>
+                  <label className="text-[10px] font-black uppercase text-on-surface-variant/70 mb-1 block">Volume Atual</label>
                   <input 
                     type="number" 
                     required
-                    value={newItem.volume}
-                    onChange={e => setNewItem({ ...newItem, volume: e.target.value })}
-                    className="w-full bg-surface-container border border-outline-variant/20 rounded-xl px-4 py-2.5 text-xs font-semibold text-on-surface"
+                    value={newChemical.volume}
+                    onChange={e => setNewChemical({ ...newChemical, volume: e.target.value })}
+                    className="w-full bg-surface-container border border-outline-variant/20 rounded-xl px-4 py-2.5 text-xs font-black text-on-surface"
+                  />
+                </div>
+                <div>
+                  <label className="text-[10px] font-black uppercase text-on-surface-variant/70 mb-1 block">Unidade</label>
+                  <select 
+                    value={newChemical.unit}
+                    onChange={e => setNewChemical({ ...newChemical, unit: e.target.value })}
+                    className="w-full bg-surface-container border border-outline-variant/20 rounded-xl px-3 py-2.5 text-xs font-bold text-on-surface"
+                  >
+                    <option value="Litros">Litros</option>
+                    <option value="Galões">Galões</option>
+                    <option value="Kg">Kg</option>
+                    <option value="Frascos">Frascos</option>
+                  </select>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="text-[10px] font-black uppercase text-on-surface-variant/70 mb-1 block">Categoria</label>
+                  <select 
+                    value={newChemical.category}
+                    onChange={e => setNewChemical({ ...newChemical, category: e.target.value })}
+                    className="w-full bg-surface-container border border-outline-variant/20 rounded-xl px-3 py-2.5 text-xs font-bold text-on-surface"
+                  >
+                    <option value="Higienização">Higienização</option>
+                    <option value="Impermeabilização">Impermeabilização</option>
+                    <option value="Flotador">Flotador</option>
+                    <option value="Enzimático">Enzimático</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="text-[10px] font-black uppercase text-on-surface-variant/70 mb-1 block">Nível Mínimo (Alerta)</label>
+                  <input 
+                    type="number" 
+                    value={newChemical.minAlert}
+                    onChange={e => setNewChemical({ ...newChemical, minAlert: e.target.value })}
+                    className="w-full bg-surface-container border border-outline-variant/20 rounded-xl px-4 py-2.5 text-xs font-black text-on-surface"
                   />
                 </div>
               </div>
 
+              <div className="flex gap-2 pt-2">
+                <button type="button" onClick={() => setShowAddChemicalModal(false)} className="flex-1 bg-surface-container-high py-2.5 rounded-xl text-xs font-bold">Cancelar</button>
+                <button type="submit" className="flex-1 bg-primary text-slate-950 font-black py-2.5 rounded-xl text-xs">Salvar Insumo</button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+      {/* Modal Novo Equipamento / Ativo */}
+      {showAddAssetModal && (
+        <div className="fixed inset-0 z-[120] bg-black/70 backdrop-blur-sm flex items-center justify-center p-4">
+          <div className="bg-surface dark:bg-surface-container max-w-md w-full rounded-2xl p-6 border border-outline-variant/20 shadow-2xl space-y-4">
+            <h3 className="text-base font-black text-on-surface flex items-center gap-2">
+              <span className="material-symbols-outlined text-primary">vacuum</span>
+              Cadastrar Equipamento / Veículo
+            </h3>
+            <form onSubmit={handleAddAsset} className="space-y-3">
               <div>
-                <label className="text-[10px] font-black uppercase text-on-surface-variant/70 block mb-1">Categoria de Uso</label>
-                <select 
-                  value={newItem.category}
-                  onChange={e => setNewItem({ ...newItem, category: e.target.value })}
-                  className="w-full bg-surface-container border border-outline-variant/20 rounded-xl px-4 py-2.5 text-xs font-semibold text-on-surface"
-                >
-                  <option value="Blindagem">Blindagem & Impermeabilização</option>
-                  <option value="Higienização">Higienização Profunda</option>
-                  <option value="Odores & Pets">Odores & Pets</option>
-                  <option value="Manchas Difíceis">Manchas Difíceis</option>
-                </select>
+                <label className="text-[10px] font-black uppercase text-on-surface-variant/70 mb-1 block">Nome do Equipamento / Máquina</label>
+                <input 
+                  type="text" 
+                  required
+                  value={newAsset.name}
+                  onChange={e => setNewAsset({ ...newAsset, name: e.target.value })}
+                  placeholder="Ex: Extratora IPC Soteco 80L"
+                  className="w-full bg-surface-container border border-outline-variant/20 rounded-xl px-4 py-2.5 text-xs font-bold text-on-surface"
+                />
               </div>
 
-              <div className="pt-4 flex gap-3">
-                <button 
-                  type="button" 
-                  onClick={() => setShowAddModal(false)}
-                  className="flex-1 bg-surface-container hover:bg-surface-container-high py-3 rounded-xl text-xs font-bold text-on-surface"
-                >
-                  Cancelar
-                </button>
-                <button 
-                  type="submit" 
-                  className="flex-1 bg-primary text-white py-3 rounded-xl text-xs font-bold hover:brightness-105 shadow-md"
-                >
-                  Salvar Insumo
-                </button>
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="text-[10px] font-black uppercase text-on-surface-variant/70 mb-1 block">Localização / Alocação</label>
+                  <input 
+                    type="text" 
+                    value={newAsset.location}
+                    onChange={e => setNewAsset({ ...newAsset, location: e.target.value })}
+                    placeholder="Van 01 (Asa Sul)"
+                    className="w-full bg-surface-container border border-outline-variant/20 rounded-xl px-4 py-2.5 text-xs font-bold text-on-surface"
+                  />
+                </div>
+                <div>
+                  <label className="text-[10px] font-black uppercase text-on-surface-variant/70 mb-1 block">Valor Estimado (R$)</label>
+                  <input 
+                    type="number" 
+                    value={newAsset.value}
+                    onChange={e => setNewAsset({ ...newAsset, value: e.target.value })}
+                    placeholder="8500"
+                    className="w-full bg-surface-container border border-outline-variant/20 rounded-xl px-4 py-2.5 text-xs font-black text-on-surface"
+                  />
+                </div>
+              </div>
+
+              <div className="grid grid-cols-2 gap-3">
+                <div>
+                  <label className="text-[10px] font-black uppercase text-on-surface-variant/70 mb-1 block">Condição Técnica</label>
+                  <select 
+                    value={newAsset.condition}
+                    onChange={e => setNewAsset({ ...newAsset, condition: e.target.value })}
+                    className="w-full bg-surface-container border border-outline-variant/20 rounded-xl px-3 py-2.5 text-xs font-bold text-on-surface"
+                  >
+                    <option value="100% Operacional">100% Operacional</option>
+                    <option value="Revisão Preventiva">Revisão Preventiva</option>
+                    <option value="Em Manutenção">Em Manutenção</option>
+                  </select>
+                </div>
+                <div>
+                  <label className="text-[10px] font-black uppercase text-on-surface-variant/70 mb-1 block">Próxima Revisão</label>
+                  <input 
+                    type="text" 
+                    value={newAsset.maintenanceDue}
+                    onChange={e => setNewAsset({ ...newAsset, maintenanceDue: e.target.value })}
+                    placeholder="15/12/2026"
+                    className="w-full bg-surface-container border border-outline-variant/20 rounded-xl px-4 py-2.5 text-xs font-bold text-on-surface font-mono"
+                  />
+                </div>
+              </div>
+
+              <div className="flex gap-2 pt-2">
+                <button type="button" onClick={() => setShowAddAssetModal(false)} className="flex-1 bg-surface-container-high py-2.5 rounded-xl text-xs font-bold">Cancelar</button>
+                <button type="submit" className="flex-1 bg-primary text-slate-950 font-black py-2.5 rounded-xl text-xs">Salvar Equipamento</button>
               </div>
             </form>
           </div>
