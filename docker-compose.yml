@@ -1,6 +1,7 @@
 version: '3.8'
 
 services:
+  # 1. Aplicação Web ED Limp (React + Nginx)
   edlimp-app:
     build:
       context: .
@@ -11,3 +12,24 @@ services:
       - "80"
     environment:
       - NODE_ENV=production
+    depends_on:
+      - edlimp-db
+
+  # 2. Banco de Dados PostgreSQL Dedicado
+  edlimp-db:
+    image: postgres:16-alpine
+    container_name: edlimp_db
+    restart: always
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB:-edlimp}
+      POSTGRES_USER: ${POSTGRES_USER:-postgres}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-edlimp_secret_2026}
+    volumes:
+      - edlimp_pgdata:/var/lib/postgresql/data
+      - ./initdb:/docker-entrypoint-initdb.d
+    ports:
+      - "5432:5432"
+
+volumes:
+  edlimp_pgdata:
+    name: edlimp_pgdata
