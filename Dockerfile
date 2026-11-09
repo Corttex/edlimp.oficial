@@ -3,6 +3,12 @@ FROM node:20-alpine AS build
 
 WORKDIR /app
 
+# Variáveis de ambiente para o build do Vite
+ARG VITE_SUPABASE_URL=https://rnylxckvulyrlasfgqhd.supabase.co
+ARG VITE_SUPABASE_ANON_KEY=sb_publishable_VMA5BKX3d6VWHzkwpt3EjA_n6yx_w5t
+ENV VITE_SUPABASE_URL=$VITE_SUPABASE_URL
+ENV VITE_SUPABASE_ANON_KEY=$VITE_SUPABASE_ANON_KEY
+
 # Instalar dependências
 COPY package*.json ./
 RUN npm ci
