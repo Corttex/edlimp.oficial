@@ -20,8 +20,8 @@ export default function MainLayout({ toggleTheme, theme }) {
       
       <main className="flex-1 flex flex-col min-w-0 transition-all duration-300 lg:ml-64 w-full">
         <TopNav onMenuClick={() => setIsSidebarOpen(!isSidebarOpen)} toggleTheme={toggleTheme} theme={theme} />
-        {/* Usando o máximo do espaço disponível: pt-20 px-3 sm:px-6 lg:px-8 pb-8 sem max-w artificial */}
-        <div className="pt-20 px-3 sm:px-6 lg:px-8 pb-8 w-full min-w-0">
+        {/* Espaçamento superior generoso (pt-24 sm:pt-28) para garantir respiro visual entre a barra superior e o conteúdo */}
+        <div className="pt-24 sm:pt-28 px-4 sm:px-8 lg:px-10 pb-12 w-full min-w-0">
           <Outlet />
         </div>
       </main>
