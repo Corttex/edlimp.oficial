@@ -1,77 +1,14 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { getStoredInventory, saveStoredInventoryItem, updateStoredInventoryVolume } from '../lib/storage';
 
 export default function InventoryPage() {
   const [activeTab, setActiveTab] = useState('inventory'); // inventory, assets, maintenance, kits
   const [showAddModal, setShowAddModal] = useState(false);
+  const [chemicals, setChemicals] = useState([]);
 
-  // Insumos Químicos Reais com monitoramento de lotes e volume
-  const [chemicals, setChemicals] = useState([
-    {
-      id: 1,
-      name: 'Impermeabilizante Shield HP-900',
-      lot: '#2024-XP90',
-      volume: 85,
-      maxVolume: 100,
-      unit: 'Litros',
-      status: 'Em Conformidade',
-      statusClass: 'bg-secondary-container/40 text-secondary border border-secondary/20',
-      barColor: 'bg-secondary',
-      icon: 'science',
-      category: 'Blindagem'
-    },
-    {
-      id: 2,
-      name: 'Detergente Enzimático Clin Pro',
-      lot: '#2024-ENZ2',
-      volume: 12,
-      maxVolume: 100,
-      unit: 'Litros',
-      status: 'Reposição Urgente',
-      statusClass: 'bg-error-container text-error border border-error/20',
-      barColor: 'bg-error',
-      icon: 'cleaning_services',
-      category: 'Higienização'
-    },
-    {
-      id: 3,
-      name: 'Neutralizador Odor Bio-Tech',
-      lot: '#2024-BIO8',
-      volume: 42,
-      maxVolume: 60,
-      unit: 'Litros',
-      status: 'Em Conformidade',
-      statusClass: 'bg-secondary-container/40 text-secondary border border-secondary/20',
-      barColor: 'bg-secondary',
-      icon: 'opacity',
-      category: 'Odores & Pets'
-    },
-    {
-      id: 4,
-      name: 'Solvente Desengordurante Citrus',
-      lot: '#2024-CIT1',
-      volume: 8,
-      maxVolume: 40,
-      unit: 'Litros',
-      status: 'Estoque Baixo',
-      statusClass: 'bg-amber-100 text-amber-800 border border-amber-300 dark:bg-amber-950/60 dark:text-amber-300',
-      barColor: 'bg-amber-500',
-      icon: 'sanitizer',
-      category: 'Manchas Difíceis'
-    },
-    {
-      id: 5,
-      name: 'Flotador Tensoativo Hospitalar',
-      lot: '#2024-FLO5',
-      volume: 64,
-      maxVolume: 80,
-      unit: 'Litros',
-      status: 'Em Conformidade',
-      statusClass: 'bg-secondary-container/40 text-secondary border border-secondary/20',
-      barColor: 'bg-secondary',
-      icon: 'bubble_chart',
-      category: 'Pré-Lavagem'
-    }
-  ]);
+  useEffect(() => {
+    setChemicals(getStoredInventory());
+  }, []);
 
   // Ativos e Equipamentos Físicos (Patrimônio)
   const patrimonyItems = [
@@ -142,7 +79,8 @@ export default function InventoryPage() {
       icon: 'science',
       category: newItem.category
     };
-    setChemicals([item, ...chemicals]);
+    const updated = saveStoredInventoryItem(item);
+    setChemicals(updated);
     setShowAddModal(false);
     setNewItem({ name: '', lot: '', volume: 50, unit: 'Litros', category: 'Higienização' });
   };
@@ -329,7 +267,9 @@ export default function InventoryPage() {
                     onClick={() => {
                       const added = prompt(`Adicionar quantos litros em ${item.name}?`, '10');
                       if (added && !isNaN(added)) {
-                        setChemicals(chems => chems.map(c => c.id === item.id ? { ...c, volume: Math.min(c.maxVolume, c.volume + Number(added)) } : c));
+                        const newVol = Math.min(item.maxVolume, item.volume + Number(added));
+                        const updated = updateStoredInventoryVolume(item.id, newVol);
+                        setChemicals(updated);
                       }
                     }}
                     className="text-primary hover:underline font-bold"

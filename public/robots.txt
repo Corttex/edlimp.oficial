@@ -1,0 +1,16 @@
+User-agent: *
+Allow: /
+Allow: /edlimp_site_socialkit.html
+Allow: /favicon.svg
+Allow: /logo-green.svg
+Allow: /logo-color.svg
+
+# Bloquear indexação de áreas administrativas e painel interno
+Disallow: /painel
+Disallow: /portal/
+Disallow: /portal/*
+Disallow: /api/
+Disallow: /*.json$
+
+# Mapa do site oficial
+Sitemap: https://edlimp.gestaocomercial360.com.br/sitemap.xml

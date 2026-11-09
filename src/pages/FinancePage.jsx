@@ -1,68 +1,15 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { getStoredFinance, saveStoredTransaction, deleteStoredTransaction } from '../lib/storage';
 
 export default function FinancePage() {
   const [showAddModal, setShowAddModal] = useState(false);
   const [filterType, setFilterType] = useState('todos'); // todos, entrada, saida
   const [searchTerm, setSearchTerm] = useState('');
+  const [transactions, setTransactions] = useState([]);
 
-  // Transações Financeiras Clínicas
-  const [transactions, setTransactions] = useState([
-    {
-      id: 1,
-      desc: 'Higienização Sofá Retrátil + Blindagem',
-      client: 'Juliana Paes (Asa Sul)',
-      date: 'Hoje, 14:20',
-      type: 'entrada',
-      amount: 1450.00,
-      category: 'Serviço Concluído',
-      method: 'PIX',
-      status: 'Confirmado'
-    },
-    {
-      id: 2,
-      desc: 'Aquisição Impermeabilizante Shield HP-900 (Lote 50L)',
-      client: 'Distribuidora Química Pro',
-      date: 'Ontem, 16:45',
-      type: 'saida',
-      amount: 1890.00,
-      category: 'Insumos',
-      method: 'Boleto',
-      status: 'Pago'
-    },
-    {
-      id: 3,
-      desc: 'Limpeza 6 Cadeiras Jantar + Tapete Persa',
-      client: 'Roberto Alves (Lago Sul)',
-      date: 'Ontem, 11:30',
-      type: 'entrada',
-      amount: 980.00,
-      category: 'Serviço Concluído',
-      method: 'Cartão de Crédito',
-      status: 'Confirmado'
-    },
-    {
-      id: 4,
-      desc: 'Abastecimento Van 01 (Diesel)',
-      client: 'Posto Shell Brasília',
-      date: '26/10/2026',
-      type: 'saida',
-      amount: 320.00,
-      category: 'Frota & Transporte',
-      method: 'Cartão Corporativo',
-      status: 'Pago'
-    },
-    {
-      id: 5,
-      desc: 'Higienização Estofado Automotivo Couro',
-      client: 'Dra. Vanessa Martins (Sudoeste)',
-      date: '25/10/2026',
-      type: 'entrada',
-      amount: 650.00,
-      category: 'Serviço Concluído',
-      method: 'PIX',
-      status: 'Confirmado'
-    }
-  ]);
+  useEffect(() => {
+    setTransactions(getStoredFinance());
+  }, []);
 
   // Novo Lançamento Modal
   const [newTrans, setNewTrans] = useState({
@@ -88,7 +35,8 @@ export default function FinancePage() {
       method: newTrans.method,
       status: 'Confirmado'
     };
-    setTransactions([t, ...transactions]);
+    const updated = saveStoredTransaction(t);
+    setTransactions(updated);
     setShowAddModal(false);
     setNewTrans({ desc: '', client: '', type: 'entrada', amount: '', category: 'Serviço Concluído', method: 'PIX' });
   };
