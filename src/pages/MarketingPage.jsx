@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import * as htmlToImage from 'html-to-image';
 import { getStoredMarketingGoals, saveStoredMarketingGoals, getStoredReviews, saveStoredReview } from '../lib/storage';
+import { generateAdCopyRealAI } from '../lib/gemini';
 
 export default function MarketingPage() {
   const { user } = useAuth();
@@ -174,15 +175,51 @@ A ED Limp utiliza Neutralizadores Enzimáticos de ação profunda que decompõem
 
   const [activeAd, setActiveAd] = useState(aiCreativeIdeas[0]);
 
-  // Função para a IA gerar ou alternar nova ideia de anúncio
-  const handleGenerateNextAIIdea = () => {
+  // Função para a IA (Google Gemini 3.8 Flash) gerar criativo ou alternar
+  const handleGenerateNextAIIdea = async () => {
     setIsGeneratingAI(true);
-    setTimeout(() => {
+    const themes = [
+      "Higienização profunda de estofados e eliminação de ácaros e bactérias para famílias no DF",
+      "Blindagem e impermeabilização premium Nano Shield contra manchas de café, vinho e líquidos no Lago Sul e Noroeste",
+      "Limpeza profunda e neutralização enzimática de xixi e odores de pets (cães e gatos) em sofás em Águas Claras e Sudoeste",
+      "Higienização e sanitização hospitalar de colchões para alívio imediato de rinite alérgica",
+      "Limpeza e revitalização de cadeiras de jantar e sofás de linho claro antes de eventos em família em Brasília"
+    ];
+    const randomTheme = themes[Math.floor(Math.random() * themes.length)];
+
+    try {
+      const generated = await generateAdCopyRealAI(randomTheme);
+      if (generated && generated.headline && generated.primaryText) {
+        setActiveAd({
+          badge: generated.badge || 'Google Gemini IA • Alta Conversão',
+          objective: generated.objective || 'Engajamento / Mensagens (WhatsApp direto)',
+          campaignName: generated.campaignName || '[ED LIMP] [IA] - META ADS BRASILIA',
+          targetAudience: {
+            locations: generated.locations || 'Brasília, DF (Raio 25km) - Asa Sul, Asa Norte, Sudoeste, Noroeste, Águas Claras',
+            age: generated.age || '26 a 58 anos',
+            gender: 'Todos (Foco em donos de residências e famílias)',
+            interests: 'Decoração, Bem-estar, Pets, Arquitetura, Família',
+          },
+          budget: generated.budget || 'R$ 25,00 a R$ 45,00 / dia',
+          headline: generated.headline,
+          description: generated.description || 'Tecnologia extratora hospitalar com secagem rápida no DF',
+          callToAction: generated.callToAction || 'Enviar mensagem pelo WhatsApp',
+          primaryText: generated.primaryText,
+        });
+      } else {
+        // Fallback para preset
+        const nextIndex = (aiIdeaCount + 1) % aiCreativeIdeas.length;
+        setAiIdeaCount(nextIndex);
+        setActiveAd(aiCreativeIdeas[nextIndex]);
+      }
+    } catch (e) {
+      console.warn("Erro ao gerar criativo Gemini, usando rotação de presets:", e);
       const nextIndex = (aiIdeaCount + 1) % aiCreativeIdeas.length;
       setAiIdeaCount(nextIndex);
       setActiveAd(aiCreativeIdeas[nextIndex]);
+    } finally {
       setIsGeneratingAI(false);
-    }, 450);
+    }
   };
 
   // ==========================================
