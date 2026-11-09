@@ -53,74 +53,137 @@ export default function MarketingPage() {
   };
 
   // ==========================================
-  // ESTADOS & DADOS: ANÚNCIOS PATROCINADOS (META ADS / GESTOR)
+  // ESTADOS & DADOS: ANÚNCIOS PATROCINADOS & IA DE CRIATIVOS
   // ==========================================
   const [copiedId, setCopiedId] = useState(null);
+  const [isGeneratingAI, setIsGeneratingAI] = useState(false);
+  const [aiIdeaCount, setAiIdeaCount] = useState(0);
+
   const copyToClipboard = (text, id) => {
     navigator.clipboard.writeText(text);
     setCopiedId(id);
     setTimeout(() => setCopiedId(null), 2500);
   };
 
-  const adPresets = [
+  // Banco de Ideias / Copys geradas por IA para Higienização e Impermeabilização em Brasília
+  const aiCreativeIdeas = [
     {
-      id: 'ad-1',
-      badge: 'Campeão de Mensagens WhatsApp',
+      badge: 'IA Growth • Gancho Sanitário & Alergias',
       objective: 'Engajamento / Mensagens (WhatsApp direto)',
-      campaignName: '[ED LIMP] [WPP] - HIGIENIZACAO SOFAS - DF RAIO 25KM',
+      campaignName: '[ED LIMP] [IA] - SAUDE & ALERGIAS - DF FAMILIAS',
       targetAudience: {
-        locations: 'Brasília, DF (+25 km) - Águas Claras, Sudoeste, Asa Sul, Asa Norte, Guará, Lago Sul/Norte, Vicente Pires, Taguatinga',
-        age: '26 a 58 anos',
-        gender: 'Todos (Prioridade Mulheres 65% / Homens 35%)',
-        interests: 'Decoração de interiores, Móveis, Família, Pais com filhos pequenos, Animais de estimação (Pets), Reforma residencial, Sofá retrátil',
+        locations: 'Brasília, DF (Raio 25km) - Asa Sul, Asa Norte, Sudoeste, Águas Claras, Guará, Noroeste',
+        age: '28 a 55 anos',
+        gender: 'Mulheres e Homens (Foco em Famílias e Pais)',
+        interests: 'Saúde infantil, Alergia respiratória, Rinite, Decoração, Família, Pets',
       },
-      budget: 'R$ 20,00 a R$ 40,00 / dia (Sugestão de teste: R$ 25/dia)',
-      headline: 'Sofá Como Novo em poucas horas? Solicite orçamento!',
-      description: 'Atendimento em domicílio em todo DF. Eliminação de ácaros e bactérias.',
-      callToAction: 'Enviar mensagem pelo WhatsApp',
-      primaryText: `Você sabia que um sofá sem higienização acumula até 2 milhões de ácaros, fungos e bactérias? 🦠⚠️
+      budget: 'R$ 25,00 a R$ 45,00 / dia',
+      headline: 'Rinite constante em casa? A culpa pode ser do sofá!',
+      description: 'Extração hospitalar elimina 99.9% de ácaros e bactérias no DF.',
+      callToAction: 'Falar com Especialista no WhatsApp',
+      primaryText: `Você ou alguém da sua família acorda com espirros, coceira no nariz ou crises de rinite? 🤧⚠️
 
-Na ED Limp, realizamos a Higienização Clínica Profunda e Impermeabilização que renovam o tecido e trazem de volta a cor e o perfume de estofado novo, sem danificar as fibras.
+Pouca gente sabe, mas um sofá pode acumular mais de 2 milhões de ácaros, fungos e restos de pele invisíveis a olho nu.
 
-✅ Eliminação de 99.9% de ácaros e bactérias
-✅ Secagem rápida com tecnologia extratora alemã
-✅ Atendimento no conforto da sua casa em todo DF e Entorno
-✅ Mais de 479 clientes satisfeitos e avaliação 4.9★ no Google!
+Com a Higienização Clínica Profunda da ED Limp:
+✅ Extração profunda com maquinário alemão de alta sucção
+✅ Bactericida hospitalar seguro para crianças e pets
+✅ Eliminação de odores, ácaros e mofo
+✅ Secagem rápida no mesmo dia!
 
-📲 Toque em "Enviar Mensagem no WhatsApp" e envie uma foto do seu estofado para receber um orçamento imediato sem compromisso! 👇`
+📲 Toque no botão abaixo e envie uma foto do seu estofado para receber um orçamento sem compromisso no WhatsApp! 👇`
     },
     {
-      id: 'ad-2',
-      badge: 'Campanha de Blindagem & Pets',
+      badge: 'IA Growth • Gancho Blindagem & Vinhos/Café',
       objective: 'Conversão / Mensagens para Fechamento',
-      campaignName: '[ED LIMP] [CONVERSAO] - IMPERMEABILIZACAO BLINDAGEM PETS',
+      campaignName: '[ED LIMP] [IA] - BLINDAGEM NANO SHIELD - BRASILIA VIP',
       targetAudience: {
-        locations: 'Brasília - Asa Sul, Asa Norte, Lago Sul, Lago Norte, Park Way, Sudoeste, Noroeste',
-        age: '28 a 60 anos',
-        gender: 'Todos',
-        interests: 'Gatos, Cães, Cuidados com animais de estimação, Arquitetura, Sofá de linho, Decoração de luxo',
+        locations: 'Brasília - Lago Sul, Lago Norte, Park Way, Sudoeste, Noroeste, Asa Sul',
+        age: '30 a 62 anos',
+        gender: 'Todos (Público A/B)',
+        interests: 'Vinho, Gastronomia, Arquitetura, Móveis de Design, Sofá de Linho, Decoração de luxo',
       },
-      budget: 'R$ 30,00 a R$ 50,00 / dia',
-      headline: 'Proteja seu Sofá contra xixi de pet e manchas de líquidos!',
-      description: 'Blindagem que não altera a textura do tecido com garantia.',
-      callToAction: 'Falar com Especialista no WhatsApp',
-      primaryText: `Acidentes acontecem, mas seu sofá não precisa pagar o preço! 🐶🍷☕
+      budget: 'R$ 35,00 a R$ 60,00 / dia',
+      headline: 'Derrubou vinho ou café no sofá? Com a Blindagem ED Limp não mancha!',
+      description: 'Proteção nano-tecnológica que repele líquidos com garantia.',
+      callToAction: 'Solicitar Orçamento no WhatsApp',
+      primaryText: `Acidentes acontecem em segundos, mas uma mancha pode durar para sempre! 🍷☕🛋️
 
-Com a Impermeabilização e Blindagem Nano-Shield da ED Limp, qualquer líquido derramado (café, vinho, refrigerante ou xixi de pet) fica retido na superfície em forma de gota e é removido apenas com um papel toalha!
+A Impermeabilização Nano-Shield da ED Limp cria uma barreira molecular invisível nas fibras do tecido. Qualquer líquido derramado (café, vinho, refrigerante ou molho) vira gota na superfície e sai facilmente com um guardanapo!
 
-🛡️ Proteção hidrorepelente e oleorrepelente
-🛡️ Preserva a maciez e a cor original do tecido
-🛡️ Não resseca e não tem cheiro forte
-🛡️ Garantia de aplicação com certificado
+🛡️ Não altera o toque ou a cor do tecido (ideal para linho e veludo)
+🛡️ Proteção certificada não inflamável
+🛡️ Garantia formal com certificado ED Limp
+🛡️ Atendimento com hora marcada em todo o Distrito Federal
 
-📍 Atendemos em toda Brasília e DF.
+👉 Toque em "Solicitar Orçamento" e proteja o estofado da sua casa hoje mesmo!`
+    },
+    {
+      badge: 'IA Growth • Gancho Estofado Como Novo / Economia',
+      objective: 'Engajamento / Mensagens WhatsApp',
+      campaignName: '[ED LIMP] [IA] - SOFA NOVO SEM COMPRAR OUTRO - DF',
+      targetAudience: {
+        locations: 'Brasília e Regiões Administrativas (+30km)',
+        age: '25 a 58 anos',
+        gender: 'Todos',
+        interests: 'Reforma, Limpeza doméstica, Dicas de casa, Decoração, Economia',
+      },
+      budget: 'R$ 20,00 a R$ 35,00 / dia',
+      headline: 'Não troque de sofá! Deixe ele com cheiro e cor de novo por uma fração do preço!',
+      description: 'Higienização e revitalização em domicílio no DF.',
+      callToAction: 'Enviar Mensagem no WhatsApp',
+      primaryText: `Pensando em gastar R$ 4.000 ou R$ 6.000 em um sofá novo porque o seu está encardido ou com manchas? 🛑🛋️
 
-👉 Clique no botão abaixo e proteja seu investimento antes que uma mancha estrague seu estofado!`
+Com a higienização técnica especializada da ED Limp, nós revitalizamos o tecido original, retirando sujidades profundas, suor acumulado, manchas e odores.
+
+✨ Devolve a cor original das fibras
+✨ Deixa o estofado perfumado e higienizado
+✨ Economia de mais de 80% em relação à compra de um novo
+✨ Atendimento rápido e pontual no conforto da sua residência
+
+📲 Clique no botão e mande uma foto do seu estofado para ver a mágica acontecer!`
+    },
+    {
+      badge: 'IA Growth • Gancho Pets & Xixi / Odores',
+      objective: 'Conversão / WhatsApp Direto',
+      campaignName: '[ED LIMP] [IA] - REMOCAO DE ODOR PETS - DF',
+      targetAudience: {
+        locations: 'Brasília, DF - Plano Piloto, Águas Claras, Sudoeste, Guará, Taguatinga',
+        age: '24 a 56 anos',
+        gender: 'Todos',
+        interests: 'Gatos, Cachorros, Pet shops, Adoção de pets, Veterinária',
+      },
+      budget: 'R$ 25,00 a R$ 40,00 / dia',
+      headline: 'Seu pet fez xixi no sofá? Removemos o cheiro e a mancha pela raiz!',
+      description: 'Tratamento enzimático hospitalar elimina bactérias e odor.',
+      callToAction: 'Chamar no WhatsApp Agora',
+      primaryText: `Amamos nossos bichinhos, mas acidentes no sofá deixam um cheiro que não sai com receita caseira! 🐾🐶🐱
+
+Produtos de mercado apenas mascaram o odor e espalham a mancha para o fundo da espuma.
+
+A ED Limp utiliza Neutralizadores Enzimáticos de ação profunda que decompõem as moléculas de ureia e bactérias causadoras do mau cheiro, eliminando o problema na raiz sem danificar o tecido!
+
+✅ Eliminação do odor característico
+✅ Sanitização com extratora profissional
+✅ Não irrita o olfato dos pets
+✅ Atendimento domiciliar em todo o DF
+
+👇 Toque no botão e recupere o conforto do seu sofá hoje!`
     }
   ];
 
-  const [selectedAdIndex, setSelectedAdIndex] = useState(0);
-  const activeAd = adPresets[selectedAdIndex];
+  const [activeAd, setActiveAd] = useState(aiCreativeIdeas[0]);
+
+  // Função para a IA gerar ou alternar nova ideia de anúncio
+  const handleGenerateNextAIIdea = () => {
+    setIsGeneratingAI(true);
+    setTimeout(() => {
+      const nextIndex = (aiIdeaCount + 1) % aiCreativeIdeas.length;
+      setAiIdeaCount(nextIndex);
+      setActiveAd(aiCreativeIdeas[nextIndex]);
+      setIsGeneratingAI(false);
+    }, 450);
+  };
 
   // ==========================================
   // ESTADOS: GOOGLE MEU NEGÓCIO & REVIEWS REAIS
@@ -185,30 +248,30 @@ Muito obrigado pela confiança e conte sempre conosco! 💚`
     : 0;
 
   return (
-    <div className="min-h-screen bg-background text-on-surface p-4 sm:p-6 lg:p-10 font-body transition-colors">
+    <div className="min-h-screen bg-background text-on-surface font-body transition-colors">
       
       {/* Top Header */}
-      <header className="mb-8 flex flex-col lg:flex-row lg:items-end justify-between gap-6 border-b border-outline-variant/10 pb-6">
+      <header className="mb-6 flex flex-col xl:flex-row xl:items-center justify-between gap-4 border-b border-outline-variant/15 pb-4">
         <div>
-          <div className="flex items-center gap-2 mb-2">
-            <span className="px-3 py-1 bg-secondary-container text-on-secondary-container rounded-full text-[10px] font-black uppercase tracking-widest font-label flex items-center gap-1">
+          <div className="flex items-center gap-2 mb-1">
+            <span className="px-2.5 py-0.5 bg-secondary-container text-on-secondary-container rounded-full text-[10px] font-black uppercase tracking-wider font-label flex items-center gap-1">
               <span className="material-symbols-outlined text-xs">rocket_launch</span> Growth & Marketing Hub
             </span>
             <span className="text-xs text-on-surface-variant font-medium">Brasília & Entorno</span>
           </div>
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-primary tracking-tight font-headline">
+          <h2 className="text-2xl sm:text-3xl font-extrabold text-primary tracking-tight font-headline">
             Central de Marketing & Crescimento
           </h2>
-          <p className="text-on-surface-variant text-sm font-medium mt-1 max-w-2xl">
-            Gestão completa de campanhas de anúncios, criador de artes para Instagram, reputação no Google Meu Negócio e metas semanais de clientes.
+          <p className="text-on-surface-variant text-xs font-medium mt-0.5">
+            Anúncios com inteligência artificial, Google Meu Negócio, metas semanais e gerador de artes.
           </p>
         </div>
 
-        {/* Navigation Tabs */}
-        <div className="flex flex-wrap gap-1.5 bg-surface-container-low p-1.5 rounded-2xl shadow-subtle border border-outline-variant/10">
+        {/* Navigation Tabs - CABER TUDO NUMA LINHA SÓ COM SCROLL HORIZONTAL FLUIDO */}
+        <div className="flex items-center gap-1 bg-surface-container-low dark:bg-surface-container-high/40 p-1.5 rounded-2xl shadow-subtle border border-outline-variant/15 overflow-x-auto max-w-full custom-scrollbar">
           <button 
             onClick={() => setActiveTab('ads')}
-            className={`flex items-center gap-2 px-4 py-2.5 text-xs font-bold rounded-xl transition-all ${activeTab === 'ads' ? 'bg-primary text-slate-950 shadow-md font-black' : 'text-on-surface-variant hover:text-primary hover:bg-surface-container'}`}
+            className={`flex items-center gap-1.5 px-3.5 py-2 text-xs font-bold rounded-xl whitespace-nowrap transition-all shrink-0 ${activeTab === 'ads' ? 'bg-primary text-slate-950 shadow-md font-black' : 'text-on-surface-variant hover:text-primary hover:bg-surface-container'}`}
           >
             <span className="material-symbols-outlined text-sm">campaign</span>
             <span>Patrocinados (Meta Ads)</span>
@@ -216,7 +279,7 @@ Muito obrigado pela confiança e conte sempre conosco! 💚`
 
           <button 
             onClick={() => setActiveTab('gmb')}
-            className={`flex items-center gap-2 px-4 py-2.5 text-xs font-bold rounded-xl transition-all ${activeTab === 'gmb' ? 'bg-primary text-slate-950 shadow-md font-black' : 'text-on-surface-variant hover:text-primary hover:bg-surface-container'}`}
+            className={`flex items-center gap-1.5 px-3.5 py-2 text-xs font-bold rounded-xl whitespace-nowrap transition-all shrink-0 ${activeTab === 'gmb' ? 'bg-primary text-slate-950 shadow-md font-black' : 'text-on-surface-variant hover:text-primary hover:bg-surface-container'}`}
           >
             <span className="material-symbols-outlined text-sm">reviews</span>
             <span>Google Meu Negócio</span>
@@ -224,7 +287,7 @@ Muito obrigado pela confiança e conte sempre conosco! 💚`
 
           <button 
             onClick={() => setActiveTab('goals')}
-            className={`flex items-center gap-2 px-4 py-2.5 text-xs font-bold rounded-xl transition-all ${activeTab === 'goals' ? 'bg-primary text-slate-950 shadow-md font-black' : 'text-on-surface-variant hover:text-primary hover:bg-surface-container'}`}
+            className={`flex items-center gap-1.5 px-3.5 py-2 text-xs font-bold rounded-xl whitespace-nowrap transition-all shrink-0 ${activeTab === 'goals' ? 'bg-primary text-slate-950 shadow-md font-black' : 'text-on-surface-variant hover:text-primary hover:bg-surface-container'}`}
           >
             <span className="material-symbols-outlined text-sm">track_changes</span>
             <span>Metas Semanais</span>
@@ -232,7 +295,7 @@ Muito obrigado pela confiança e conte sempre conosco! 💚`
 
           <button 
             onClick={() => setActiveTab('creative')}
-            className={`flex items-center gap-2 px-4 py-2.5 text-xs font-bold rounded-xl transition-all ${activeTab === 'creative' ? 'bg-primary text-slate-950 shadow-md font-black' : 'text-on-surface-variant hover:text-primary hover:bg-surface-container'}`}
+            className={`flex items-center gap-1.5 px-3.5 py-2 text-xs font-bold rounded-xl whitespace-nowrap transition-all shrink-0 ${activeTab === 'creative' ? 'bg-primary text-slate-950 shadow-md font-black' : 'text-on-surface-variant hover:text-primary hover:bg-surface-container'}`}
           >
             <span className="material-symbols-outlined text-sm">palette</span>
             <span>Gerador de Artes</span>
@@ -240,7 +303,7 @@ Muito obrigado pela confiança e conte sempre conosco! 💚`
 
           <button 
             onClick={() => setActiveTab('analytics')}
-            className={`flex items-center gap-2 px-4 py-2.5 text-xs font-bold rounded-xl transition-all ${activeTab === 'analytics' ? 'bg-primary text-slate-950 shadow-md font-black' : 'text-on-surface-variant hover:text-primary hover:bg-surface-container'}`}
+            className={`flex items-center gap-1.5 px-3.5 py-2 text-xs font-bold rounded-xl whitespace-nowrap transition-all shrink-0 ${activeTab === 'analytics' ? 'bg-primary text-slate-950 shadow-md font-black' : 'text-on-surface-variant hover:text-primary hover:bg-surface-container'}`}
           >
             <span className="material-symbols-outlined text-sm">insights</span>
             <span>Métricas & ROI</span>
@@ -248,48 +311,56 @@ Muito obrigado pela confiança e conte sempre conosco! 💚`
         </div>
       </header>
 
-      {/* ABA 1: META ADS */}
+      {/* ABA 1: META ADS COM BOTÃO DE ATUALIZAR IDEIA POR IA */}
       {activeTab === 'ads' && (
-        <div className="space-y-8 animate-fadeIn">
-          <div className="bg-gradient-to-r from-primary/10 via-surface-container to-secondary/10 p-6 rounded-2xl border border-primary/20 flex flex-col md:flex-row items-center justify-between gap-4">
-            <div className="flex items-center gap-4">
-              <div className="w-12 h-12 rounded-2xl bg-primary text-slate-950 flex items-center justify-center shrink-0 shadow-md">
-                <span className="material-symbols-outlined text-2xl font-black">ads_click</span>
+        <div className="space-y-6 animate-fadeIn">
+          
+          {/* Barra Superior com Botão Conectado à IA de Criativos */}
+          <div className="bg-surface-container-low dark:bg-surface-container-high/40 p-5 rounded-2xl border border-outline-variant/15 flex flex-col md:flex-row items-center justify-between gap-4 shadow-sm">
+            <div className="flex items-center gap-3">
+              <div className="w-11 h-11 rounded-2xl bg-primary text-slate-950 flex items-center justify-center shrink-0 shadow-md">
+                <span className="material-symbols-outlined text-2xl font-black">psychology</span>
               </div>
               <div>
-                <h3 className="font-bold font-headline text-on-surface text-base">Ficha Técnica Pronta para o Gestor de Anúncios</h3>
-                <p className="text-xs text-on-surface-variant">
-                  Copie e cole diretamente no <strong>Facebook Ads / Gerenciador de Anúncios da Meta</strong> para gerar leads qualificados no WhatsApp.
+                <div className="flex items-center gap-2">
+                  <h3 className="font-bold font-headline text-on-surface text-base">Ficha Técnica com IA de Criativos</h3>
+                  <span className="px-2 py-0.5 bg-primary/20 text-primary rounded-full text-[10px] font-black uppercase">IA Ativa</span>
+                </div>
+                <p className="text-xs text-on-surface-variant mt-0.5">
+                  Copie e cole diretamente no <strong>Gerenciador de Anúncios da Meta</strong> para atrair famílias no WhatsApp.
                 </p>
               </div>
             </div>
-            <div className="flex gap-2">
+
+            {/* BOTÃO ATUALIZAR IDEIA COM IA */}
+            <div className="flex items-center gap-2 w-full md:w-auto">
               <button
-                onClick={() => setSelectedAdIndex(0)}
-                className={`px-4 py-2 rounded-xl text-xs font-bold transition-all ${selectedAdIndex === 0 ? 'bg-primary text-slate-950 shadow-md font-black' : 'bg-surface-container text-on-surface-variant'}`}
+                onClick={handleGenerateNextAIIdea}
+                disabled={isGeneratingAI}
+                className="w-full md:w-auto bg-primary text-slate-950 font-black px-5 py-2.5 rounded-xl text-xs flex items-center justify-center gap-2 shadow-lg hover:brightness-110 active:scale-95 transition-all disabled:opacity-50"
+                title="Gera novos textos persuasivos, headlines e públicos-alvo testados"
               >
-                Campanha 01: Higienização
-              </button>
-              <button
-                onClick={() => setSelectedAdIndex(1)}
-                className={`px-4 py-2 rounded-xl text-xs font-bold transition-all ${selectedAdIndex === 1 ? 'bg-primary text-slate-950 shadow-md font-black' : 'bg-surface-container text-on-surface-variant'}`}
-              >
-                Campanha 02: Blindagem & Pets
+                <span className={`material-symbols-outlined text-base font-black ${isGeneratingAI ? 'animate-spin' : ''}`}>
+                  {isGeneratingAI ? 'refresh' : 'auto_awesome'}
+                </span>
+                <span>{isGeneratingAI ? 'Gerando com IA...' : 'Atualizar Ideia com IA'}</span>
               </button>
             </div>
           </div>
 
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
-            <div className="lg:col-span-6 bg-surface-container-low p-6 sm:p-8 rounded-2xl border border-outline-variant/10 shadow-subtle space-y-6">
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+            
+            {/* Lado Esquerdo: Ficha Técnica */}
+            <div className="lg:col-span-6 bg-surface-container-low dark:bg-surface-container-high/40 p-6 sm:p-7 rounded-2xl border border-outline-variant/15 shadow-subtle space-y-5">
               <div className="flex items-center justify-between">
                 <span className="text-[10px] font-black uppercase text-secondary tracking-widest">{activeAd.badge}</span>
-                <span className="text-xs text-on-surface-variant font-mono">Meta Ads (Instagram + FB)</span>
+                <span className="text-xs text-on-surface-variant font-mono">Meta Ads (Instagram + Facebook)</span>
               </div>
 
-              <div className="space-y-4">
+              <div className="space-y-3.5">
                 <div>
                   <label className="text-[10px] font-black uppercase tracking-wider text-on-surface-variant/70 mb-1 block">1. Nome Sugerido da Campanha</label>
-                  <div className="flex items-center justify-between p-3 bg-surface-container rounded-xl text-xs font-mono font-bold text-on-surface border border-outline-variant/20">
+                  <div className="flex items-center justify-between p-3 bg-surface-container dark:bg-slate-900 rounded-xl text-xs font-mono font-bold text-on-surface border border-outline-variant/20">
                     <span className="truncate mr-2">{activeAd.campaignName}</span>
                     <button onClick={() => copyToClipboard(activeAd.campaignName, 'camp-name')} className="text-primary text-xs font-bold flex items-center gap-1 shrink-0">
                       <span className="material-symbols-outlined text-sm">{copiedId === 'camp-name' ? 'check' : 'content_copy'}</span>
@@ -308,16 +379,16 @@ Muito obrigado pela confiança e conte sempre conosco! 💚`
 
                 <div>
                   <label className="text-[10px] font-black uppercase tracking-wider text-on-surface-variant/70 mb-1 block">3. Localização & Raio Geográfico</label>
-                  <div className="p-3 bg-surface-container rounded-xl text-xs text-on-surface border border-outline-variant/20">
+                  <div className="p-3 bg-surface-container dark:bg-slate-900 rounded-xl text-xs text-on-surface border border-outline-variant/20">
                     <p className="font-bold text-primary">Distrito Federal e Regiões de Alto Potencial:</p>
                     <p className="text-on-surface-variant text-[11px] mt-0.5">{activeAd.targetAudience.locations}</p>
                   </div>
                 </div>
 
-                <div className="grid grid-cols-2 gap-4">
+                <div className="grid grid-cols-2 gap-3">
                   <div>
                     <label className="text-[10px] font-black uppercase tracking-wider text-on-surface-variant/70 mb-1 block">Faixa Etária</label>
-                    <div className="p-3 bg-surface-container rounded-xl text-xs font-bold text-on-surface border border-outline-variant/20">{activeAd.targetAudience.age}</div>
+                    <div className="p-3 bg-surface-container dark:bg-slate-900 rounded-xl text-xs font-bold text-on-surface border border-outline-variant/20">{activeAd.targetAudience.age}</div>
                   </div>
                   <div>
                     <label className="text-[10px] font-black uppercase tracking-wider text-on-surface-variant/70 mb-1 block">Orçamento Diário Sugerido</label>
@@ -326,16 +397,17 @@ Muito obrigado pela confiança e conte sempre conosco! 💚`
                 </div>
               </div>
 
-              <div className="pt-4 border-t border-outline-variant/10 flex items-center justify-between">
+              <div className="pt-3 border-t border-outline-variant/10 flex items-center justify-between">
                 <a href="https://adsmanager.facebook.com/" target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 bg-primary text-slate-950 px-5 py-2.5 rounded-xl text-xs font-black hover:shadow-lg transition-all">
-                  <span>Abrir Gestor de Anúncios da Meta</span>
+                  <span>Abrir Gestor da Meta</span>
                   <span className="material-symbols-outlined text-sm font-black">open_in_new</span>
                 </a>
               </div>
             </div>
 
-            <div className="lg:col-span-6 space-y-6">
-              <div className="bg-surface-container-low p-6 sm:p-8 rounded-2xl border border-outline-variant/10 shadow-subtle space-y-5">
+            {/* Lado Direito: Peça de Copywriting */}
+            <div className="lg:col-span-6 space-y-5">
+              <div className="bg-surface-container-low dark:bg-surface-container-high/40 p-6 sm:p-7 rounded-2xl border border-outline-variant/15 shadow-subtle space-y-4">
                 <div className="flex items-center justify-between">
                   <h4 className="font-bold font-headline text-on-surface text-base flex items-center gap-2">
                     <span className="material-symbols-outlined text-primary">edit_document</span>
@@ -352,12 +424,12 @@ Muito obrigado pela confiança e conte sempre conosco! 💚`
                       {copiedId === 'copy-text' ? 'Copiado!' : 'Copiar Texto'}
                     </button>
                   </div>
-                  <div className="bg-surface-container p-4 rounded-2xl text-xs text-on-surface whitespace-pre-line leading-relaxed max-h-56 overflow-y-auto border border-outline-variant/20 custom-scrollbar font-medium">
+                  <div className="bg-surface-container dark:bg-slate-900 p-4 rounded-xl text-xs text-on-surface whitespace-pre-line leading-relaxed max-h-60 overflow-y-auto border border-outline-variant/20 custom-scrollbar font-medium">
                     {activeAd.primaryText}
                   </div>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                   <div>
                     <div className="flex items-center justify-between mb-1">
                       <label className="text-[10px] font-black uppercase tracking-wider text-on-surface-variant/70">Título (Headline)</label>
@@ -365,7 +437,7 @@ Muito obrigado pela confiança e conte sempre conosco! 💚`
                         {copiedId === 'copy-head' ? 'Copiado!' : 'Copiar'}
                       </button>
                     </div>
-                    <div className="bg-surface-container p-3 rounded-xl text-xs font-bold text-on-surface border border-outline-variant/20">{activeAd.headline}</div>
+                    <div className="bg-surface-container dark:bg-slate-900 p-3 rounded-xl text-xs font-bold text-on-surface border border-outline-variant/20">{activeAd.headline}</div>
                   </div>
                   <div>
                     <div className="flex items-center justify-between mb-1">
@@ -382,15 +454,16 @@ Muito obrigado pela confiança e conte sempre conosco! 💚`
                 </div>
               </div>
             </div>
+
           </div>
         </div>
       )}
 
-      {/* ABA 2: GOOGLE MEU NEGÓCIO COM AVALIAÇÕES REAIS */}
+      {/* ABA 2: GOOGLE MEU NEGÓCIO */}
       {activeTab === 'gmb' && (
-        <div className="space-y-8 animate-fadeIn">
+        <div className="space-y-6 animate-fadeIn">
           <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
-            <div className="md:col-span-5 bg-surface-container-low rounded-2xl p-8 border border-outline-variant/15 flex flex-col justify-between">
+            <div className="md:col-span-5 bg-surface-container-low dark:bg-surface-container-high/40 rounded-2xl p-6 sm:p-8 border border-outline-variant/15 flex flex-col justify-between">
               <div>
                 <div className="flex items-center justify-between">
                   <div className="flex items-center gap-2">
@@ -434,7 +507,7 @@ Muito obrigado pela confiança e conte sempre conosco! 💚`
             </div>
 
             {/* Gerador de Mensagem WhatsApp */}
-            <div className="md:col-span-7 bg-surface-container-low rounded-2xl p-8 border border-outline-variant/15 flex flex-col justify-between space-y-6">
+            <div className="md:col-span-7 bg-surface-container-low dark:bg-surface-container-high/40 rounded-2xl p-6 sm:p-8 border border-outline-variant/15 flex flex-col justify-between space-y-6">
               <div>
                 <h4 className="font-bold text-base text-on-surface flex items-center gap-2 mb-1">
                   <span className="material-symbols-outlined text-secondary">send</span>
@@ -499,7 +572,7 @@ Muito obrigado pela confiança e conte sempre conosco! 💚`
           </div>
 
           {/* Lista de Avaliações Reais Cadastradas */}
-          <div className="bg-surface-container-low rounded-2xl p-6 sm:p-8 border border-outline-variant/10 shadow-subtle space-y-6">
+          <div className="bg-surface-container-low dark:bg-surface-container-high/40 rounded-2xl p-6 sm:p-8 border border-outline-variant/10 shadow-subtle space-y-6">
             <div className="flex justify-between items-center">
               <div>
                 <h4 className="text-lg font-bold font-headline text-on-surface">Depoimentos & Avaliações Reais</h4>
@@ -543,13 +616,13 @@ Muito obrigado pela confiança e conte sempre conosco! 💚`
         </div>
       )}
 
-      {/* ABA 3: METAS SEMANAIS REAIS */}
+      {/* ABA 3: METAS SEMANAIS */}
       {activeTab === 'goals' && (
-        <div className="space-y-8 animate-fadeIn">
+        <div className="space-y-6 animate-fadeIn">
           <div className="grid grid-cols-1 md:grid-cols-12 gap-6">
             
             {/* Meta de Clientes */}
-            <div className="md:col-span-6 bg-surface-container-low rounded-2xl p-8 border border-outline-variant/10 shadow-subtle space-y-6">
+            <div className="md:col-span-6 bg-surface-container-low dark:bg-surface-container-high/40 rounded-2xl p-8 border border-outline-variant/10 shadow-subtle space-y-6">
               <div className="flex items-center justify-between">
                 <div>
                   <span className="text-[10px] font-black uppercase tracking-wider text-secondary">Acompanhamento Semanal</span>
@@ -573,7 +646,7 @@ Muito obrigado pela confiança e conte sempre conosco! 💚`
               </div>
 
               <div className="pt-4 border-t border-outline-variant/10 flex items-center justify-between">
-                <span className="text-xs text-on-surface-variant font-medium">Ajustar meta da semana:</span>
+                <span className="text-xs text-on-surface-variant font-medium">Ajustar atendimentos realizados:</span>
                 <div className="flex items-center gap-2">
                   <button 
                     onClick={() => handleUpdateGoals({ ...weeklyGoal, currentClients: Math.max(0, weeklyGoal.currentClients - 1) })}
@@ -593,7 +666,7 @@ Muito obrigado pela confiança e conte sempre conosco! 💚`
             </div>
 
             {/* Meta de Faturamento */}
-            <div className="md:col-span-6 bg-surface-container-low rounded-2xl p-8 border border-outline-variant/10 shadow-subtle space-y-6">
+            <div className="md:col-span-6 bg-surface-container-low dark:bg-surface-container-high/40 rounded-2xl p-8 border border-outline-variant/10 shadow-subtle space-y-6">
               <div className="flex items-center justify-between">
                 <div>
                   <span className="text-[10px] font-black uppercase tracking-wider text-primary">Receita Prevista</span>
@@ -645,10 +718,10 @@ Muito obrigado pela confiança e conte sempre conosco! 💚`
 
       {/* ABA 4: GERADOR DE ARTES */}
       {activeTab === 'creative' && (
-        <section className="bg-surface-container-low rounded-2xl p-6 sm:p-10 shadow-subtle border border-outline-variant/10 animate-fadeIn">
+        <section className="bg-surface-container-low dark:bg-surface-container-high/40 rounded-2xl p-6 sm:p-10 shadow-subtle border border-outline-variant/10 animate-fadeIn">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
             <div className="lg:col-span-4 space-y-6">
-              <div className="bg-surface p-6 rounded-2xl border border-outline-variant/10 shadow-subtle space-y-4">
+              <div className="bg-surface dark:bg-surface-container p-6 rounded-2xl border border-outline-variant/10 shadow-subtle space-y-4">
                 <h3 className="font-bold text-primary flex items-center gap-2">
                   <span className="material-symbols-outlined">edit_note</span> Personalização da Arte
                 </h3>
@@ -669,7 +742,7 @@ Muito obrigado pela confiança e conte sempre conosco! 💚`
                 </div>
               </div>
 
-              <div className="bg-surface p-6 rounded-2xl border border-outline-variant/10 shadow-subtle">
+              <div className="bg-surface dark:bg-surface-container p-6 rounded-2xl border border-outline-variant/10 shadow-subtle">
                 <h3 className="font-bold text-primary mb-3 flex items-center gap-2 text-sm">
                   <span className="material-symbols-outlined text-sm">download</span> Baixar Arte Pronta
                 </h3>
@@ -693,9 +766,9 @@ Muito obrigado pela confiança e conte sempre conosco! 💚`
                     <span className="px-3 py-1 bg-white text-slate-950 font-black text-[10px] rounded-full uppercase tracking-widest shadow-sm">ED Limp Oficial</span>
                   </div>
                   <div>
-                    <h3 className="text-2xl sm:text-3xl font-black font-headline leading-tight drop-shadow-md">{headline}</h3>
-                    <p className="text-xs sm:text-sm font-semibold mt-1 opacity-95 drop-shadow-sm">{subtext}</p>
-                    <p className="text-[11px] font-mono mt-4 font-bold bg-black/40 px-3 py-1.5 rounded-lg w-fit backdrop-blur-sm">{contact}</p>
+                    <h3 className="text-2xl sm:text-3xl font-black font-headline leading-tight drop-shadow-md text-white">{headline}</h3>
+                    <p className="text-xs sm:text-sm font-semibold mt-1 opacity-95 drop-shadow-sm text-white">{subtext}</p>
+                    <p className="text-[11px] font-mono mt-4 font-bold bg-black/40 px-3 py-1.5 rounded-lg w-fit backdrop-blur-sm text-white">{contact}</p>
                   </div>
                 </div>
               </div>
@@ -707,7 +780,7 @@ Muito obrigado pela confiança e conte sempre conosco! 💚`
       {/* ABA 5: MÉTRICAS & ROI */}
       {activeTab === 'analytics' && (
         <div className="space-y-6 animate-fadeIn">
-          <div className="bg-surface-container-low rounded-2xl p-6 sm:p-8 border border-outline-variant/10 shadow-subtle">
+          <div className="bg-surface-container-low dark:bg-surface-container-high/40 rounded-2xl p-6 sm:p-8 border border-outline-variant/10 shadow-subtle">
             <h4 className="font-bold text-lg text-on-surface mb-4">Cálculo de ROI & Custo por Lead em Brasília</h4>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               <div className="p-5 bg-surface-container rounded-xl">
