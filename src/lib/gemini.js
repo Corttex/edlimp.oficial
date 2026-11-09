@@ -65,3 +65,53 @@ Responda ESTRITAMENTE em formato JSON puro (sem crases de markdown ou qualquer o
     return null;
   }
 }
+
+/**
+ * Gera Título, Subtítulo, Foco visual e sugestão de foto para o GERADOR DE ARTES
+ */
+export async function generateSocialPostCreativeAI(serviceTheme = "Higienização Profunda & Blindagem") {
+  try {
+    const url = `https://generativelanguage.googleapis.com/v1beta/models/${MODEL}:generateContent?key=${GOOGLE_API_KEY}`;
+
+    const prompt = `Você é o Diretor Criativo da ED Limp (serviço premium de higienização hospitalar e blindagem impermeabilizadora de sofás, poltronas e colchões em Brasília DF).
+Crie um design de post para Feed/Story do Instagram de alto impacto visual.
+
+Responda ESTRITAMENTE em formato JSON puro (sem crases de markdown ou qualquer outro texto antes ou depois) com o formato:
+{
+  "headline": "Título curto, forte e magnético (máximo 5 a 7 palavras)",
+  "subtext": "Subtítulo atraente com benefício ou chamada (máximo 8 a 10 palavras)",
+  "overlayColor": "código hex de cor harmoniosa com a marca ED Limp (ex: #2b6c00, #1b4d00, #0f2900, #044343 ou #166534)",
+  "bgCategory": "uma palavra entre: 'living', 'sofa', 'luxury', 'bedroom', 'clean'"
+}`;
+
+    const body = {
+      contents: [
+        {
+          role: "user",
+          parts: [{ text: `${prompt}\n\nTema sugerido: ${serviceTheme}` }]
+        }
+      ],
+      generationConfig: {
+        responseMimeType: "application/json",
+        temperature: 0.9,
+      }
+    };
+
+    const res = await fetch(url, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(body),
+    });
+
+    if (!res.ok) return null;
+    const data = await res.json();
+    const rawContent = data.candidates?.[0]?.content?.parts?.[0]?.text;
+    if (rawContent) {
+      return JSON.parse(rawContent);
+    }
+    return null;
+  } catch (err) {
+    console.error("Erro ao gerar post criativo:", err);
+    return null;
+  }
+}

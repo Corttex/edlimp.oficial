@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { useAuth } from '../contexts/AuthContext';
 import * as htmlToImage from 'html-to-image';
 import { getStoredMarketingGoals, saveStoredMarketingGoals, getStoredReviews, saveStoredReview } from '../lib/storage';
-import { generateAdCopyRealAI } from '../lib/gemini';
+import { generateAdCopyRealAI, generateSocialPostCreativeAI } from '../lib/gemini';
 
 export default function MarketingPage() {
   const { user } = useAuth();
@@ -21,7 +21,60 @@ export default function MarketingPage() {
   const [textColor, setTextColor] = useState('#ffffff');
   const [customLogo, setCustomLogo] = useState(null);
   const [layoutType, setLayoutType] = useState('feed'); // 'feed' (1:1) ou 'story' (9:16)
+  const [isGeneratingPostAI, setIsGeneratingPostAI] = useState(false);
   const canvasRef = useRef(null);
+
+  // Biblioteca de imagens curadas de alta definição para estofados & interiores
+  const postBackgrounds = [
+    'https://images.unsplash.com/photo-1555041469-a586c61ea9bc?w=1200&q=80', // Sofá verde luxo sala
+    'https://images.unsplash.com/photo-1583847268964-b28dc8f51f92?w=1200&q=80', // Sofá cinza moderno
+    'https://images.unsplash.com/photo-1493663284031-b7e3aefcae8e?w=1200&q=80', // Sala de estar aconchegante
+    'https://images.unsplash.com/photo-1616486338812-3dadae4b4ace?w=1200&q=80', // Sofá linho claro elegante
+    'https://images.unsplash.com/photo-1584622650111-993a426fbf0a?w=1200&q=80', // Banheiro/limpeza clinica
+    'https://images.unsplash.com/photo-1505693416388-ac5ce068fe85?w=1200&q=80', // Quarto e colchão higienizado
+    'https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?w=1200&q=80', // Sala arquitetura alto padrão
+  ];
+
+  const handleGeneratePostWithAI = async () => {
+    setIsGeneratingPostAI(true);
+    const themes = [
+      "Higienização profunda de sofá retrátil com eliminação de ácaros e bactérias",
+      "Impermeabilização e blindagem de estofados resistente a café e vinho",
+      "Eliminação profunda de odores e manchas de pets em sofás e tapetes",
+      "Higienização de colchão hospitalar para quem sofre com rinite alérgica",
+      "Sofá novo de novo sem precisar comprar outro: restauração de estofados"
+    ];
+    const randomTheme = themes[Math.floor(Math.random() * themes.length)];
+
+    try {
+      const result = await generateSocialPostCreativeAI(randomTheme);
+      if (result && result.headline) {
+        setHeadline(result.headline);
+        if (result.subtext) setSubtext(result.subtext);
+        if (result.overlayColor) setOverlayColor(result.overlayColor);
+        // Alternar para foto aleatória de estofados de luxo
+        const randomBg = postBackgrounds[Math.floor(Math.random() * postBackgrounds.length)];
+        setBgImage(randomBg);
+      } else {
+        // Fallback rápido inteligente
+        const presets = [
+          { h: 'Sofá Como Novo em Poucas Horas!', s: 'Extração Profunda Alemã & Secagem Rápida', c: '#2b6c00' },
+          { h: 'Blindagem Nano Shield ED Limp', s: 'Seu Sofá Protegido Contra Vinhos, Sucos e Café', c: '#166534' },
+          { h: 'Seu Pet Fez Xixi no Sofá?', s: 'Eliminação Enzimática de Odores e Manchas na Raiz', c: '#0f3d17' },
+          { h: 'Durma Livre de Crises Alérgicas', s: 'Higienização Clínica de Colchão com Bactericida Hospitalar', c: '#1e3a8a' },
+        ];
+        const p = presets[Math.floor(Math.random() * presets.length)];
+        setHeadline(p.h);
+        setSubtext(p.s);
+        setOverlayColor(p.c);
+        setBgImage(postBackgrounds[Math.floor(Math.random() * postBackgrounds.length)]);
+      }
+    } catch (e) {
+      console.warn("Erro ao gerar arte com IA:", e);
+    } finally {
+      setIsGeneratingPostAI(false);
+    }
+  };
 
   const handleExport = async (format) => {
     if (!canvasRef.current) return;
@@ -755,57 +808,136 @@ Muito obrigado pela confiança e conte sempre conosco! 💚`
 
       {/* ABA 4: GERADOR DE ARTES */}
       {activeTab === 'creative' && (
-        <section className="bg-surface-container-low dark:bg-surface-container-high/40 rounded-2xl p-6 sm:p-10 shadow-subtle border border-outline-variant/10 animate-fadeIn">
+        <section className="bg-surface-container-low dark:bg-surface-container-high/40 rounded-2xl p-6 sm:p-10 shadow-subtle border border-outline-variant/10 animate-fadeIn space-y-6">
+          
+          {/* Topo com Botão Gerar Arte com IA */}
+          <div className="bg-surface dark:bg-surface-container p-5 rounded-2xl border border-outline-variant/15 flex flex-col md:flex-row items-center justify-between gap-4 shadow-sm">
+            <div className="flex items-center gap-3">
+              <div className="w-11 h-11 rounded-2xl bg-primary text-slate-950 flex items-center justify-center shrink-0 shadow-md">
+                <span className="material-symbols-outlined text-2xl font-black">palette</span>
+              </div>
+              <div>
+                <div className="flex items-center gap-2">
+                  <h3 className="font-bold font-headline text-on-surface text-base">Gerador de Artes & Posts Sociais</h3>
+                  <span className="px-2 py-0.5 bg-primary/20 text-primary rounded-full text-[10px] font-black uppercase">Google Gemini 3.8</span>
+                </div>
+                <p className="text-xs text-on-surface-variant mt-0.5">
+                  Crie posts e artes profissionais para Instagram Feed (1:1) ou Story prontos para exportar em alta definição.
+                </p>
+              </div>
+            </div>
+
+            <button
+              onClick={handleGeneratePostWithAI}
+              disabled={isGeneratingPostAI}
+              className="w-full md:w-auto bg-primary text-slate-950 font-black px-5 py-2.5 rounded-xl text-xs flex items-center justify-center gap-2 shadow-lg hover:brightness-110 active:scale-95 transition-all disabled:opacity-50"
+              title="Gera novos textos de posts, títulos magnéticos e fotos de estofados usando a IA oficial do Google"
+            >
+              <span className={`material-symbols-outlined text-base font-black ${isGeneratingPostAI ? 'animate-spin' : ''}`}>
+                {isGeneratingPostAI ? 'refresh' : 'auto_awesome'}
+              </span>
+              <span>{isGeneratingPostAI ? 'Gerando Ideia de Post...' : 'Gerar Post com IA'}</span>
+            </button>
+          </div>
+
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
-            <div className="lg:col-span-4 space-y-6">
+            <div className="lg:col-span-5 space-y-6">
               <div className="bg-surface dark:bg-surface-container p-6 rounded-2xl border border-outline-variant/10 shadow-subtle space-y-4">
-                <h3 className="font-bold text-primary flex items-center gap-2">
-                  <span className="material-symbols-outlined">edit_note</span> Personalização da Arte
-                </h3>
+                <div className="flex items-center justify-between">
+                  <h3 className="font-bold text-primary flex items-center gap-2 text-sm">
+                    <span className="material-symbols-outlined text-base">edit_note</span> Personalização da Arte
+                  </h3>
+                  <div className="flex gap-1 bg-surface-container-high/60 p-1 rounded-xl">
+                    <button 
+                      onClick={() => setLayoutType('feed')}
+                      className={`px-2.5 py-1 text-[10px] font-bold rounded-lg transition-all ${layoutType === 'feed' ? 'bg-primary text-slate-950 font-black' : 'text-on-surface-variant'}`}
+                    >
+                      Feed (1:1)
+                    </button>
+                    <button 
+                      onClick={() => setLayoutType('story')}
+                      className={`px-2.5 py-1 text-[10px] font-bold rounded-lg transition-all ${layoutType === 'story' ? 'bg-primary text-slate-950 font-black' : 'text-on-surface-variant'}`}
+                    >
+                      Story (9:16)
+                    </button>
+                  </div>
+                </div>
                 
                 <div>
-                  <label className="text-[10px] font-black uppercase text-on-surface-variant/70 mb-1.5 block">Título Principal</label>
-                  <input value={headline} onChange={e => setHeadline(e.target.value)} className="w-full bg-surface-container border border-outline-variant/20 rounded-xl text-xs p-3 font-bold text-on-surface" />
+                  <label className="text-[10px] font-black uppercase text-on-surface-variant/70 mb-1.5 block">Título Principal do Post</label>
+                  <input value={headline} onChange={e => setHeadline(e.target.value)} className="w-full bg-surface-container border border-outline-variant/20 rounded-xl text-xs p-3 font-bold text-on-surface" placeholder="Ex: Sofá Como Novo em Poucas Horas!" />
                 </div>
 
                 <div>
-                  <label className="text-[10px] font-black uppercase text-on-surface-variant/70 mb-1.5 block">Subtítulo / Chamada</label>
-                  <input value={subtext} onChange={e => setSubtext(e.target.value)} className="w-full bg-surface-container border border-outline-variant/20 rounded-xl text-xs p-3 font-medium text-on-surface" />
+                  <label className="text-[10px] font-black uppercase text-on-surface-variant/70 mb-1.5 block">Subtítulo / Chamada de Benefício</label>
+                  <input value={subtext} onChange={e => setSubtext(e.target.value)} className="w-full bg-surface-container border border-outline-variant/20 rounded-xl text-xs p-3 font-medium text-on-surface" placeholder="Ex: Higienização Profunda & Blindagem Hospitalar" />
                 </div>
 
                 <div>
                   <label className="text-[10px] font-black uppercase text-on-surface-variant/70 mb-1.5 block">Contato / Rodapé</label>
                   <input value={contact} onChange={e => setContact(e.target.value)} className="w-full bg-surface-container border border-outline-variant/20 rounded-xl text-xs p-3 font-bold text-on-surface" />
                 </div>
+
+                {/* Seleção Rápida de Imagens de Sofás & Ambientes */}
+                <div>
+                  <label className="text-[10px] font-black uppercase text-on-surface-variant/70 mb-1.5 block">Trocar Foto de Fundo</label>
+                  <div className="grid grid-cols-4 gap-2">
+                    {postBackgrounds.slice(0, 4).map((bg, idx) => (
+                      <button
+                        key={idx}
+                        onClick={() => setBgImage(bg)}
+                        className={`h-12 rounded-lg overflow-hidden border-2 transition-all ${bgImage === bg ? 'border-primary ring-2 ring-primary/40' : 'border-transparent opacity-70 hover:opacity-100'}`}
+                      >
+                        <img src={bg} alt="thumb" className="w-full h-full object-cover" />
+                      </button>
+                    ))}
+                  </div>
+                </div>
               </div>
 
               <div className="bg-surface dark:bg-surface-container p-6 rounded-2xl border border-outline-variant/10 shadow-subtle">
                 <h3 className="font-bold text-primary mb-3 flex items-center gap-2 text-sm">
-                  <span className="material-symbols-outlined text-sm">download</span> Baixar Arte Pronta
+                  <span className="material-symbols-outlined text-sm">download</span> Baixar Arte Pronta em Alta
                 </h3>
                 <div className="grid grid-cols-2 gap-2">
-                  <button onClick={() => handleExport('jpg')} className="bg-primary text-slate-950 font-black p-3 rounded-xl text-xs uppercase tracking-wider hover:brightness-110 shadow-sm">JPG HD</button>
-                  <button onClick={() => handleExport('png')} className="bg-surface-container hover:bg-surface-container-high p-3 rounded-xl text-xs font-black uppercase">PNG HD</button>
+                  <button onClick={() => handleExport('jpg')} className="bg-primary text-slate-950 font-black p-3 rounded-xl text-xs uppercase tracking-wider hover:brightness-110 shadow-sm flex items-center justify-center gap-1.5">
+                    <span className="material-symbols-outlined text-sm">image</span>
+                    <span>JPG HD</span>
+                  </button>
+                  <button onClick={() => handleExport('png')} className="bg-surface-container hover:bg-surface-container-high p-3 rounded-xl text-xs font-black uppercase flex items-center justify-center gap-1.5">
+                    <span className="material-symbols-outlined text-sm">photo_size_select_actual</span>
+                    <span>PNG HD</span>
+                  </button>
                 </div>
               </div>
             </div>
 
-            <div className="lg:col-span-8 flex justify-center sticky top-6">
+            <div className="lg:col-span-7 flex justify-center sticky top-6">
               <div 
                 ref={canvasRef}
-                className="relative overflow-hidden bg-white shadow-2xl rounded-3xl"
-                style={{ width: '480px', aspectRatio: '1/1' }}
+                className="relative overflow-hidden bg-white shadow-2xl rounded-3xl transition-all duration-300"
+                style={{ 
+                  width: layoutType === 'story' ? '340px' : '460px', 
+                  aspectRatio: layoutType === 'story' ? '9/16' : '1/1' 
+                }}
               >
                 <img src={bgImage} className="absolute inset-0 w-full h-full object-cover" alt="Fundo" />
-                <div className="absolute inset-0 opacity-80" style={{ background: `linear-gradient(to top, ${overlayColor} 0%, transparent 80%)` }}></div>
-                <div className="absolute inset-0 p-8 flex flex-col justify-between z-10 text-white">
+                <div className="absolute inset-0 opacity-85" style={{ background: `linear-gradient(to top, ${overlayColor} 0%, rgba(0,0,0,0.2) 60%, transparent 100%)` }}></div>
+                <div className="absolute inset-0 p-7 sm:p-8 flex flex-col justify-between z-10 text-white">
                   <div className="flex justify-between items-center">
-                    <span className="px-3 py-1 bg-white text-slate-950 font-black text-[10px] rounded-full uppercase tracking-widest shadow-sm">ED Limp Oficial</span>
+                    <div className="flex items-center gap-2 bg-white/95 text-slate-950 px-3.5 py-1 rounded-full shadow-lg backdrop-blur-sm">
+                      <span className="w-2 h-2 rounded-full bg-primary animate-pulse" />
+                      <span className="font-black text-[10px] uppercase tracking-widest text-slate-950">ED Limp Oficial</span>
+                    </div>
+                    <span className="text-[10px] font-bold text-white/90 bg-black/30 backdrop-blur-sm px-2.5 py-0.5 rounded-full">Brasília • DF</span>
                   </div>
                   <div>
                     <h3 className="text-2xl sm:text-3xl font-black font-headline leading-tight drop-shadow-md text-white">{headline}</h3>
-                    <p className="text-xs sm:text-sm font-semibold mt-1 opacity-95 drop-shadow-sm text-white">{subtext}</p>
-                    <p className="text-[11px] font-mono mt-4 font-bold bg-black/40 px-3 py-1.5 rounded-lg w-fit backdrop-blur-sm text-white">{contact}</p>
+                    <p className="text-xs sm:text-sm font-semibold mt-2 opacity-95 drop-shadow-sm text-white/95 leading-relaxed">{subtext}</p>
+                    <div className="mt-4 pt-3 border-t border-white/20 flex items-center justify-between">
+                      <p className="text-[11px] font-mono font-bold bg-black/40 px-3 py-1.5 rounded-lg w-fit backdrop-blur-sm text-white">{contact}</p>
+                      <span className="text-[9px] font-bold uppercase text-white/80">Atendimento a Domicílio</span>
+                    </div>
                   </div>
                 </div>
               </div>
